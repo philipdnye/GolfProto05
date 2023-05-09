@@ -297,6 +297,7 @@ struct GameDetailScreen: View {
         
                        .navigationDestination(isPresented: $isShowingScoreEntryScreen) {
                            ScoreEntryScreen(game: game)
+                               .toolbar(.hidden, for: .tabBar)
                       }
         
             .sheet(isPresented: $isPresented, onDismiss: {

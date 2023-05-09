@@ -250,25 +250,46 @@ extension Game {
        
         var sortedCompetitors: [Competitor] = []
         switch currentGF.assignTeamGrouping {
-            case .Indiv:
+            
+        case .Indiv:
             sortedCompetitors = self.competitorArray.sorted(by: {
+                
                 if $0.handicapIndex == $1.handicapIndex {
-                    return $0.player?.firstName ?? "" < $1.player?.firstName ?? ""}
-                return $0.handicapIndex < $1.handicapIndex
+                    if $0.player?.firstName ?? "" == $1.player?.firstName ?? "" {
+                        return $0.player?.objectID.description ?? "" < $1.player?.objectID.description ?? ""}
+                    
+                    return $0.player?.firstName ?? "" < $1.player?.firstName ?? "" }
+                    return $0.handicapIndex < $1.handicapIndex
                 
             })
        
         case .TeamsAB:
+            
             sortedCompetitors = self.competitorArray.sorted(by:{
-            if $0.team == $1.team
-                {return $0.handicapIndex < $1.handicapIndex}
+                if $0.team == $1.team {
+                    if $0.handicapIndex == $1.handicapIndex {
+                        if $0.player?.firstName ?? "" == $1.player?.firstName ?? "" {
+                            
+                            
+                            return $0.player?.objectID.description ?? "" < $1.player?.objectID.description ?? ""
+                            
+                        }
+                        return $0.player?.firstName ?? "" < $1.player?.firstName ?? ""
+                    }
+                    return $0.handicapIndex < $1.handicapIndex
+                }
                 return $0.team < $1.team
             })
+            
         case .TeamC:
             sortedCompetitors = self.competitorArray.sorted(by: {
+               
                 if $0.handicapIndex == $1.handicapIndex {
-                    return $0.player?.firstName ?? "" < $1.player?.firstName ?? ""}
-                return $0.handicapIndex < $1.handicapIndex
+                    if $0.player?.firstName ?? "" == $1.player?.firstName ?? "" {
+                        return $0.player?.objectID.description ?? "" < $1.player?.objectID.description ?? ""}
+                    
+                    return $0.player?.firstName ?? "" < $1.player?.firstName ?? "" }
+                    return $0.handicapIndex < $1.handicapIndex
                 
             })
             
