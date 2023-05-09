@@ -93,7 +93,7 @@ class StartGameViewModel: ObservableObject {
             //IF THE TEEBOXES ARE THE SAME, THEN USE THE FIRST COMPETITORS.
             
             //IF THE TEEBOXES ARE NOT THE SAME, THEN USE THE GAME.DIFFTEES TEEBOX
-                
+              // CREATE THREE SCORECARDS FOR TEAMS A B & C
                 
 //            }
             switch game.TeeBoxesAllSame(){
