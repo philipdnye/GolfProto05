@@ -185,8 +185,160 @@ extension Game {
         var result = ["","","",""]
         var currentMatchScore: Int = 0
         var holesPlayed: Int = 0
-        let holesRemaining = 18 - holesPlayed
-        let holesRemainingString = "with \(holesRemaining) holes remaining"
+        
+        
+        
+        func SixPoint() {
+            
+            let sixPointNetScores_CompetitorA = self.SortedCompetitors(currentGF: currentGF)[0].competitorScoresArray
+            let sixPointNetScores_CompetitorB = self.SortedCompetitors(currentGF: currentGF)[1].competitorScoresArray
+            let sixPointNetScores_CompetitorC = self.SortedCompetitors(currentGF: currentGF)[2].competitorScoresArray
+            
+            var array = [0,0,0]
+            var holeResult: Int = 0
+            var points = [0,0,0]
+            
+            for i in 0..<18 {
+                
+                switch self.AllScoresCommitted(holeIndex: i){
+                case true:
+                    holesPlayed += 1
+                    array[0] = Int(sixPointNetScores_CompetitorA[i].NetScoreMatch())
+                    array[1] = Int(sixPointNetScores_CompetitorB[i].NetScoreMatch())
+                    array[2] = Int(sixPointNetScores_CompetitorC[i].NetScoreMatch())
+                    
+                    
+                    
+                    switch array {
+                    case _ where array[0] == array[1] && array[1] == array[2]:
+                        holeResult = 1
+                        
+                    case _ where array[0] < array[1] && array[1] == array[2]:
+                        holeResult = 2
+                        
+                    case _ where array[0] < array[1] && array[1] < array[2]:
+                        holeResult = 3
+                        
+                    case _ where array[0] < array[1] && array[1] > array[2] && array[0] < array[2]:
+                        holeResult = 4
+                        
+                    case _ where array[0] > array[1] && array[0] == array[2]:
+                        holeResult = 5
+                        
+                    case _ where array[0] > array[1] && array[2] > array[1] && array[0] < array[2]:
+                        holeResult = 6
+                        
+                    case _ where array[0] > array[1] && array[2] > array[1] && array[0] > array[2]:
+                        holeResult = 7
+                        
+                    case _ where array[2] < array[1] && array[1] == array[0]:
+                        holeResult = 8
+                        
+                    case _ where array[2] < array[0] && array[2] < array[1] && array[0] < array[1]:
+                        holeResult = 9
+                        
+                    case _ where array[2] < array[0] && array[2] < array[1] && array[1] < array[0]:
+                        holeResult = 10
+                        
+                    case _ where array[0] == array[1] && array[1] < array[2]:
+                        holeResult = 11
+                        
+                    case _ where array[0] == array[2] && array[0] < array[1]:
+                        holeResult = 12
+                        
+                    case _ where array[1] == array[2] && array[0] > array[1]:
+                        holeResult = 13
+                        
+                    default:
+                        holeResult = 0
+                        
+                    }
+                    switch holeResult {
+                    case 1:
+                        points[0] += 2
+                        points[1] += 2
+                        points[2] += 2
+                        
+                    case 2:
+                        points[0] += 4
+                        points[1] += 1
+                        points[2] += 1
+                        
+                    case 3:
+                        points[0] += 4
+                        points[1] += 2
+                        points[2] += 0
+                        
+                    case 4:
+                        points[0] += 4
+                        points[1] += 0
+                        points[2] += 2
+                        
+                    case 5:
+                        points[0] += 1
+                        points[1] += 4
+                        points[2] += 1
+                        
+                    case 6:
+                        points[0] += 2
+                        points[1] += 4
+                        points[2] += 0
+                        
+                    case 7:
+                        points[0] += 0
+                        points[1] += 4
+                        points[2] += 2
+                        
+                    case 8:
+                        points[0] += 1
+                        points[1] += 1
+                        points[2] += 4
+                        
+                    case 9:
+                        points[0] += 2
+                        points[1] += 0
+                        points[2] += 4
+                        
+                    case 10:
+                        points[0] += 0
+                        points[1] += 2
+                        points[2] += 4
+                        
+                    case 11:
+                        points[0] += 3
+                        points[1] += 3
+                        points[2] += 0
+                        
+                    case 12:
+                        points[0] += 3
+                        points[1] += 0
+                        points[2] += 3
+                        
+                    case 13:
+                        points[0] += 0
+                        points[1] += 3
+                        points[2] += 3
+                        
+                    default:
+                        points[0] += 0
+                        points[1] += 0
+                        points[2] += 0
+                        
+                    }
+                case false:
+                    break
+                }
+            } //for each loop
+            
+            let holesRemaining = 18 - holesPlayed
+            let holesRemainingString = "with \(holesRemaining) holes remaining"
+            
+            result[0] =  "\(self.SortedCompetitors(currentGF: currentGF)[0].player?.firstName ?? "") \(points[0]) pts"
+            result[1] =  "\(self.SortedCompetitors(currentGF: currentGF)[1].player?.firstName ?? "") \(points[1]) pts"
+            result[2] =  "\(self.SortedCompetitors(currentGF: currentGF)[2].player?.firstName ?? "") \(points[2]) pts"
+            result[3] = holesRemainingString
+        }// sixpoint func
+        
         
         func SinglesMatchplay(){
             let teamA = self.competitorArray.filter({$0.team_String == .teamA})
@@ -219,16 +371,18 @@ extension Game {
                    }
                
            }
+            let holesRemaining = 18 - holesPlayed
+            let holesRemainingString = "with \(holesRemaining) holes remaining"
             
             switch currentMatchScore {
             case 0:
                 result[2] = "All square"
                 result[3] = holesRemainingString
             case _ where currentMatchScore > 0:
-                result[0] = "Player 1 \(currentMatchScore) UP"
+                result[0] = "\(teamA.first?.player?.firstName ?? "") \(currentMatchScore) UP"
                 result[3] = holesRemainingString
             case _ where currentMatchScore < 0:
-                result[1] = "Player 2 \(-currentMatchScore) UP"
+                result[1] = "\(teamB.first?.player?.firstName ?? "") \(-currentMatchScore) UP"
                 result[3] = holesRemainingString
             default:
                 result = ["","","",""]
@@ -268,6 +422,10 @@ extension Game {
                 
             }
              
+             
+             let holesRemaining = 18 - holesPlayed
+             let holesRemainingString = "with \(holesRemaining) holes remaining"
+            
              switch currentMatchScore {
              case 0:
                  result[2] = "All square"
@@ -315,6 +473,9 @@ extension Game {
                
            }
             
+            let holesRemaining = 18 - holesPlayed
+            let holesRemainingString = "with \(holesRemaining) holes remaining"
+            
             switch currentMatchScore {
             case 0:
                 result[2] = "All square"
@@ -345,7 +506,7 @@ extension Game {
 //                                        SinglesMatchplay()
 //                                    print("singles matchplay")
                                     case 3:// 6 point game
-                                        break //placeholder
+                                      SixPoint()
                                     default:
                                     result = ["","","",""]
                                     }

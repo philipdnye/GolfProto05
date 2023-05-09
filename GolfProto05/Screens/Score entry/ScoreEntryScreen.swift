@@ -200,80 +200,49 @@ struct ScoreEntryScreen: View {
                     ScoreEntryCompetitorRow(competitorIndex: index)
                         .frame(width: geo.size.width * 0.95, height: 75)
                         .offset(x: 0, y: geo.size.height * CGFloat(((Double(index)+1)*0.15)+0.2))
-                   // print("index \(index)")
+                 
                     
                 }
                 
                 
+        // switch here on game format for different matchplay results/scores
+                
+                switch currentGF.format{
                 
                 
-//                ForEach(0..<game.game.competitorArray.count, id: \.self){ i in
-//                    let yOffset: CGFloat = geo.size.height * CGFloat(((Double(i)+1)*0.15)+0.2)
-//                    ScoreEntryCompetitorRow(competitorIndex:  i)
-//                        .frame(width: geo.size.width * 0.95, height: 75)
-//                        .offset(x: 0, y: yOffset)
-//                }
-               
-//                game.game.SortedCompetitors(currentGF: currentGF).enumerated().forEach({index,item in
-//                    var i = index
-//                    let yOffset: CGFloat = geo.size.height * CGFloat(((Double(i)+1)*0.15)+0.2)
-//                    ScoreEntryCompetitorRow(competitorIndex:  i)
-//                        .frame(width: geo.size.width * 0.95, height: 75)
-//                        .offset(x: 0, y: yOffset)})
-//
-//                }
+                case .sixPoint:
+                    VStack{
+                        Text(game.game.MatchResult(currentGF: currentGF)[0])
+                        Text(game.game.MatchResult(currentGF: currentGF)[1])
+                        Text(game.game.MatchResult(currentGF: currentGF)[2])
+                        Text(game.game.MatchResult(currentGF: currentGF)[3])
+                    }
+                    .frame(width: geo.size.width * 0.95, height: 140)
+                    .offset(x: 0, y: geo.size.height * 0.79)
+                    .foregroundColor(darkTeal)
                 
                 
-                
-                
-                
-                HStack{
-                    Text(game.game.MatchResult(currentGF: currentGF)[0])
-                    Text(game.game.MatchResult(currentGF: currentGF)[1])
-                    Text(game.game.MatchResult(currentGF: currentGF)[2])
-                    Text(game.game.MatchResult(currentGF: currentGF)[3])
+                default:
+                    HStack{
+                        Text(game.game.MatchResult(currentGF: currentGF)[0])
+                        Text(game.game.MatchResult(currentGF: currentGF)[1])
+                        Text(game.game.MatchResult(currentGF: currentGF)[2])
+                        Text(game.game.MatchResult(currentGF: currentGF)[3])
+                        
+                    }
+                    .frame(width: geo.size.width * 0.95, height: 35)
+                    .offset(x: 0, y: geo.size.height * 0.93)
+                    .foregroundColor(darkTeal)
                     
-                }
-                .frame(width: geo.size.width * 0.95, height: 35)
-                .offset(x: 0, y: geo.size.height * 0.93)
-                .foregroundColor(darkTeal)
+                }//playformat switch
                 
-                
-                
-                //for testing purposes
-//                HStack{
-//                    ForEach(0..<game.game.competitorArray.count, id: \.self) {i in
-//                        Text(game.game.competitorArray[i].competitorScoresArray.count.formatted())
-//                    }
-//                    Button("Save scores"){
-//                        scoreEntryVM.saveCompetitorsScore()
-//                    }
-//                }
-                
-//                .confirmationDialog(isPresented: $isShowingDialogueCommitScores){
-//                    //code in here
-//
-//                } message: {
-//
-//                    Text("You haven't amended any scores on this hole? Do you want to commit these scores to the game and continue to the next hole")
-//                }
-                
+          
                 
             }//geo
             
         }
        
-//        NavigationLink("Press Me", destination: Text("Detail").navigationTitle("Detail View"))
-//                    .navigationBarTitleDisplayMode(.inline)
-//                    // this sets the Back button text when a new screen is pushed
-//                    .navigationTitle("Back to Primary View")
-//                    .toolbar {
-//                        ToolbarItem(placement: .principal) {
-//                            // this sets the screen title in the navigation bar, when the screen is visible
-//                            Text("Primary View")
-//                        }
-//                    }
-        //.navigationTitle("Nav title")
+
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing){
