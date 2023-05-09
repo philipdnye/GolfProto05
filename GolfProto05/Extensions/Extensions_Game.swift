@@ -426,21 +426,67 @@ extension Game {
              let holesRemaining = 18 - holesPlayed
              let holesRemainingString = "with \(holesRemaining) holes remaining"
             
-             switch currentMatchScore {
-             case 0:
-                 result[2] = "All square"
-                 result[3] = holesRemainingString
-             case _ where currentMatchScore > 0:
-                 result[0] = "team A \(currentMatchScore) UP"
-                 result[3] = holesRemainingString
-             case _ where currentMatchScore < 0:
-                 result[1] = "team B \(-currentMatchScore) UP"
-                 result[3] = holesRemainingString
-             default:
-                 result = ["","","",""]
+             
+             // results when game still in play ie not at dormie or won/lost
+             if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
+                 
+                 
+                 switch currentMatchScore {
+                 case 0:
+                     result[2] = "All square"
+                     result[3] = holesRemainingString
+                 case _ where currentMatchScore > 0:
+                     result[0] = "team A \(currentMatchScore) UP"
+                     result[3] = holesRemainingString
+                 case _ where currentMatchScore < 0:
+                     result[1] = "team B \(-currentMatchScore) UP"
+                     result[3] = holesRemainingString
+                 default:
+                     result = ["","","",""]
+                 }
+                 
              }
-             
-             
+             // results when game at dormie
+             if currentMatchScore >= 0 && currentMatchScore == holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) == holesRemaining {
+                 switch currentMatchScore {
+                 case 0:
+                     result[2] = "Match halved"
+                     result[3] = ""
+                 case _ where currentMatchScore > 0:
+                     result[0] = "team A DORMIE \(currentMatchScore) UP"
+                     result[3] = ""
+                 case _ where currentMatchScore < 0:
+                     result[1] = "team B  DORMIE \(-currentMatchScore) UP"
+                     result[3] = ""
+                 default:
+                     result = ["","","",""]
+                     
+                 }
+             }
+             //results when game won or lost
+             if currentMatchScore >= 0 && currentMatchScore > holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) > holesRemaining {
+                 switch currentMatchScore {
+                 case _ where currentMatchScore > 0:
+                     if holesRemaining != 0 {
+                         result[0] = " Team A WON \(currentMatchScore) & \(holesRemaining)"
+                         result[3] = ""
+                     } else {
+                         result[0] = " Team A WON \(currentMatchScore) UP"
+                         result[3] = ""
+                     }
+                 case _ where currentMatchScore < 0:
+                     if holesRemaining != 0 {
+                         result[1] = " Team B WON \(-currentMatchScore) & \(holesRemaining)"
+                         result[3] = ""
+                     } else {
+                         result[0] = " Team B WON \(-currentMatchScore) UP"
+                         result[3] = ""
+                     }
+                 default:
+                     result = ["","","",""]
+                     
+                 }
+             }
         }
         
         func FourballCombined(){
@@ -491,7 +537,7 @@ extension Game {
             }
             
             
-       }
+       } // fourball combined func
         
         
         switch currentGF.assignTeamGrouping {
@@ -502,9 +548,7 @@ extension Game {
                 switch currentGF.playFormat{
                             case .matchplay:
                                 switch currentGF.noOfPlayersNeeded{
-//                                    case 2:// singles matchplay
-//                                        SinglesMatchplay()
-//                                    print("singles matchplay")
+//
                                     case 3:// 6 point game
                                       SixPoint()
                                     default:
