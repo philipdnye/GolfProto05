@@ -18,8 +18,8 @@ class ScoreEntryViewModel: ObservableObject {
     @Published var grossScore: Int = 0
     @Published var competitorsScores: [[Int]] = Array(repeating: [0,0,0,0], count: 18)
     @Published var scoresCommitted: [[Bool]] = Array(repeating: [false,false,false,false], count: 18)
-    @Published var currentGame: GameViewModel = GameViewModel(game: Game())
-    
+    @Published var currentGame: GameViewModel = GameViewModel(game: Game(context: CoreDataManager.shared.viewContext))
+   
     
     @Published var currentMatchScore: Int = 0
     @Published var holesCommitted: Int = 0

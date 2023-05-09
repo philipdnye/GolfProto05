@@ -25,7 +25,7 @@ class CurrentGameFormat: ObservableObject {
    
     
     //variables to be used briefly in game creation
-    @Published var swipedCompetitor: Competitor = Competitor()
+    @Published var swipedCompetitor: Competitor = CompetitorViewModel(competitor: Competitor(context: CoreDataManager.shared.viewContext)).competitor
 }
 
 

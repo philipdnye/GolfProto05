@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CompetitorScore_forArray: View {
-    var competitor: Competitor = Competitor()
+    var competitor: Competitor
     var holeIndex: Int
     var body: some View {
         
@@ -36,6 +36,7 @@ struct CompetitorScore_forArray: View {
 
 struct CompetitorScore_forArray_Previews: PreviewProvider {
     static var previews: some View {
-        CompetitorScore_forArray(competitor: Competitor(), holeIndex: 0)
+        let competitor = CompetitorViewModel(competitor: Competitor(context: CoreDataManager.shared.viewContext)).competitor
+        CompetitorScore_forArray(competitor: competitor, holeIndex: 0)
     }
 }

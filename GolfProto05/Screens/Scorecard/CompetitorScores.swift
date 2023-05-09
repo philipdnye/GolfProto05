@@ -26,6 +26,7 @@ struct CompetitorScores: View {
 
 struct CompetitorScores_Previews: PreviewProvider {
     static var previews: some View {
-        CompetitorScores(competitor: Competitor(), grossTotal: 0, pointsTotal: 0)
+        let competitor = CompetitorViewModel(competitor: Competitor(context: CoreDataManager.shared.viewContext)).competitor
+        CompetitorScores(competitor: competitor, grossTotal: 0, pointsTotal: 0)
     }
 }
