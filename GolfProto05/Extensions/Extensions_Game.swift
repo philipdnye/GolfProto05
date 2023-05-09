@@ -179,70 +179,226 @@ extension Game {
     }
 }
 
-
 extension Game {
-    
-    func FourBallBetterBallNetResult () -> [String] { // first value is for team A, second value for team B and third is for all square
-        
-        
-        let teamA = self.competitorArray.filter({$0.team_String == .teamA})
-        let teamB = self.competitorArray.filter({$0.team_String == .teamB})
-        
+    func MatchResult(currentGF: CurrentGameFormat) -> [String] {
+       
+        var result = ["","","",""]
         var currentMatchScore: Int = 0
         var holesPlayed: Int = 0
-       
+        let holesRemaining = 18 - holesPlayed
+        let holesRemainingString = "with \(holesRemaining) holes remaining"
         
+        func SinglesMatchplay(){
+            let teamA = self.competitorArray.filter({$0.team_String == .teamA})
+            let teamB = self.competitorArray.filter({$0.team_String == .teamB})
+          
+            for i in 0..<18 {
+                   
+                   switch self.AllScoresCommitted(holeIndex: i){
+                   case true:
+                       holesPlayed += 1
+                       
+                       
+                       
+                       let teamANetLowScore = Int(teamA.first?.competitorScoresArray[i].NetScoreMatch() ?? 0)
+                       let teamBNetLowScore = Int(teamB.first?.competitorScoresArray[i].NetScoreMatch() ?? 0)
+
+                       
+                       switch teamANetLowScore - teamBNetLowScore {
+                           
+                       case _ where teamANetLowScore - teamBNetLowScore < 0:
+                           currentMatchScore += 1
+                           
+                       case _ where teamANetLowScore - teamBNetLowScore > 0:
+                           currentMatchScore -= 1
+                       default:
+                           break
+                       }
+                   case false:
+                       break
+                   }
+               
+           }
+            
+            switch currentMatchScore {
+            case 0:
+                result[2] = "All square"
+                result[3] = holesRemainingString
+            case _ where currentMatchScore > 0:
+                result[0] = "Player 1 \(currentMatchScore) UP"
+                result[3] = holesRemainingString
+            case _ where currentMatchScore < 0:
+                result[1] = "Player 2 \(-currentMatchScore) UP"
+                result[3] = holesRemainingString
+            default:
+                result = ["","","",""]
+            }
+        }
         
-        var result = ["","",""]
-        
-        for i in 0..<18 {
-                
-                switch self.AllScoresCommitted(holeIndex: i){
-                case true:
-                    holesPlayed += 1
-                    let teamANetLowScore = min(teamA[0].competitorScoresArray[i].NetScoreMatch(),teamA[1].competitorScoresArray[i].NetScoreMatch() )
-                    let teamBNetLowScore = min(teamB[0].competitorScoresArray[i].NetScoreMatch(),teamB[1].competitorScoresArray[i].NetScoreMatch() )
+         func FourballBetterBall(){
+             
+             let teamA = self.competitorArray.filter({$0.team_String == .teamA})
+             let teamB = self.competitorArray.filter({$0.team_String == .teamB})
+           
+             for i in 0..<18 {
                     
-                    print("hole \(i) all scores committed")
-                    print("team A low \(teamANetLowScore) team B low \(teamBNetLowScore)")
-                    
-                    switch teamANetLowScore - teamBNetLowScore {
+                    switch self.AllScoresCommitted(holeIndex: i){
+                    case true:
+                        holesPlayed += 1
                         
-                    case _ where teamANetLowScore - teamBNetLowScore < 0:
-                        currentMatchScore += 1
                         
-                    case _ where teamANetLowScore - teamBNetLowScore > 0:
-                        currentMatchScore -= 1
-                    default:
+                        
+                        let teamANetLowScore = min(teamA[0].competitorScoresArray[i].NetScoreMatch(),teamA[1].competitorScoresArray[i].NetScoreMatch() )
+                        let teamBNetLowScore = min(teamB[0].competitorScoresArray[i].NetScoreMatch(),teamB[1].competitorScoresArray[i].NetScoreMatch() )
+
+                        
+                        switch teamANetLowScore - teamBNetLowScore {
+                            
+                        case _ where teamANetLowScore - teamBNetLowScore < 0:
+                            currentMatchScore += 1
+                            
+                        case _ where teamANetLowScore - teamBNetLowScore > 0:
+                            currentMatchScore -= 1
+                        default:
+                            break
+                        }
+                    case false:
                         break
                     }
-                case false:
-                    break
-                }
+                
+            }
+             
+             switch currentMatchScore {
+             case 0:
+                 result[2] = "All square"
+                 result[3] = holesRemainingString
+             case _ where currentMatchScore > 0:
+                 result[0] = "team A \(currentMatchScore) UP"
+                 result[3] = holesRemainingString
+             case _ where currentMatchScore < 0:
+                 result[1] = "team B \(-currentMatchScore) UP"
+                 result[3] = holesRemainingString
+             default:
+                 result = ["","","",""]
+             }
+             
+             
+        }
+        
+        func FourballCombined(){
             
+            let teamA = self.competitorArray.filter({$0.team_String == .teamA})
+            let teamB = self.competitorArray.filter({$0.team_String == .teamB})
+          
+            for i in 0..<18 {
+                   
+                   switch self.AllScoresCommitted(holeIndex: i){
+                   case true:
+                       holesPlayed += 1
+                       let teamANetLowScore = teamA[0].competitorScoresArray[i].NetScoreMatch() + teamA[1].competitorScoresArray[i].NetScoreMatch()
+                       let teamBNetLowScore = teamB[0].competitorScoresArray[i].NetScoreMatch() + teamB[1].competitorScoresArray[i].NetScoreMatch()
+
+                       
+                       switch teamANetLowScore - teamBNetLowScore {
+                           
+                       case _ where teamANetLowScore - teamBNetLowScore < 0:
+                           currentMatchScore += 1
+                           
+                       case _ where teamANetLowScore - teamBNetLowScore > 0:
+                           currentMatchScore -= 1
+                       default:
+                           break
+                       }
+                   case false:
+                       break
+                   }
+               
+           }
+            
+            switch currentMatchScore {
+            case 0:
+                result[2] = "All square"
+                result[3] = holesRemainingString
+            case _ where currentMatchScore > 0:
+                result[0] = "team A \(currentMatchScore) UP"
+                result[3] = holesRemainingString
+            case _ where currentMatchScore < 0:
+                result[1] = "team B \(-currentMatchScore) UP"
+                result[3] = holesRemainingString
+            default:
+                result = ["","","",""]
+            }
+            
+            
+       }
+        
+        
+        switch currentGF.assignTeamGrouping {
+      
+            case .TeamC:
+                result = ["","","",""]
+            case .Indiv:
+                switch currentGF.playFormat{
+                            case .matchplay:
+                                switch currentGF.noOfPlayersNeeded{
+//                                    case 2:// singles matchplay
+//                                        SinglesMatchplay()
+//                                    print("singles matchplay")
+                                    case 3:// 6 point game
+                                        break //placeholder
+                                    default:
+                                    result = ["","","",""]
+                                    }
+                            case .strokeplay:
+                    result = ["","","",""]
+                        }
+            case .TeamsAB:
+                let teamA = self.competitorArray.filter({$0.team_String == .teamA})
+                let teamB = self.competitorArray.filter({$0.team_String == .teamB})
+            
+            
+            
+                switch currentGF.assignShotsRecd {
+                case .Indiv:
+                    switch currentGF.playFormat{
+                    case .matchplay:
+                        switch currentGF.noOfPlayersNeeded{
+                        case 4:
+                            switch currentGF.format{
+                            case .fourBallBBMatch:// 4BBB
+                                FourballBetterBall()
+                            case .fourBallCombinedMatch://4Bcombined
+                                FourballCombined()
+                            default:
+                                result = ["","","",""]
+                            }
+                        case 2: // singles matchplay
+                            SinglesMatchplay()
+                        default:
+                            break
+                            
+                        }
+                    case .strokeplay:
+                        result = ["","","",""]
+                    }
+                case .TeamsAB:
+                    switch currentGF.playFormat{
+                    case .matchplay://4somes, greensomes, pinehurstchapman, 2v2 texas scramble
+                        break //placeholder
+                    case .strokeplay:
+                        result = ["","","",""]
+                    }
+                case .TeamC:
+                    result = ["","","",""]
+              
+            }
         }
-       
-        print("current match score \(currentMatchScore)")
-        // teamA score, teamB Score
-        let holesRemaining = 18 - holesPlayed
-       print("holes remaining \(holesRemaining)")
-        switch currentMatchScore {
-        case 0:
-            result[2] = "All square"
-        case _ where currentMatchScore > 0:
-            result[0] = "team A \(currentMatchScore) UP"
-        case _ where currentMatchScore < 0:
-            result[1] = "team B \(-currentMatchScore) UP"
-        default:
-            result = ["","",""]
-        }
-        
-        
-        
-        
+          
         return result
     }
 }
+
+
 
 
 extension Game {

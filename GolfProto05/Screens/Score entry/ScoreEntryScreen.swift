@@ -228,12 +228,15 @@ struct ScoreEntryScreen: View {
                 
                 
                 HStack{
-                    Text(game.game.FourBallBetterBallNetResult()[0])
-                    Text(game.game.FourBallBetterBallNetResult()[1])
-                    Text(game.game.FourBallBetterBallNetResult()[2])
+                    Text(game.game.MatchResult(currentGF: currentGF)[0])
+                    Text(game.game.MatchResult(currentGF: currentGF)[1])
+                    Text(game.game.MatchResult(currentGF: currentGF)[2])
+                    Text(game.game.MatchResult(currentGF: currentGF)[3])
+                    
                 }
                 .frame(width: geo.size.width * 0.95, height: 35)
-                .offset(x: 0, y: geo.size.height * 0.9)
+                .offset(x: 0, y: geo.size.height * 0.93)
+                .foregroundColor(darkTeal)
                 
                 
                 
