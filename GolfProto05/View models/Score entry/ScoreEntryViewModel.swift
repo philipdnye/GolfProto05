@@ -52,11 +52,13 @@ class ScoreEntryViewModel: ObservableObject {
                 let score = Int(par ?? 0) + Int(stroke ?? 0)
                 self.teamsScores[j][i] = score
                 self.scoresCommitted[j][i] = false
+               
                 print("\(i) \(j)")
                 print("par \(par as Any)")
                 print(game?.teamScoresArray.filter({$0.team == i}).sorted(by: {$0.hole < $1.hole})[j].distance as Any)
                 print("stroke \(stroke as Any)")
                 print("score \(score as Any)")
+                print("match shots recd\(game?.teamScoresArray.filter({$0.team == i}).sorted(by: {$0.hole < $1.hole})[j].shotsRecdHoleMatch as Any)")
             }
         }
     }

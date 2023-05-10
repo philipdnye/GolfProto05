@@ -112,18 +112,7 @@ class StartGameViewModel: ObservableObject {
                             ts.par = Int16(holes?[j].par ?? 0)
                             ts.strokeIndex = Int16(holes?[j].strokeIndex ?? 0)
                            
-//                            let shotsStroke = Double(game.teamShotsArray[i].playingHandicap + game.teamShotsArray[i].diffTeesXShots)
-//                            let shotsMatch = Double(game.teamShotsArray[i].shotsRecd)
-//
-//                            ts.shotsRecdHoleStroke = Int16(game.ShotsReceivedByTeam(holeIndex: j, shots: shotsStroke, team: Int16(i)))
-//                            ts.shotsRecdHoleMatch = Int16(game.ShotsReceivedByTeam(holeIndex: j, shots: shotsMatch, team: Int16(i)))
-//                            print(i)
-//                            print(ts.shotsRecdHoleMatch)
-                            
-                            
-                            //CODE HERE FOR ADDING IN SHOTS RECEIVED MATCH AND STROKEPLAY
-                            
-                            //ts.shotsRecdMatch = Int16(game)
+
                             
                             manager.save()
                             
@@ -132,16 +121,19 @@ class StartGameViewModel: ObservableObject {
                     for i in 0..<2 {
                         let shotsStroke = Double(game.teamShotsArray[i].playingHandicap + game.teamShotsArray[i].diffTeesXShots)
                         let shotsMatch = Double(game.teamShotsArray[i].shotsRecd)
+                       
                         let teamScores = Array(game.teamScoresArray.filter({$0.team == i}))
                         
                         for ts in teamScores {
                             ts.shotsRecdHoleStroke = Int16(game.ShotsReceivedByTeamPerHole(strokeIndex: Int(ts.strokeIndex), shots: shotsStroke))
-                            
+                            ts.shotsRecdHoleMatch = Int16(game.ShotsReceivedByTeamPerHole(strokeIndex: Int(ts.strokeIndex), shots: shotsMatch))
                         }
                     }
-                    
+                    manager.save()
                 }
             case false:
+                
+               
                 let holes = game.diffTeesTeeBox?.holesArray.sorted(by: {$0.number < $1.number})
                 
                 for i in 0..<2 {
@@ -156,10 +148,10 @@ class StartGameViewModel: ObservableObject {
                         ts.strokeIndex = Int16(holes?[j].strokeIndex ?? 0)
                         
                         
-                        let shotsStroke = Double(game.teamShotsArray[i].playingHandicap + game.teamShotsArray[i].diffTeesXShots)
-                        let shotsMatch = Double(game.teamShotsArray[i].shotsRecd)
-                        ts.shotsRecdHoleStroke = Int16(game.ShotsReceivedByTeam(holeIndex: j, shots: shotsStroke, team: Int16(i)))
-                        ts.shotsRecdHoleMatch = Int16(game.ShotsReceivedByTeam(holeIndex: j, shots: shotsMatch, team: Int16(i)))
+//                        let shotsStroke = Double(game.teamShotsArray[i].playingHandicap + game.teamShotsArray[i].diffTeesXShots)
+//                        let shotsMatch = Double(game.teamShotsArray[i].shotsRecd)
+//                        ts.shotsRecdHoleStroke = Int16(game.ShotsReceivedByTeam(holeIndex: j, shots: shotsStroke, team: Int16(i)))
+//                        ts.shotsRecdHoleMatch = Int16(game.ShotsReceivedByTeam(holeIndex: j, shots: shotsMatch, team: Int16(i)))
                         //CODE HERE FOR ADDING IN SHOTS RECEIVED MATCH AND STROKEPLAY
                         
                         //ts.shotsRecdMatch = Int16(game)
@@ -169,9 +161,19 @@ class StartGameViewModel: ObservableObject {
                     }
                 }
                 
+                for i in 0..<2 {
+                    let shotsStroke = Double(game.teamShotsArray[i].playingHandicap + game.teamShotsArray[i].diffTeesXShots)
+                    let shotsMatch = Double(game.teamShotsArray[i].shotsRecd)
+                   
+                    let teamScores = Array(game.teamScoresArray.filter({$0.team == i}))
+                    
+                    for ts in teamScores {
+                        ts.shotsRecdHoleStroke = Int16(game.ShotsReceivedByTeamPerHole(strokeIndex: Int(ts.strokeIndex), shots: shotsStroke))
+                        ts.shotsRecdHoleMatch = Int16(game.ShotsReceivedByTeamPerHole(strokeIndex: Int(ts.strokeIndex), shots: shotsMatch))
+                    }
+                }
                 
-                
-                
+                manager.save()
                 
                 
             }
@@ -181,7 +183,7 @@ class StartGameViewModel: ObservableObject {
             case true:
                 if !game.competitorArray.isEmpty{
                     let holes = game.competitorArray[0].teeBox?.holesArray.sorted(by: {$0.number < $1.number})
-                    print(holes?.count.formatted() ?? 99)
+                    //print(holes?.count.formatted() ?? 99)
                    
                     
                     if !(holes?.isEmpty ?? false){
@@ -198,10 +200,10 @@ class StartGameViewModel: ObservableObject {
                             
                             //ts.shotsRecdMatch = Int16(game)
                             
-                            let shotsStroke = Double(game.teamShotsArray[2].playingHandicap + game.teamShotsArray[2].diffTeesXShots)
-                            let shotsMatch = Double(game.teamShotsArray[2].shotsRecd)
-                            ts.shotsRecdHoleStroke = Int16(game.ShotsReceivedByTeam(holeIndex: j, shots: shotsStroke, team: Int16(2)))
-                            ts.shotsRecdHoleMatch = Int16(game.ShotsReceivedByTeam(holeIndex: j, shots: shotsMatch, team: Int16(2)))
+//                            let shotsStroke = Double(game.teamShotsArray[2].playingHandicap + game.teamShotsArray[2].diffTeesXShots)
+//                            let shotsMatch = Double(game.teamShotsArray[2].shotsRecd)
+//                            ts.shotsRecdHoleStroke = Int16(game.ShotsReceivedByTeam(holeIndex: j, shots: shotsStroke, team: Int16(2)))
+//                            ts.shotsRecdHoleMatch = Int16(game.ShotsReceivedByTeam(holeIndex: j, shots: shotsMatch, team: Int16(2)))
                             
                             manager.save()
                            
@@ -209,6 +211,18 @@ class StartGameViewModel: ObservableObject {
                     }
                     
                     
+                        let shotsStroke = Double(game.teamShotsArray[2].playingHandicap + game.teamShotsArray[2].diffTeesXShots)
+                        let shotsMatch = Double(game.teamShotsArray[2].shotsRecd)
+                       
+                        let teamScores = game.teamScoresArray
+                        
+                        for ts in teamScores {
+                            ts.shotsRecdHoleStroke = Int16(game.ShotsReceivedByTeamPerHole(strokeIndex: Int(ts.strokeIndex), shots: shotsStroke))
+                            ts.shotsRecdHoleMatch = Int16(game.ShotsReceivedByTeamPerHole(strokeIndex: Int(ts.strokeIndex), shots: shotsMatch))
+                        }
+                    
+                    
+                    manager.save()
                     
                     
                 }
@@ -232,6 +246,20 @@ class StartGameViewModel: ObservableObject {
                    
                 }
             }
+            
+            let shotsStroke = Double(game.teamShotsArray[2].playingHandicap + game.teamShotsArray[2].diffTeesXShots)
+            let shotsMatch = Double(game.teamShotsArray[2].shotsRecd)
+           
+            let teamScores = game.teamScoresArray
+            
+            for ts in teamScores {
+                ts.shotsRecdHoleStroke = Int16(game.ShotsReceivedByTeamPerHole(strokeIndex: Int(ts.strokeIndex), shots: shotsStroke))
+                ts.shotsRecdHoleMatch = Int16(game.ShotsReceivedByTeamPerHole(strokeIndex: Int(ts.strokeIndex), shots: shotsMatch))
+            }
+        
+        
+        manager.save()
+       
         }
         
         switch currentGF.assignShotsRecd {

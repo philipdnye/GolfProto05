@@ -36,17 +36,21 @@ struct TeamRowScoreBox: View {
             // need a switch here for match or strokeplay
             switch currentGF.playFormat {
             case .matchplay:
-                Text(scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex})[scoreEntryVM.holeIndex].shotsRecdHoleMatch.formatted())
-                    .offset(x: 22, y: 18)
-                    .foregroundColor(burntOrange)
-                    .fontWeight(.semibold)
-                
+                if scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex}).sorted(by: {$0.hole < $1.hole})[scoreEntryVM.holeIndex].shotsRecdHoleMatch != 0 {
+                    
+                    Text(scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex}).sorted(by: {$0.hole < $1.hole})[scoreEntryVM.holeIndex].shotsRecdHoleMatch.formatted()) //sorted??
+                        .offset(x: 22, y: 18)
+                        .foregroundColor(burntOrange)
+                        .fontWeight(.semibold)
+                }
                 
             case .strokeplay:
-                Text(scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex})[scoreEntryVM.holeIndex].shotsRecdHoleStroke.formatted())
-                    .offset(x: 22, y: 18)
-                    .foregroundColor(burntOrange)
-                    .fontWeight(.semibold)
+                if scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex}).sorted(by: {$0.hole < $1.hole})[scoreEntryVM.holeIndex].shotsRecdHoleStroke != 0 {
+                    Text(scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex}).sorted(by: {$0.hole < $1.hole})[scoreEntryVM.holeIndex].shotsRecdHoleStroke.formatted())
+                        .offset(x: 22, y: 18)
+                        .foregroundColor(burntOrange)
+                        .fontWeight(.semibold)
+                }
             }
         }
     }
