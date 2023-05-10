@@ -33,6 +33,21 @@ struct TeamRowScoreBox: View {
                     scoreEntryVM.saveCompetitorsScoreTeam()
                 })
             
+            // need a switch here for match or strokeplay
+            switch currentGF.playFormat {
+            case .matchplay:
+                Text(scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex})[scoreEntryVM.holeIndex].shotsRecdHoleMatch.formatted())
+                    .offset(x: 22, y: 18)
+                    .foregroundColor(burntOrange)
+                    .fontWeight(.semibold)
+                
+                
+            case .strokeplay:
+                Text(scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex})[scoreEntryVM.holeIndex].shotsRecdHoleStroke.formatted())
+                    .offset(x: 22, y: 18)
+                    .foregroundColor(burntOrange)
+                    .fontWeight(.semibold)
+            }
         }
     }
 }

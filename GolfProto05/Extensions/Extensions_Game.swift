@@ -164,7 +164,7 @@ extension Game {
         var shots54 = Int(round(shots - 36))
         if shots54 < 0 {shots54 = 0}
      
-        if shots18 >= self.teamScoresArray.filter({$0.team == team})[holeIndex].strokeIndex {shots18Recd = 1}
+        if shots18 >= self.teamScoresArray.filter({$0.team == team})[holeIndex].strokeIndex {shots18Recd = 1}//is the problem that the index doesnt work on filtered list???/
         if shots36 >= self.teamScoresArray.filter({$0.team == team})[holeIndex].strokeIndex {shots36Recd = 1}
         if shots54 >= self.teamScoresArray.filter({$0.team == team})[holeIndex].strokeIndex {shots54Recd = 1}
         
@@ -172,6 +172,32 @@ extension Game {
         return shotsReceived
     }
 }
+
+
+//extension Game {
+//    func ShotsReceivedByTeamPerHole(strokeIndex: Int, shots: Double) -> Int {
+//        var shots18Recd: Int = 0
+//        var shots36Recd: Int = 0
+//        var shots54Recd: Int = 0
+//
+//        let shots18 = Int(round(shots))
+//        var shots36 = Int(round(shots - 18))
+//        if shots36 < 0 {shots36 = 0}
+//        var shots54 = Int(round(shots - 36))
+//        if shots54 < 0 {shots54 = 0}
+//
+//
+//
+//
+//        let shotsReceived = shots18Recd + shots36Recd + shots54Recd
+//        return shotsReceived
+//    }
+//}
+
+
+
+
+
 
 extension Game {
     func SortedCompetitorArray () -> [Competitor] {
@@ -666,8 +692,8 @@ extension Game {
                     result = ["","","",""]
                         }
             case .TeamsAB:
-                let teamA = self.competitorArray.filter({$0.team_String == .teamA})
-                let teamB = self.competitorArray.filter({$0.team_String == .teamB})
+                //let teamA = self.competitorArray.filter({$0.team_String == .teamA})
+                //let teamB = self.competitorArray.filter({$0.team_String == .teamB})
             
             
             

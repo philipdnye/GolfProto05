@@ -114,8 +114,12 @@ class StartGameViewModel: ObservableObject {
                            
                             let shotsStroke = Double(game.teamShotsArray[i].playingHandicap + game.teamShotsArray[i].diffTeesXShots)
                             let shotsMatch = Double(game.teamShotsArray[i].shotsRecd)
+                            
                             ts.shotsRecdHoleStroke = Int16(game.ShotsReceivedByTeam(holeIndex: j, shots: shotsStroke, team: Int16(i)))
                             ts.shotsRecdHoleMatch = Int16(game.ShotsReceivedByTeam(holeIndex: j, shots: shotsMatch, team: Int16(i)))
+                            print(i)
+                            print(ts.shotsRecdHoleMatch)
+                            
                             
                             //CODE HERE FOR ADDING IN SHOTS RECEIVED MATCH AND STROKEPLAY
                             

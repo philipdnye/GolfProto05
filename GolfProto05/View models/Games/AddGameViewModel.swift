@@ -306,6 +306,15 @@ class AddGameViewModel: ObservableObject {
                         
                         game.teamShotsArray[0].shotsRecd = round(ASR)
                         game.teamShotsArray[1].shotsRecd = round(BSR)
+                        
+                        print("team a \(game.teamShotsArray[0].team)")
+                        print("team a shots recd \(round(ASR))")
+                        print("team a playing handicap \(game.teamShotsArray[0].playingHandicap)")
+                        print("team a diff tees \(game.teamShotsArray[0].diffTeesXShots)")
+                        print("team b \(game.teamShotsArray[1].team)")
+                        print("team b shots recd\(round(BSR))")
+                        print("team b playing handicap \(game.teamShotsArray[1].playingHandicap)")
+                        print("team b diff tees \(game.teamShotsArray[1].diffTeesXShots)")
                     }
                 case .strokeplay:
                     switch currentGF.noOfPlayersNeeded{
