@@ -89,7 +89,7 @@ class StartGameViewModel: ObservableObject {
                 manager.save()
             }
         case .TeamsAB:
-            
+            //***WHEN CREATING TEAM SCORECARDS, IF TEAMS AB THEN 2 TEAM SCORECARDS AND IF TEAM C JUST 1 TEAM SCORECARD*****
             //IF THE TEEBOXES ARE THE SAME, THEN USE THE FIRST COMPETITORS.
             
             //IF THE TEEBOXES ARE NOT THE SAME, THEN USE THE GAME.DIFFTEES TEEBOX

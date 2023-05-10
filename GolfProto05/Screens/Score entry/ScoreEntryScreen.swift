@@ -57,8 +57,8 @@ struct ScoreEntryScreen: View {
                     
                     
                     
-//                    Text(game.game.scoreEntryTeeBox?.course?.name ?? "")
-//                        .frame(width:geo.size.width * 0.32, alignment: .trailing)
+                    //                    Text(game.game.scoreEntryTeeBox?.course?.name ?? "")
+                    //                        .frame(width:geo.size.width * 0.32, alignment: .trailing)
                     
                 }
                 .zIndex(0)
@@ -106,7 +106,7 @@ struct ScoreEntryScreen: View {
                     
                     .foregroundColor(.white)
                     
-                     
+                    
                     
                 }
                 .frame(width: geo.size.width * 1, height: 50)
@@ -162,12 +162,33 @@ struct ScoreEntryScreen: View {
                         } else {
                             // if they aren't all false it suggests that user has chnaged the ones they need to so move forward and commit all scores
                             
-                            for i in 0..<game.game.competitorArray.count {
-                                scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
+                            //                            ***** NEED TO SWITCH HERE BETWEEN COMPETITORS AND TEAMS******   STILL TO DO
+                            
+                            
+                            
+                            switch currentGF.assignShotsRecd {
+                                //                            FOR COMPETITORS *****
+                            case .Indiv:
+                                for i in 0..<game.game.competitorArray.count {
+                                    scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
+                                }
+                                
+                                scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
+                                //                           FOR COMPETITORS
+                            case .TeamsAB:
+                                
+                                for i in 0..<2{
+                                    scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
+                                }
+                                scoreEntryVM.saveCompetitorsScoreTeam()
+                                
+                                
+                            case .TeamC:
+                                break // placeholder
+                                
+                                
+                                
                             }
-                            
-                            
-                            scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
                             scoreEntryVM.holeIndex += 1
                         }
                         
@@ -185,58 +206,115 @@ struct ScoreEntryScreen: View {
                     .zIndex(0)
                     .confirmationDialog("Confirm scores", isPresented: $isShowingDialogueCommitScores, actions: {
                         Button("Commit scores", role: .destructive){
-                            for i in 0..<game.game.competitorArray.count {
-                                scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
+                            //                            ***** NEED TO SWITCH HERE BETWEEN COMPETITORS AND TEAMS******   STILL TO DO
+                            switch currentGF.assignShotsRecd {
+                                //                            FOR COMPETITORS *****
+                            case .Indiv:
+                                
+                                
+                                for i in 0..<game.game.competitorArray.count {
+                                    scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
+                                }
+                                scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
+                                
+                            case .TeamsAB:
+                                for i in 0..<2{
+                                    scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
+                                }
+                                scoreEntryVM.saveCompetitorsScoreTeam()
+                            case .TeamC:
+                                break // placeholder
+                                
+                                
+                                
+                                
                             }
-                            scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
                             scoreEntryVM.holeIndex += 1
                         }
                         
                     }, message: {Text("You haven't amended any scores on this hole. Commit these scores and continue to the next hole?")})
                     
                 }
-               
-                ForEach(Array(game.game.SortedCompetitors(currentGF: currentGF).enumerated()), id: \.element){index, item in
-                    ScoreEntryCompetitorRow(competitorIndex: index)
-                        .frame(width: geo.size.width * 0.95, height: 75)
-                        .offset(x: 0, y: geo.size.height * CGFloat(((Double(index)+1)*0.15)+0.2))
-                 
-                    
-                }
+                //               SWITCH NEEDED HERE FOR COMPETITORS OR TEAMS - STILL TO DO NEED TO CREATE NEW SCOREENTRY TEAMROW AND NEW TEAM ROWSCOREBOX
                 
-                
-        // switch here on game format for different matchplay results/scores
-                
-                switch currentGF.format{
-                
-                
-                case .sixPoint:
-                    VStack{
-                        Text(game.game.MatchResult(currentGF: currentGF)[0])
-                        Text(game.game.MatchResult(currentGF: currentGF)[1])
-                        Text(game.game.MatchResult(currentGF: currentGF)[2])
-                        Text(game.game.MatchResult(currentGF: currentGF)[3])
-                    }
-                    .frame(width: geo.size.width * 0.95, height: 140)
-                    .offset(x: 0, y: geo.size.height * 0.79)
-                    .foregroundColor(darkTeal)
-                
-                
-                default:
-                    HStack{
-                        Text(game.game.MatchResult(currentGF: currentGF)[0])
-                        Text(game.game.MatchResult(currentGF: currentGF)[1])
-                        Text(game.game.MatchResult(currentGF: currentGF)[2])
-                        Text(game.game.MatchResult(currentGF: currentGF)[3])
+                switch currentGF.assignShotsRecd {
+                case .Indiv:
+                    ForEach(Array(game.game.SortedCompetitors(currentGF: currentGF).enumerated()), id: \.element){index, item in
+                        ScoreEntryCompetitorRow(competitorIndex: index)
+                            .frame(width: geo.size.width * 0.95, height: 75)
+                            .offset(x: 0, y: geo.size.height * CGFloat(((Double(index)+1)*0.15)+0.2))
+                        
                         
                     }
-                    .frame(width: geo.size.width * 0.95, height: 35)
-                    .offset(x: 0, y: geo.size.height * 0.93)
-                    .foregroundColor(darkTeal)
+                case .TeamsAB:
+                    ForEach(Array(game.game.SortedCompetitors(currentGF: currentGF).enumerated()), id: \.element){index, item in
+                        ScoreEntryTeamRow(competitorIndex: index)
+                            .frame(width: geo.size.width * 0.95, height: 75)
+                            .offset(x: 0, y: geo.size.height * CGFloat(((Double(index)+1)*0.15)+0.2))
+                    }
+                    ForEach(0..<2){teamIndex in
+                        //var yOffset: CGFloat = geo.size.height * CGFloat(((Double(index)+1)*0.25)+0.2)
+                        
+                        ScoreEntryTeamRowButtons(teamIndex: teamIndex)
+                            .frame(width: geo.size.width * 0.95, height: 75)
+                            .offset(x: geo.size.width * 0.2, y: geo.size.height * CGFloat(((Double(teamIndex)+1)*0.3)+0.13))
+                    }
                     
-                }//playformat switch
+                    
+                    
+                case .TeamC:
+                    EmptyView() // placeholder
+                    
+                    
+                }
+                // switch here on game format for different matchplay results/scores
+                //               SWITCH NEEDED HERE FOR COMPETITORS OR TEAMS
                 
-          
+                //***************************
+                switch currentGF.assignShotsRecd {
+                case .Indiv:
+
+
+
+                    switch currentGF.format{
+
+
+                    case .sixPoint:
+                        VStack{
+                            Text(game.game.MatchResult(currentGF: currentGF)[0])
+                            Text(game.game.MatchResult(currentGF: currentGF)[1])
+                            Text(game.game.MatchResult(currentGF: currentGF)[2])
+                            Text(game.game.MatchResult(currentGF: currentGF)[3])
+                        }
+                        .frame(width: geo.size.width * 0.95, height: 140)
+                        .offset(x: 0, y: geo.size.height * 0.79)
+                        .foregroundColor(darkTeal)
+
+
+                    default:
+                        HStack{
+                            Text(game.game.MatchResult(currentGF: currentGF)[0])
+                            Text(game.game.MatchResult(currentGF: currentGF)[1])
+                            Text(game.game.MatchResult(currentGF: currentGF)[2])
+                            Text(game.game.MatchResult(currentGF: currentGF)[3])
+
+                        }
+                        .frame(width: geo.size.width * 0.95, height: 35)
+                        .offset(x: 0, y: geo.size.height * 0.93)
+                        .foregroundColor(darkTeal)
+
+                    }//playformat switch
+                case .TeamsAB:
+                    EmptyView() //placeholder
+                case .TeamC:
+                    EmptyView() //placeholder
+                }
+                //**************************
+
+                
+                
+                
+                
                 
             }//geo
             
@@ -248,7 +326,15 @@ struct ScoreEntryScreen: View {
             ToolbarItem(placement: .navigationBarTrailing){
                 Button {
                     //code here to save competitorscores
-                    scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
+                    //               SWITCH NEEDED HERE FOR COMPETITORS OR TEAMS
+                    switch currentGF.assignShotsRecd {
+                    case .Indiv:
+                        scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
+                    case .TeamsAB:
+                        scoreEntryVM.saveCompetitorsScoreTeam()
+                    case .TeamC:
+                        break //placeholder
+                    }
                     dismiss()
                 } label: {
                     
@@ -269,6 +355,7 @@ struct ScoreEntryScreen: View {
             
            
         }, content: {
+            // might need a switch here for different scorecards
            ScorecardScreen()
         })
         

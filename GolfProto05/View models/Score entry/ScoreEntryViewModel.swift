@@ -17,7 +17,7 @@ class ScoreEntryViewModel: ObservableObject {
     
     @Published var grossScore: Int = 0
     @Published var competitorsScores: [[Int]] = Array(repeating: [0,0,0,0], count: 18)
-    @Published var teamsScores: [[Int]] = Array(repeating: [0,0,0], count: 18)
+    @Published var teamsScores: [[Int]] = Array(repeating: [0,0], count: 18)
     @Published var scoresCommitted: [[Bool]] = Array(repeating: [false,false,false,false], count: 18)
     @Published var currentGame: GameViewModel = GameViewModel(game: Game(context: CoreDataManager.shared.viewContext))
    
@@ -45,14 +45,14 @@ class ScoreEntryViewModel: ObservableObject {
     func assignDefaultValuesTeams(){
         let manager = CoreDataManager.shared
         let game = manager.getGameById(id: self.currentGame.id)
-        for i in 0..<3 {
+        for i in 0..<2 {
             for j in 0..<18 {
                 let par = game?.teamScoresArray.filter({$0.team == i}).sorted(by: {$0.hole < $1.hole})[j].par
                 let stroke = game?.teamScoresArray.filter({$0.team == i}).sorted(by: {$0.hole < $1.hole})[j].shotsRecdHoleStroke
                 let score = Int(par ?? 0) + Int(stroke ?? 0)
                 self.teamsScores[j][i] = score
                 self.scoresCommitted[j][i] = false
-                
+                print(par as Any)
             }
         }
     }
@@ -80,7 +80,7 @@ class ScoreEntryViewModel: ObservableObject {
     func loadTeamScore(){
         let manager = CoreDataManager.shared
         let game = manager.getGameById(id: self.currentGame.id)
-        for i in 0..<3 {
+        for i in 0..<2 {
             for j in 0..<18 {
                 
                 self.teamsScores[j][i] = Int(game?.teamScoresArray.filter({$0.team == i}).sorted(by: {$0.hole < $1.hole})[j].grossScore ?? 0)
@@ -120,7 +120,7 @@ class ScoreEntryViewModel: ObservableObject {
     func saveCompetitorsScoreTeam() {
         let manager = CoreDataManager.shared
         let game = manager.getGameById(id: self.currentGame.id)
-        for i in 0..<3 {
+        for i in 0..<2 {
             for j in 0..<18 {
                 game?.teamScoresArray.filter({$0.team == i}).sorted(by: {$0.hole < $1.hole})[j].grossScore = Int16(self.teamsScores[j][i])
                 game?.teamScoresArray.filter({$0.team == i}).sorted(by: {$0.hole < $1.hole})[j].scoreCommitted = self.scoresCommitted[j][i]

@@ -11,8 +11,7 @@ struct ScoreEntryCompetitorRow: View {
    
     var competitorIndex: Int
     
-    //@StateObject var scoreEntryVM: ScoreEntryViewModel
-//    @Binding var competitorScore: Int
+
     @EnvironmentObject var scoreEntryVM: ScoreEntryViewModel
     @EnvironmentObject var currentGF: CurrentGameFormat
     var body: some View {

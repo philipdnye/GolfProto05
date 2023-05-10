@@ -112,6 +112,9 @@
 		D41FD9612A0A1E7300999AAD /* CompetitorScoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9192A0A1E7300999AAD /* CompetitorScoreViewModel.swift */; };
 		D41FD9622A0A1E7300999AAD /* TeamTeeBoxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD91A2A0A1E7300999AAD /* TeamTeeBoxViewModel.swift */; };
 		D41FD9652A0A1EA900999AAD /* GolfDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9632A0A1EA900999AAD /* GolfDataModel.xcdatamodeld */; };
+		D41FD9672A0B7A7C00999AAD /* ScoreEntryTeamRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9662A0B7A7C00999AAD /* ScoreEntryTeamRow.swift */; };
+		D41FD9692A0B7D0B00999AAD /* ScoreEntryTeamRowButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9682A0B7D0B00999AAD /* ScoreEntryTeamRowButtons.swift */; };
+		D41FD96B2A0B84E500999AAD /* TeamRowScoreBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD96A2A0B84E500999AAD /* TeamRowScoreBox.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -223,6 +226,9 @@
 		D41FD9192A0A1E7300999AAD /* CompetitorScoreViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompetitorScoreViewModel.swift; sourceTree = "<group>"; };
 		D41FD91A2A0A1E7300999AAD /* TeamTeeBoxViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamTeeBoxViewModel.swift; sourceTree = "<group>"; };
 		D41FD9642A0A1EA900999AAD /* GolfDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GolfDataModel.xcdatamodel; sourceTree = "<group>"; };
+		D41FD9662A0B7A7C00999AAD /* ScoreEntryTeamRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreEntryTeamRow.swift; sourceTree = "<group>"; };
+		D41FD9682A0B7D0B00999AAD /* ScoreEntryTeamRowButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreEntryTeamRowButtons.swift; sourceTree = "<group>"; };
+		D41FD96A2A0B84E500999AAD /* TeamRowScoreBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamRowScoreBox.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -372,7 +378,10 @@
 			isa = PBXGroup;
 			children = (
 				D41FD8C32A0A1E7300999AAD /* CompetitorRowScoreBox.swift */,
+				D41FD96A2A0B84E500999AAD /* TeamRowScoreBox.swift */,
 				D41FD8C42A0A1E7300999AAD /* ScoreEntryCompetitorRow.swift */,
+				D41FD9682A0B7D0B00999AAD /* ScoreEntryTeamRowButtons.swift */,
+				D41FD9662A0B7A7C00999AAD /* ScoreEntryTeamRow.swift */,
 				D41FD8C52A0A1E7300999AAD /* HoleNavigatorPopUp.swift */,
 				D41FD8C62A0A1E7300999AAD /* ScoreEntryScreen.swift */,
 			);
@@ -659,6 +668,7 @@
 				D41FD9382A0A1E7300999AAD /* TeamsABPlayingHandicaps.swift in Sources */,
 				D41FD9652A0A1EA900999AAD /* GolfDataModel.xcdatamodeld in Sources */,
 				D41FD94D2A0A1E7300999AAD /* EditClubViewModel.swift in Sources */,
+				D41FD9672A0B7A7C00999AAD /* ScoreEntryTeamRow.swift in Sources */,
 				D41FD9362A0A1E7300999AAD /* HomeView.swift in Sources */,
 				D41FD9352A0A1E7300999AAD /* PlayerDetailScreen.swift in Sources */,
 				D41FD8952A0A1E3F00999AAD /* EXtension_NSNumber.swift in Sources */,
@@ -675,6 +685,7 @@
 				D41FD95A2A0A1E7300999AAD /* AddPlayerViewModel.swift in Sources */,
 				D41FD9212A0A1E7300999AAD /* EditCourseScreen.swift in Sources */,
 				D41FD9242A0A1E7300999AAD /* EditTeeBoxScreen.swift in Sources */,
+				D41FD96B2A0B84E500999AAD /* TeamRowScoreBox.swift in Sources */,
 				D41FD8B62A0A1E6500999AAD /* TeamTeeBox+CoreDataProperties.swift in Sources */,
 				D41FD92C2A0A1E7300999AAD /* HolesLayoutTotals.swift in Sources */,
 				D41FD9392A0A1E7300999AAD /* TeamsABExtraShots.swift in Sources */,
@@ -688,6 +699,7 @@
 				D41FD8942A0A1E3F00999AAD /* Extensions_HandicapArray.swift in Sources */,
 				D41FD9412A0A1E7300999AAD /* TeamCPlayingHandicap.swift in Sources */,
 				D41FD8B32A0A1E6500999AAD /* Player+CoreDataClass.swift in Sources */,
+				D41FD9692A0B7D0B00999AAD /* ScoreEntryTeamRowButtons.swift in Sources */,
 				D41FD92B2A0A1E7300999AAD /* HoleListScreen.swift in Sources */,
 				D41FD9402A0A1E7300999AAD /* CourseHandicapCalcScreen.swift in Sources */,
 				D41FD89C2A0A1E3F00999AAD /* Bespoke colours.swift in Sources */,

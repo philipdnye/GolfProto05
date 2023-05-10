@@ -38,6 +38,8 @@ struct CompetitorRowScoreBox: View {
             case .matchplay:
                 
                 
+
+
                 if scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF)[competitorIndex].competitorScoresArray[scoreEntryVM.holeIndex].shotsRecdHoleMatch != 0 {
                     Text(scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF)[competitorIndex].competitorScoresArray[scoreEntryVM.holeIndex].shotsRecdHoleMatch.formatted())
                         .offset(x: 22, y: 18)

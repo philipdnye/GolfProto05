@@ -68,12 +68,21 @@ struct GameDetailScreen: View {
     
     
     private func GotoScoreEntryScreen() {
+        
+        // if a new game can go straight to empty scorecards
         if game.game.started == false {
             isShowingDialogueScoreEntry.toggle()
-           
+           // if game already started need to reload the default values
         } else {
             scoreEntryVM.currentGame = game
-            scoreEntryVM.loadCompetitorsScore(currentGF: currentGF) // if game has already started just reload the competitor scores, as default values will have already been set up
+            switch currentGF.assignShotsRecd {
+            case .Indiv:
+                scoreEntryVM.loadCompetitorsScore(currentGF: currentGF) // if game has already started just reload the competitor scores, as default values will have already been set up
+            case .TeamsAB:
+                scoreEntryVM.loadTeamScore()
+            case .TeamC:
+                scoreEntryVM.loadTeamScore()
+            }
             isShowingScoreEntryScreen = true
         }
         
@@ -330,8 +339,16 @@ struct GameDetailScreen: View {
                     startGameVM.StartGame(game: game.game, currentGF: currentGF)
                     scoreEntryVM.currentGame = game // this is used in score entry screen
                     //need code here to load up defualt values for each competitor OR team
-                    scoreEntryVM.assignDefaultValues(currentGF: currentGF)
-               
+                    
+                    switch currentGF.assignShotsRecd {
+                    case .Indiv:
+                        scoreEntryVM.assignDefaultValues(currentGF: currentGF)
+                    case .TeamsAB:
+                        scoreEntryVM.assignDefaultValuesTeams()
+                    case .TeamC:
+                        scoreEntryVM.assignDefaultValuesTeams()
+                    }
+                    
                     isShowingScoreEntryScreen = true
                 }
                 
