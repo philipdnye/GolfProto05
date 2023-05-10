@@ -30,28 +30,54 @@ struct TeamRowScoreBox: View {
                 .opacity(opacity)
                 .onTapGesture(count: 2, perform:{
                     scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][teamIndex].toggle()
-                    scoreEntryVM.saveCompetitorsScoreTeam()
+                    
+                    switch currentGF.assignShotsRecd {
+                        
+                    case .TeamsAB:
+                        scoreEntryVM.saveCompetitorsScoreTeam()
+                    case .TeamC:
+                        scoreEntryVM.saveCompetitorScoreTeamC()
+                    default:
+                        scoreEntryVM.saveCompetitorsScoreTeam()
+                        
+                    }
                 })
             
             // need a switch here for match or strokeplay
-            switch currentGF.playFormat {
-            case .matchplay:
-                if scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex}).sorted(by: {$0.hole < $1.hole})[scoreEntryVM.holeIndex].shotsRecdHoleMatch != 0 {
+            
+            switch currentGF.assignShotsRecd {
+                
+            case .TeamsAB:
+                
+                switch currentGF.playFormat {
+                case .matchplay:
+                    if scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex}).sorted(by: {$0.hole < $1.hole})[scoreEntryVM.holeIndex].shotsRecdHoleMatch != 0 {
+                        
+                        Text(scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex}).sorted(by: {$0.hole < $1.hole})[scoreEntryVM.holeIndex].shotsRecdHoleMatch.formatted()) //sorted??
+                            .offset(x: 22, y: 18)
+                            .foregroundColor(burntOrange)
+                            .fontWeight(.semibold)
+                    }
                     
-                    Text(scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex}).sorted(by: {$0.hole < $1.hole})[scoreEntryVM.holeIndex].shotsRecdHoleMatch.formatted()) //sorted??
-                        .offset(x: 22, y: 18)
-                        .foregroundColor(burntOrange)
-                        .fontWeight(.semibold)
+                case .strokeplay:
+                    if scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex}).sorted(by: {$0.hole < $1.hole})[scoreEntryVM.holeIndex].shotsRecdHoleStroke != 0 {
+                        Text(scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex}).sorted(by: {$0.hole < $1.hole})[scoreEntryVM.holeIndex].shotsRecdHoleStroke.formatted())
+                            .offset(x: 22, y: 18)
+                            .foregroundColor(burntOrange)
+                            .fontWeight(.semibold)
+                    }
                 }
                 
-            case .strokeplay:
-                if scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex}).sorted(by: {$0.hole < $1.hole})[scoreEntryVM.holeIndex].shotsRecdHoleStroke != 0 {
-                    Text(scoreEntryVM.currentGame.game.teamScoresArray.filter({$0.team == teamIndex}).sorted(by: {$0.hole < $1.hole})[scoreEntryVM.holeIndex].shotsRecdHoleStroke.formatted())
-                        .offset(x: 22, y: 18)
-                        .foregroundColor(burntOrange)
-                        .fontWeight(.semibold)
-                }
+            case .TeamC:
+                EmptyView()
+            default:
+               EmptyView()
+                
+                
+                
             }
+            
+            
         }
     }
 }

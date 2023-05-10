@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ScoreEntryTeamRowButtons: View {
     @EnvironmentObject var scoreEntryVM: ScoreEntryViewModel
+    @EnvironmentObject var currentGF: CurrentGameFormat
     var teamIndex: Int
     var body: some View {
         HStack(spacing:25){
@@ -16,7 +17,19 @@ struct ScoreEntryTeamRowButtons: View {
           
                 scoreEntryVM.teamsScores[scoreEntryVM.holeIndex][teamIndex] -= 1
                 scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][teamIndex] = true
-                scoreEntryVM.saveCompetitorsScoreTeam()
+                
+                switch currentGF.assignShotsRecd {
+                    
+                case .TeamsAB:
+                    scoreEntryVM.saveCompetitorsScoreTeam()
+                case .TeamC:
+                    scoreEntryVM.saveCompetitorScoreTeamC()
+                default:
+                    scoreEntryVM.saveCompetitorsScoreTeam()
+                    
+                }
+                
+                
             }) {
                 Image(systemName: "minus.circle.fill")
                     .resizable()
@@ -39,7 +52,18 @@ struct ScoreEntryTeamRowButtons: View {
                
                 scoreEntryVM.teamsScores[scoreEntryVM.holeIndex][teamIndex] += 1
                 scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][teamIndex] = true
-                scoreEntryVM.saveCompetitorsScoreTeam()
+                
+                
+                switch currentGF.assignShotsRecd {
+                    
+                case .TeamsAB:
+                    scoreEntryVM.saveCompetitorsScoreTeam()
+                case .TeamC:
+                    scoreEntryVM.saveCompetitorScoreTeamC()
+                default:
+                    scoreEntryVM.saveCompetitorsScoreTeam()
+                    
+                }
             }) {
                 Image(systemName: "plus.circle.fill")
                     .resizable()
@@ -54,5 +78,6 @@ struct ScoreEntryTeamRowButtons_Previews: PreviewProvider {
     static var previews: some View {
         ScoreEntryTeamRowButtons(teamIndex: 0)
             .environmentObject(ScoreEntryViewModel())
+            .environmentObject(CurrentGameFormat())
     }
 }

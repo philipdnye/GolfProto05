@@ -17,7 +17,7 @@ class ScoreEntryViewModel: ObservableObject {
     
     @Published var grossScore: Int = 0
     @Published var competitorsScores: [[Int]] = Array(repeating: [0,0,0,0], count: 18)
-    @Published var teamsScores: [[Int]] = Array(repeating: [0,0], count: 18)
+    @Published var teamsScores: [[Int]] = Array(repeating: [0,0], count: 18) //WHEN TEAMS A&B USE 0,1 AND WHEN TEAM C USE 0
     @Published var scoresCommitted: [[Bool]] = Array(repeating: [false,false,false,false], count: 18)
     @Published var currentGame: GameViewModel = GameViewModel(game: Game(context: CoreDataManager.shared.viewContext))
    
@@ -42,7 +42,7 @@ class ScoreEntryViewModel: ObservableObject {
     
     }
     
-    func assignDefaultValuesTeams(){
+    func assignDefaultValuesTeams(){//doesnt work for team c
         let manager = CoreDataManager.shared
         let game = manager.getGameById(id: self.currentGame.id)
         for i in 0..<2 {
@@ -63,7 +63,16 @@ class ScoreEntryViewModel: ObservableObject {
         }
     }
     
-
+    func assignDefaultValuesTeamC () {
+        let manager = CoreDataManager.shared
+        let game = manager.getGameById(id: self.currentGame.id)
+        for j in 0..<18 {
+//            let par = game?.teamScoresArray.sorted(by: {$0.hole < $1.hole})[j].par
+//            //let stroke = game?.teamScoresArray.sorted(by: {$0.hole < $1.hole})[j].shotsRecdHoleStroke
+            self.teamsScores[j][0] = Int(game?.teamScoresArray.sorted(by: {$0.hole < $1.hole})[j].par ?? 0)
+            self.scoresCommitted[j][0] = false
+        }
+    }
     
     
     
@@ -99,7 +108,14 @@ class ScoreEntryViewModel: ObservableObject {
         }
     }
     
-    
+    func loadTeamCScore(){
+        let manager = CoreDataManager.shared
+        let game = manager.getGameById(id: self.currentGame.id)
+        for j in 0..<18 {
+            self.teamsScores[j][0] = Int(game?.teamScoresArray.sorted(by: {$0.hole < $1.hole})[j].grossScore ?? 0)
+            self.scoresCommitted[j][0] = Bool(game?.teamScoresArray.sorted(by: {$0.hole < $1.hole})[j].scoreCommitted ?? false)
+        }
+    }
     
     
     
@@ -135,6 +151,19 @@ class ScoreEntryViewModel: ObservableObject {
         manager.save()
     }
 
+    func saveCompetitorScoreTeamC() {
+        let manager = CoreDataManager.shared
+        let game = manager.getGameById(id: self.currentGame.id)
+        for j in 0..<18 {
+            game?.teamScoresArray.sorted(by: {$0.hole < $1.hole})[j].grossScore = Int16(self.teamsScores[j][0])
+            game?.teamScoresArray.sorted(by: {$0.hole < $1.hole})[j].scoreCommitted = self.scoresCommitted[j][0]
+        }
+    }
+    
+    
+    
+    
+    
 } //class
 
 

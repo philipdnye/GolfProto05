@@ -81,7 +81,7 @@ struct GameDetailScreen: View {
             case .TeamsAB:
                 scoreEntryVM.loadTeamScore()
             case .TeamC:
-                scoreEntryVM.loadTeamScore()
+                scoreEntryVM.loadTeamCScore()
             }
             isShowingScoreEntryScreen = true
         }
@@ -346,7 +346,7 @@ struct GameDetailScreen: View {
                     case .TeamsAB:
                         scoreEntryVM.assignDefaultValuesTeams()
                     case .TeamC:
-                        scoreEntryVM.assignDefaultValuesTeams()
+                        scoreEntryVM.assignDefaultValuesTeamC()
                     }
                     
                     isShowingScoreEntryScreen = true

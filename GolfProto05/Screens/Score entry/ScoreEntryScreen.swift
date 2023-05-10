@@ -184,8 +184,9 @@ struct ScoreEntryScreen: View {
                                 
                                 
                             case .TeamC:
-                                break // placeholder
                                 
+                                scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][0] = true
+                                scoreEntryVM.saveCompetitorScoreTeamC()
                                 
                                 
                             }
@@ -223,10 +224,10 @@ struct ScoreEntryScreen: View {
                                 }
                                 scoreEntryVM.saveCompetitorsScoreTeam()
                             case .TeamC:
-                                break // placeholder
+                               
                                 
-                                
-                                
+                                scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][0] = true
+                                scoreEntryVM.saveCompetitorScoreTeamC()
                                 
                             }
                             scoreEntryVM.holeIndex += 1
@@ -263,7 +264,17 @@ struct ScoreEntryScreen: View {
                     
                     
                 case .TeamC:
-                    EmptyView() // placeholder
+                    ForEach(Array(game.game.SortedCompetitors(currentGF: currentGF).enumerated()), id: \.element){index, item in
+                        ScoreEntryTeamRow(competitorIndex: index)
+                            .frame(width: geo.size.width * 0.95, height: 75)
+                            .offset(x: 0, y: geo.size.height * CGFloat(((Double(index)+1)*0.15)+0.2))
+                    }
+                    
+                    ScoreEntryTeamRowButtons(teamIndex: 0)
+                        .frame(width: geo.size.width * 0.95, height: 75)
+                        .offset(x: geo.size.width * 0.2, y: geo.size.height * CGFloat(((Double(0.5)+1)*0.3)+0.13))
+                    
+                    
                     
                     
                 }
@@ -333,7 +344,7 @@ struct ScoreEntryScreen: View {
                     case .TeamsAB:
                         scoreEntryVM.saveCompetitorsScoreTeam()
                     case .TeamC:
-                        break //placeholder
+                        scoreEntryVM.saveCompetitorScoreTeamC()
                     }
                     dismiss()
                 } label: {
