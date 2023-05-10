@@ -174,25 +174,26 @@ extension Game {
 }
 
 
-//extension Game {
-//    func ShotsReceivedByTeamPerHole(strokeIndex: Int, shots: Double) -> Int {
-//        var shots18Recd: Int = 0
-//        var shots36Recd: Int = 0
-//        var shots54Recd: Int = 0
-//
-//        let shots18 = Int(round(shots))
-//        var shots36 = Int(round(shots - 18))
-//        if shots36 < 0 {shots36 = 0}
-//        var shots54 = Int(round(shots - 36))
-//        if shots54 < 0 {shots54 = 0}
-//
-//
-//
-//
-//        let shotsReceived = shots18Recd + shots36Recd + shots54Recd
-//        return shotsReceived
-//    }
-//}
+extension Game {
+    func ShotsReceivedByTeamPerHole(strokeIndex: Int, shots: Double) -> Int {
+        var shots18Recd: Int = 0
+        var shots36Recd: Int = 0
+        var shots54Recd: Int = 0
+
+        let shots18 = Int(round(shots))
+        var shots36 = Int(round(shots - 18))
+        if shots36 < 0 {shots36 = 0}
+        var shots54 = Int(round(shots - 36))
+        if shots54 < 0 {shots54 = 0}
+        
+        if shots18 >= strokeIndex {shots18Recd = 1}
+        if shots36 >= strokeIndex {shots36Recd = 1}
+        if shots54 >= strokeIndex {shots54Recd = 1}
+
+        let shotsReceived = shots18Recd + shots36Recd + shots54Recd
+        return shotsReceived
+    }
+}
 
 
 
