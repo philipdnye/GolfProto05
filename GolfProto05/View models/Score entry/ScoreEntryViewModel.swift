@@ -151,6 +151,20 @@ class ScoreEntryViewModel: ObservableObject {
         manager.save()
     }
 
+    func saveCompetitorsScoreTeam2P() {
+        let manager = CoreDataManager.shared
+        let game = manager.getGameById(id: self.currentGame.id)
+        
+            for j in 0..<18 {
+                game?.teamScoresArray.filter({$0.team == 0}).sorted(by: {$0.hole < $1.hole})[j].grossScore = Int16(self.teamsScores[j][0])
+                game?.teamScoresArray.filter({$0.team == 0}).sorted(by: {$0.hole < $1.hole})[j].scoreCommitted = self.scoresCommitted[j][0]
+            }
+        
+        manager.save()
+    }
+    
+    
+    
     func saveCompetitorScoreTeamC() {
         let manager = CoreDataManager.shared
         let game = manager.getGameById(id: self.currentGame.id)

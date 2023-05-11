@@ -176,13 +176,18 @@ struct ScoreEntryScreen: View {
                                 scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
                                 //                           FOR COMPETITORS
                             case .TeamsAB:
-                                
-                                for i in 0..<2{
-                                    scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
+                                switch currentGF.noOfPlayersNeeded {
+                                case 4:
+                                    for i in 0..<2{
+                                        scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
+                                    }
+                                    scoreEntryVM.saveCompetitorsScoreTeam()
+                                case 2:
+                                    scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][0] = true
+                                    scoreEntryVM.saveCompetitorsScoreTeam2P()
+                                default:
+                                    break
                                 }
-                                scoreEntryVM.saveCompetitorsScoreTeam()
-                                
-                                
                             case .TeamC:
                                 
                                 scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][0] = true
@@ -219,10 +224,19 @@ struct ScoreEntryScreen: View {
                                 scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
                                 
                             case .TeamsAB:
-                                for i in 0..<2{
-                                    scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
+                                switch currentGF.noOfPlayersNeeded {
+                                case 4:
+                                    for i in 0..<2{
+                                        scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
+                                    }
+                                    scoreEntryVM.saveCompetitorsScoreTeam()
+                                case 2:
+                                    scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][0] = true
+                                    scoreEntryVM.saveCompetitorsScoreTeam2P()
+                                default:
+                                    break
                                 }
-                                scoreEntryVM.saveCompetitorsScoreTeam()
+                            
                             case .TeamC:
                                
                                 
@@ -253,15 +267,24 @@ struct ScoreEntryScreen: View {
                             .frame(width: geo.size.width * 0.95, height: 75)
                             .offset(x: 0, y: geo.size.height * CGFloat(((Double(index)+1)*0.15)+0.2))
                     }
-                    ForEach(0..<2){teamIndex in
-                        //var yOffset: CGFloat = geo.size.height * CGFloat(((Double(index)+1)*0.25)+0.2)
-                        
-                        ScoreEntryTeamRowButtons(teamIndex: teamIndex)
+                    
+                    
+                    //switch here between 2 and 4 players
+                    
+                    switch currentGF.noOfPlayersNeeded {
+                    case 4:
+                        ForEach(0..<2){teamIndex in
+                            ScoreEntryTeamRowButtons(teamIndex: teamIndex)
+                                .frame(width: geo.size.width * 0.95, height: 75)
+                                .offset(x: geo.size.width * 0.2, y: geo.size.height * CGFloat(((Double(teamIndex)+1)*0.3)+0.13))
+                        }
+                    case 2:
+                        ScoreEntryTeamRowButtons(teamIndex: 0)
                             .frame(width: geo.size.width * 0.95, height: 75)
-                            .offset(x: geo.size.width * 0.2, y: geo.size.height * CGFloat(((Double(teamIndex)+1)*0.3)+0.13))
+                            .offset(x: geo.size.width * 0.2, y: geo.size.height * CGFloat(((Double(0)+1)*0.3)+0.13))
+                    default:
+                        EmptyView()
                     }
-                    
-                    
                     
                 case .TeamC:
                     ForEach(Array(game.game.SortedCompetitors(currentGF: currentGF).enumerated()), id: \.element){index, item in
