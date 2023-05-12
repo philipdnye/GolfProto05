@@ -1,13 +1,13 @@
 //
-//  Extensions_CompetitorScoreArray.swift
-//  GolfProto04
+//  Extensions_TeamScoreArray.swift
+//  GolfProto05
 //
-//  Created by Philip Nye on 27/04/2023.
+//  Created by Philip Nye on 12/05/2023.
 //
 
 import Foundation
 
-extension [CompetitorScore] {
+extension [TeamScore] {
     func TotalGrossScore_front9() -> Int16 {
         var total:Int16 = 0
         for hole in self.filter({$0.hole < 10}) {
@@ -23,7 +23,7 @@ extension [CompetitorScore] {
 }
 
 
-extension [CompetitorScore] {
+extension [TeamScore] {
     func TotalGrossScore_back9() -> Int16 {
         var total:Int16 = 0
         for hole in self.filter({$0.hole > 9}) {
@@ -36,7 +36,7 @@ extension [CompetitorScore] {
 }
 
 
-extension [CompetitorScore] {
+extension [TeamScore] {
     func TotalGrossScore() -> Int16 {
         var total:Int16 = 0
         for hole in self {
@@ -49,7 +49,7 @@ extension [CompetitorScore] {
 }
 
 
-extension [CompetitorScore] {
+extension [TeamScore] {
     func TotalStablefordPoints_front9 () -> Int16 {
         var total: Int16 = 0
         for hole in self.filter({$0.hole < 10}) {
@@ -61,7 +61,8 @@ extension [CompetitorScore] {
         return total
     }
 }
-extension [CompetitorScore] {
+
+extension [TeamScore] {
     func TotalStablefordPoints_back9 () -> Int16 {
         var total: Int16 = 0
         for hole in self.filter({$0.hole > 9}) {
@@ -73,7 +74,8 @@ extension [CompetitorScore] {
         return total
     }
 }
-extension [CompetitorScore]{
+
+extension [TeamScore]{
     func TotalStablefordPoints () -> Int16 {
         var total: Int16 = 0
         for hole in self {

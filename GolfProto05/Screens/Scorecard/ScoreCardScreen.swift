@@ -37,19 +37,19 @@ struct ScorecardScreen: View {
                 
                 ForEach(0..<front9Holes.count, id: \.self) {holeIndex in
                     HStack(spacing:0){
-                        //Text(scoreEntryVM.currentGame.game.scoreEntryTeeBox?.holesArray[i].number.formatted() ?? "")
+                       
                         Text(Int(front9Holes[holeIndex].number).formatted())
                             .frame(width: geo.size.width * 0.06, height: geo.size.height * 0.03)
                             .foregroundColor(darkTeal)
-                        //Text(scoreEntryVM.currentGame.game.scoreEntryTeeBox?.holesArray[i].distance.formatted() ?? "")
+                        
                         Text(Int(front9Holes[holeIndex].distance).formatted())
                             .frame(width: geo.size.width * 0.1, height: geo.size.height * 0.03)
                             .foregroundColor(darkTeal)
-                        //Text(scoreEntryVM.currentGame.game.scoreEntryTeeBox?.holesArray[i].par.formatted() ?? "")
+                        
                         Text(Int(front9Holes[holeIndex].par).formatted())
                             .frame(width: geo.size.width * 0.05, height: geo.size.height * 0.03)
                             .foregroundColor(darkTeal)
-                        //Text(scoreEntryVM.currentGame.game.scoreEntryTeeBox?.holesArray[i].strokeIndex.formatted() ?? "")
+                       
                         Text(Int(front9Holes[holeIndex].strokeIndex).formatted())
                             .frame(width: geo.size.width * 0.075, height: geo.size.height * 0.03)
                             .foregroundColor(burntOrange)
@@ -63,10 +63,22 @@ struct ScorecardScreen: View {
                             
                             HStack(spacing:0){
                                 Group{
-                                    ForEach(scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF), id: \.self){
+                                    ForEach(scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF), id: \.self){competitor in
             
-                                       // CompetitorScore_forArray(competitor: $0,holeIndex: holeIndex)
-                                       
+                                        ZStack{
+                                            if competitor.competitorScoresArray[holeIndex].scoreCommitted {
+                                                Text(competitor.competitorScoresArray[holeIndex].grossScore.formatted())
+                                                    .foregroundColor(.blue)
+                                                
+                                                if competitor.competitorScoresArray[holeIndex].StablefordPointsNet() != 0 {
+                                                    Text(competitor.competitorScoresArray[holeIndex].StablefordPointsNet().formatted())
+                                                        .foregroundColor(burntOrange)
+                                                        .font(.caption)
+                                                        .offset(x: 10, y: 5)
+                                                }
+                                            }
+                                        }//ZStack
+                                        
                                     }
                                 }
                                 .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
@@ -152,11 +164,7 @@ struct ScorecardScreen: View {
                         }//switch
                             
                         //***********************
-                        
-                        
-                        
-                        
-                        
+                    
                         
                     }
                 }//foreach
@@ -175,8 +183,6 @@ struct ScorecardScreen: View {
                     .fontWeight(.semibold)
                     
                     
-                    
-                    
                     // players front 9 totals
                     
                     // SWITCH HERE*************************
@@ -184,19 +190,26 @@ struct ScorecardScreen: View {
                     case .Indiv:
                         HStack(spacing: 0){
                             Group{
-                                ForEach(scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF), id: \.self){
+                                ForEach(scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF), id: \.self){ competitor in
                                     
-                                    if $0.competitorScoresArray.TotalGrossScore_front9() != 0 {
-                                        
-                                        
-                                        CompetitorScores(competitor: $0, grossTotal: $0.competitorScoresArray.TotalGrossScore_front9(), pointsTotal: $0.competitorScoresArray.TotalStablefordPoints_front9())
+                                    if competitor.competitorScoresArray.TotalGrossScore_front9() != 0 {
+                                        ZStack{
+                                            Text(competitor.competitorScoresArray.TotalGrossScore_front9().formatted())
+                                                .foregroundColor(.blue)
+                                            Text(competitor.competitorScoresArray.TotalStablefordPoints_front9().formatted())
+                                                .foregroundColor(burntOrange)
+                                                .font(.caption)
+                                                .offset(x: 15, y: 10)
+                                            //CompetitorScores(competitor: $0, grossTotal: $0.competitorScoresArray.TotalGrossScore_front9(), pointsTotal: $0.competitorScoresArray.TotalStablefordPoints_front9())
+                                        }
                                     }
                                     
                                 }
                                 
-                            }
+                            }//Group
                             .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
-                        }
+                        }//HStack
+                        
                         .offset(x: geo.size.width * 0.095)
                         
                         .fontWeight(.semibold)
@@ -213,19 +226,19 @@ struct ScorecardScreen: View {
                 
                 ForEach(0..<back9Holes.count, id: \.self) {holeIndex in
                     HStack(spacing:0){
-                        //Text(scoreEntryVM.currentGame.game.scoreEntryTeeBox?.holesArray[i].number.formatted() ?? "")
+                       
                         Text(Int(back9Holes[holeIndex + 9].number).formatted())
                             .frame(width: geo.size.width * 0.06, height: geo.size.height * 0.03)
                             .foregroundColor(darkTeal)
-                        //Text(scoreEntryVM.currentGame.game.scoreEntryTeeBox?.holesArray[i].distance.formatted() ?? "")
+                       
                         Text(Int(back9Holes[holeIndex + 9].distance).formatted())
                             .frame(width: geo.size.width * 0.1, height: geo.size.height * 0.03)
                             .foregroundColor(darkTeal)
-                        //Text(scoreEntryVM.currentGame.game.scoreEntryTeeBox?.holesArray[i].par.formatted() ?? "")
+                       
                         Text(Int(back9Holes[holeIndex + 9].par).formatted())
                             .frame(width: geo.size.width * 0.05, height: geo.size.height * 0.03)
                             .foregroundColor(darkTeal)
-                        //Text(scoreEntryVM.currentGame.game.scoreEntryTeeBox?.holesArray[i].strokeIndex.formatted() ?? "")
+                        
                         Text(Int(back9Holes[holeIndex + 9].strokeIndex).formatted())
                             .frame(width: geo.size.width * 0.075, height: geo.size.height * 0.03)
                             .foregroundColor(burntOrange)
@@ -239,9 +252,21 @@ struct ScorecardScreen: View {
                         
                             HStack(spacing:0){
                                 Group{
-                                    ForEach(scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF), id: \.self){
+                                    ForEach(scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF), id: \.self){competitor in
                                         
-                                        CompetitorScore_forArray(competitor: $0,holeIndex: holeIndex + 9)
+                                        ZStack{
+                                            if competitor.competitorScoresArray[holeIndex+9].scoreCommitted {
+                                                Text(competitor.competitorScoresArray[holeIndex+9].grossScore.formatted())
+                                                    .foregroundColor(.blue)
+                                                
+                                                if competitor.competitorScoresArray[holeIndex+9].StablefordPointsNet() != 0 {
+                                                    Text(competitor.competitorScoresArray[holeIndex+9].StablefordPointsNet().formatted())
+                                                        .foregroundColor(burntOrange)
+                                                        .font(.caption)
+                                                        .offset(x: 10, y: 5)
+                                                }
+                                            }
+                                        }//ZStack
                                         
                                         
                                     }
@@ -358,9 +383,17 @@ struct ScorecardScreen: View {
                         case .Indiv:
                             HStack(spacing: 0){
                                 Group{
-                                    ForEach(scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF), id: \.self){
-                                        if $0.competitorScoresArray.TotalGrossScore_back9() != 0 {
-                                            Text($0.competitorScoresArray.TotalGrossScore_back9().formatted())
+                                    ForEach(scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF), id: \.self){ competitor in
+                                        if competitor.competitorScoresArray.TotalGrossScore_front9() != 0 {
+                                            ZStack{
+                                                Text(competitor.competitorScoresArray.TotalGrossScore_back9().formatted())
+                                                    .foregroundColor(.blue)
+                                                Text(competitor.competitorScoresArray.TotalStablefordPoints_back9().formatted())
+                                                    .foregroundColor(burntOrange)
+                                                    .font(.caption)
+                                                    .offset(x: 15, y: 10)
+                                                
+                                            }
                                         }
                                     }
                                 }
