@@ -65,7 +65,7 @@ struct ScorecardScreen: View {
                                 Group{
                                     ForEach(scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF), id: \.self){
             
-                                        CompetitorScore_forArray(competitor: $0,holeIndex: holeIndex)
+                                       // CompetitorScore_forArray(competitor: $0,holeIndex: holeIndex)
                                        
                                     }
                                 }
@@ -78,39 +78,75 @@ struct ScorecardScreen: View {
                                 Spacer()
                                     .frame(width: geo.size.width * 0.011)
                                 Group{
-                                   
-                                    if scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex].scoreCommitted {
-                                        
-                                        Text(scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex].grossScore.formatted())
+                                    
+                                    ZStack{
+                                        if scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex].scoreCommitted {
+                                            
+                                            Text(scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex].grossScore.formatted())
+                                                .foregroundColor(.blue)
+                                            
+                                            if scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex].StablefordPointsNet() != 0 {
+                                                Text(scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex].StablefordPointsNet().formatted())
+                                                    .foregroundColor(burntOrange)
+                                                    .font(.caption)
+                                                    .offset(x: 10, y: 5)
+                                            }
+                                        }
                                     }
                                     
-                                    if scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex].scoreCommitted {
-                                        Text(scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex].grossScore.formatted())
+                                    ZStack{
+                                        if scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex].scoreCommitted {
+                                            
+                                            Text(scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex].grossScore.formatted())
+                                                .foregroundColor(.blue)
+                                            
+                                            if scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex].StablefordPointsNet() != 0 {
+                                                Text(scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex].StablefordPointsNet().formatted())
+                                                    .foregroundColor(burntOrange)
+                                                    .font(.caption)
+                                                    .offset(x: 10, y: 5)
+                                            }
+                                        }
                                     }
                                     
-//                                        TeamScore_forArray(team: 0,holeIndex: holeIndex)
-//                                    TeamScore_forArray(team: 1,holeIndex: holeIndex)
+
                                     
                                 }
                                 
                                 .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                                 .offset(x: geo.size.width * 0.026)
-                                .foregroundColor(.blue)
+                                
                             }
                             
                        
                         case .TeamC:
-                            HStack(spacing:0){
+                            HStack(spacing:geo.size.width * 0.048){
+                                Spacer()
+                                    .frame(width: geo.size.width * 0.011)
                                 Group{
                                     
-                                        TeamScore_forArray(team: 0,holeIndex: holeIndex)
-                                 
+                                    ZStack{
+                                        if scoreEntryVM.currentGame.game.teamCScoresArray[holeIndex].scoreCommitted {
+                                            
+                                            Text(scoreEntryVM.currentGame.game.teamCScoresArray[holeIndex].grossScore.formatted())
+                                                .foregroundColor(.blue)
+                                            
+                                            if scoreEntryVM.currentGame.game.teamCScoresArray[holeIndex].StablefordPointsNet() != 0 {
+                                                Text(scoreEntryVM.currentGame.game.teamCScoresArray[holeIndex].StablefordPointsNet().formatted())
+                                                    .foregroundColor(burntOrange)
+                                                    .font(.caption)
+                                                    .offset(x: 10, y: 5)
+                                            }
+                                        }
+                                    }
+                                    
+                                   
                                 }
+                                
                                 .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                                 .offset(x: geo.size.width * 0.026)
-                                .foregroundColor(.blue)
+                                
                             }
-                            
                             
                             
                         }//switch
@@ -219,32 +255,69 @@ struct ScorecardScreen: View {
                            
                             HStack(spacing:0){
                                 Group{
-                                    if scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex + 9].scoreCommitted {
-                                        
-                                        Text(scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex + 9].grossScore.formatted())
+                                    ZStack{
+                                        if scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex+9].scoreCommitted {
+                                            
+                                            Text(scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex+9].grossScore.formatted())
+                                                .foregroundColor(.blue)
+                                            
+                                            if scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex+9].StablefordPointsNet() != 0 {
+                                                Text(scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex+9].StablefordPointsNet().formatted())
+                                                    .foregroundColor(burntOrange)
+                                                    .font(.caption)
+                                                    .offset(x: 10, y: 5)
+                                            }
+                                        }
                                     }
                                     
-                                    if scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex + 9].scoreCommitted {
-                                        Text(scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex + 9].grossScore.formatted())
+                                    ZStack{
+                                        if scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex+9].scoreCommitted {
+                                            
+                                            Text(scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex+9].grossScore.formatted())
+                                                .foregroundColor(.blue)
+                                            
+                                            if scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex+9].StablefordPointsNet() != 0 {
+                                                Text(scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex+9].StablefordPointsNet().formatted())
+                                                    .foregroundColor(burntOrange)
+                                                    .font(.caption)
+                                                    .offset(x: 10, y: 5)
+                                            }
+                                        }
                                     }
+                                    
                                 }
                                 .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                                 .offset(x: geo.size.width * 0.026)
                             }
                         
                         case .TeamC:
-                            HStack(spacing:0){
+                            HStack(spacing:geo.size.width * 0.048){
+                                Spacer()
+                                    .frame(width: geo.size.width * 0.011)
                                 Group{
                                     
-            
-                                        TeamScore_forArray(team: 0,holeIndex: holeIndex)
-                                       
+                                    ZStack{
+                                        if scoreEntryVM.currentGame.game.teamCScoresArray[holeIndex+9].scoreCommitted {
+                                            
+                                            Text(scoreEntryVM.currentGame.game.teamCScoresArray[holeIndex+9].grossScore.formatted())
+                                                .foregroundColor(.blue)
+                                            
+                                            if scoreEntryVM.currentGame.game.teamCScoresArray[holeIndex+9].StablefordPointsNet() != 0 {
+                                                Text(scoreEntryVM.currentGame.game.teamCScoresArray[holeIndex+9].StablefordPointsNet().formatted())
+                                                    .foregroundColor(burntOrange)
+                                                    .font(.caption)
+                                                    .offset(x: 10, y: 5)
+                                            }
+                                        }
+                                    }
+                                    
                                    
                                 }
+                                
                                 .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                                 .offset(x: geo.size.width * 0.026)
+                                
                             }
-                            
                             
                             
                             

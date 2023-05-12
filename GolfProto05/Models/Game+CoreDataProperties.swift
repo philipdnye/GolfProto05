@@ -84,7 +84,13 @@ extension Game {
             $0.hole < $1.hole
         }
     }
-    
+    public var teamCScoresArray: [TeamScore]{
+        let set = teamScores as? Set<TeamScore> ?? []
+        let filteredSet = set.filter({$0.team == 2})
+        return filteredSet.sorted {
+            $0.hole < $1.hole
+        }
+    }
     
     
         public var teamTeeBoxArray: [TeamTeeBox]{
