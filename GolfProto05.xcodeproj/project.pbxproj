@@ -82,7 +82,6 @@
 		D41FD9432A0A1E7300999AAD /* AddGamePlayerRowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8F32A0A1E7300999AAD /* AddGamePlayerRowItem.swift */; };
 		D41FD9442A0A1E7300999AAD /* GameListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8F52A0A1E7300999AAD /* GameListScreen.swift */; };
 		D41FD9452A0A1E7300999AAD /* GameListRowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8F62A0A1E7300999AAD /* GameListRowItem.swift */; };
-		D41FD9482A0A1E7300999AAD /* ScorecardScreenPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8FA2A0A1E7300999AAD /* ScorecardScreenPreview.swift */; };
 		D41FD9492A0A1E7300999AAD /* ScoreCardScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8FB2A0A1E7300999AAD /* ScoreCardScreen.swift */; };
 		D41FD94A2A0A1E7300999AAD /* UIColorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8FD2A0A1E7300999AAD /* UIColorTransformer.swift */; };
 		D41FD94B2A0A1E7300999AAD /* UIImageTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8FE2A0A1E7300999AAD /* UIImageTransformer.swift */; };
@@ -115,6 +114,11 @@
 		D41FD96B2A0B84E500999AAD /* TeamRowScoreBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD96A2A0B84E500999AAD /* TeamRowScoreBox.swift */; };
 		D41FD9772A0E2FA800999AAD /* Extensions_TeamScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9762A0E2FA800999AAD /* Extensions_TeamScore.swift */; };
 		D41FD9792A0E386C00999AAD /* Extensions_TeamScoreArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9782A0E386C00999AAD /* Extensions_TeamScoreArray.swift */; };
+		D41FD97B2A0E453400999AAD /* CompetitorsScores_Indiv.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD97A2A0E453400999AAD /* CompetitorsScores_Indiv.swift */; };
+		D41FD97D2A0E470900999AAD /* CompetitorsScores_Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD97C2A0E470900999AAD /* CompetitorsScores_Team.swift */; };
+		D41FD97F2A0E4CE100999AAD /* CompetitorScores_IndivTotalF9.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD97E2A0E4CE100999AAD /* CompetitorScores_IndivTotalF9.swift */; };
+		D41FD9812A0E535100999AAD /* CompetitorScores_IndivTotalB9.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9802A0E535100999AAD /* CompetitorScores_IndivTotalB9.swift */; };
+		D41FD9832A0E556900999AAD /* CompetitorScores_IndivTotal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9822A0E556900999AAD /* CompetitorScores_IndivTotal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -196,7 +200,6 @@
 		D41FD8F32A0A1E7300999AAD /* AddGamePlayerRowItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddGamePlayerRowItem.swift; sourceTree = "<group>"; };
 		D41FD8F52A0A1E7300999AAD /* GameListScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameListScreen.swift; sourceTree = "<group>"; };
 		D41FD8F62A0A1E7300999AAD /* GameListRowItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameListRowItem.swift; sourceTree = "<group>"; };
-		D41FD8FA2A0A1E7300999AAD /* ScorecardScreenPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScorecardScreenPreview.swift; sourceTree = "<group>"; };
 		D41FD8FB2A0A1E7300999AAD /* ScoreCardScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreCardScreen.swift; sourceTree = "<group>"; };
 		D41FD8FD2A0A1E7300999AAD /* UIColorTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorTransformer.swift; sourceTree = "<group>"; };
 		D41FD8FE2A0A1E7300999AAD /* UIImageTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageTransformer.swift; sourceTree = "<group>"; };
@@ -229,6 +232,11 @@
 		D41FD96A2A0B84E500999AAD /* TeamRowScoreBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamRowScoreBox.swift; sourceTree = "<group>"; };
 		D41FD9762A0E2FA800999AAD /* Extensions_TeamScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions_TeamScore.swift; sourceTree = "<group>"; };
 		D41FD9782A0E386C00999AAD /* Extensions_TeamScoreArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions_TeamScoreArray.swift; sourceTree = "<group>"; };
+		D41FD97A2A0E453400999AAD /* CompetitorsScores_Indiv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitorsScores_Indiv.swift; sourceTree = "<group>"; };
+		D41FD97C2A0E470900999AAD /* CompetitorsScores_Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitorsScores_Team.swift; sourceTree = "<group>"; };
+		D41FD97E2A0E4CE100999AAD /* CompetitorScores_IndivTotalF9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitorScores_IndivTotalF9.swift; sourceTree = "<group>"; };
+		D41FD9802A0E535100999AAD /* CompetitorScores_IndivTotalB9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitorScores_IndivTotalB9.swift; sourceTree = "<group>"; };
+		D41FD9822A0E556900999AAD /* CompetitorScores_IndivTotal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitorScores_IndivTotal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -506,8 +514,12 @@
 		D41FD8F72A0A1E7300999AAD /* Scorecard */ = {
 			isa = PBXGroup;
 			children = (
-				D41FD8FA2A0A1E7300999AAD /* ScorecardScreenPreview.swift */,
 				D41FD8FB2A0A1E7300999AAD /* ScoreCardScreen.swift */,
+				D41FD97A2A0E453400999AAD /* CompetitorsScores_Indiv.swift */,
+				D41FD97C2A0E470900999AAD /* CompetitorsScores_Team.swift */,
+				D41FD97E2A0E4CE100999AAD /* CompetitorScores_IndivTotalF9.swift */,
+				D41FD9802A0E535100999AAD /* CompetitorScores_IndivTotalB9.swift */,
+				D41FD9822A0E556900999AAD /* CompetitorScores_IndivTotal.swift */,
 			);
 			path = Scorecard;
 			sourceTree = "<group>";
@@ -657,9 +669,11 @@
 				D41FD91B2A0A1E7300999AAD /* SettingsScreen.swift in Sources */,
 				D41FD9502A0A1E7300999AAD /* CourseListViewModel.swift in Sources */,
 				D41FD92A2A0A1E7300999AAD /* HolesLayout9.swift in Sources */,
+				D41FD9832A0E556900999AAD /* CompetitorScores_IndivTotal.swift in Sources */,
 				D41FD93D2A0A1E7300999AAD /* ChangeMatchTeeBoxSheet.swift in Sources */,
 				D41FD9442A0A1E7300999AAD /* GameListScreen.swift in Sources */,
 				D41FD95F2A0A1E7300999AAD /* TeamScoreViewModel.swift in Sources */,
+				D41FD97F2A0E4CE100999AAD /* CompetitorScores_IndivTotalF9.swift in Sources */,
 				D41FD8912A0A1E3F00999AAD /* Extensions_TeeBox.swift in Sources */,
 				D41FD9332A0A1E7300999AAD /* AddHandicapScreen.swift in Sources */,
 				D41FD9282A0A1E7300999AAD /* TeeBoxDistancesSubScreen.swift in Sources */,
@@ -674,12 +688,12 @@
 				D41FD8952A0A1E3F00999AAD /* Extension_NSNumber.swift in Sources */,
 				D41FD8902A0A1E3F00999AAD /* GameFormats.swift in Sources */,
 				D41FD92D2A0A1E7300999AAD /* ClubListRowItem.swift in Sources */,
+				D41FD97D2A0E470900999AAD /* CompetitorsScores_Team.swift in Sources */,
 				D41FD9372A0A1E7300999AAD /* MainScreen.swift in Sources */,
 				D41FD91E2A0A1E7300999AAD /* HoleNavigatorPopUp.swift in Sources */,
 				D41FD9232A0A1E7300999AAD /* CourseListRowItem.swift in Sources */,
 				D41FD94A2A0A1E7300999AAD /* UIColorTransformer.swift in Sources */,
 				D41FD95D2A0A1E7300999AAD /* AddGameViewModel.swift in Sources */,
-				D41FD9482A0A1E7300999AAD /* ScorecardScreenPreview.swift in Sources */,
 				D41FD8B12A0A1E6500999AAD /* CoreDataManager.swift in Sources */,
 				D41FD93C2A0A1E7300999AAD /* TeamsABShotsReceived.swift in Sources */,
 				D41FD95A2A0A1E7300999AAD /* AddPlayerViewModel.swift in Sources */,
@@ -728,6 +742,7 @@
 				D41FD9772A0E2FA800999AAD /* Extensions_TeamScore.swift in Sources */,
 				D41FD95C2A0A1E7300999AAD /* StartGameViewModel.swift in Sources */,
 				D41FD9572A0A1E7300999AAD /* AddEditClubViewModel.swift in Sources */,
+				D41FD97B2A0E453400999AAD /* CompetitorsScores_Indiv.swift in Sources */,
 				D41FD8BA2A0A1E6500999AAD /* TeeBox+CoreDataClass.swift in Sources */,
 				D41FD9202A0A1E7300999AAD /* CourseListScreen.swift in Sources */,
 				D41FD9552A0A1E7300999AAD /* TeeBoxListViewModel.swift in Sources */,
@@ -755,6 +770,7 @@
 				D41FD8B52A0A1E6500999AAD /* Club+CoreDataClass.swift in Sources */,
 				D41FD8992A0A1E3F00999AAD /* Extensions_HoleArray.swift in Sources */,
 				D41FD9292A0A1E7300999AAD /* AddTeeBoxScreen.swift in Sources */,
+				D41FD9812A0E535100999AAD /* CompetitorScores_IndivTotalB9.swift in Sources */,
 				D41FD9252A0A1E7300999AAD /* TeeBoxListScreen.swift in Sources */,
 				D41FD8BE2A0A1E6500999AAD /* Game+CoreDataProperties.swift in Sources */,
 				D41FD9262A0A1E7300999AAD /* TeeBoxListScreen_1Course.swift in Sources */,
