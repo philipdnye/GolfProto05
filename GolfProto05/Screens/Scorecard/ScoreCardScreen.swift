@@ -7,6 +7,30 @@
 
 import SwiftUI
 
+enum TotalType: Int, CaseIterable {
+    case hole = 0
+    case frontNine = 1
+    case backNine = 2
+    case overall = 3
+    
+    func stringValue() -> String{
+        switch(self){
+        case .hole:
+            return "individual hole"
+        case .frontNine:
+            return "front 9"
+        case .backNine:
+            return "back 9"
+        case .overall:
+            return "overall"
+            
+        }
+    }
+}
+    
+
+
+
 struct ScorecardScreen: View {
     @EnvironmentObject var scoreEntryVM: ScoreEntryViewModel
     @EnvironmentObject var currentGF: CurrentGameFormat
@@ -54,8 +78,7 @@ struct ScorecardScreen: View {
                         switch currentGF.assignShotsRecd {
                         case .Indiv:
                             HStack(spacing:0){
-            
-                                    CompetitorsScores_Indiv(holeIndex: holeIndex)
+                                CompetitorScores(holeIndex: holeIndex, teamAssignment: .Indiv, totalType: .hole)
                                 
                                 .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                                 .offset(x: geo.size.width * 0.026)
@@ -66,8 +89,10 @@ struct ScorecardScreen: View {
                                 Spacer()
                                     .frame(width: geo.size.width * 0.011)
                                 Group{
-                                    CompetitorsScores_Team(holeIndex: holeIndex, teamScoreArray: scoreEntryVM.currentGame.game.teamAScoresArray)
-                                    CompetitorsScores_Team(holeIndex: holeIndex, teamScoreArray: scoreEntryVM.currentGame.game.teamBScoresArray)
+                                    
+                                    CompetitorScores(holeIndex: holeIndex, teamAssignment: .TeamsAB, totalType: .hole, teamScoreArray: scoreEntryVM.currentGame.game.teamAScoresArray)
+                                    CompetitorScores(holeIndex: holeIndex, teamAssignment: .TeamsAB, totalType: .hole, teamScoreArray: scoreEntryVM.currentGame.game.teamBScoresArray)
+                             
                                 }
                                 .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                                 .offset(x: geo.size.width * 0.026)
@@ -77,7 +102,7 @@ struct ScorecardScreen: View {
                                 Spacer()
                                     .frame(width: geo.size.width * 0.011)
                                 Group{
-                                    CompetitorsScores_Team(holeIndex: holeIndex, teamScoreArray: scoreEntryVM.currentGame.game.teamCScoresArray)
+                                    CompetitorScores(holeIndex: holeIndex, teamAssignment: .TeamC, totalType: .hole, teamScoreArray: scoreEntryVM.currentGame.game.teamCScoresArray)
                                 }
                                 .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                                 .offset(x: geo.size.width * 0.026)
@@ -103,7 +128,8 @@ struct ScorecardScreen: View {
                     case .Indiv:
                         HStack(spacing: 0){
                             Group{
-                                CompetitorScores_IndivTotalF9(competitors: scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF))
+                               
+                                CompetitorScores(teamAssignment: .Indiv, totalType: .frontNine)
                             }//Group
                             .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                         }//HStack
@@ -117,37 +143,10 @@ struct ScorecardScreen: View {
                             Spacer()
                                 .frame(width: geo.size.width * 0.011)
                             Group{
-                                
-                                ZStack{
-                                    if scoreEntryVM.currentGame.game.teamAScoresArray.TotalGrossScore_front9() != 0 {
-                                        
-                                        Text(scoreEntryVM.currentGame.game.teamAScoresArray.TotalGrossScore_front9().formatted())
-                                            .foregroundColor(.blue)
-                                        
-                                        if scoreEntryVM.currentGame.game.teamAScoresArray.TotalStablefordPoints_front9() != 0 {
-                                            Text(scoreEntryVM.currentGame.game.teamAScoresArray.TotalStablefordPoints_front9().formatted())
-                                                .foregroundColor(burntOrange)
-                                                .font(.caption)
-                                                .offset(x: 13, y: 5)
-                                        }
-                                    }
-                                }
-                                ZStack{
-                                    if scoreEntryVM.currentGame.game.teamBScoresArray.TotalGrossScore_front9() != 0 {
-                                        
-                                        Text(scoreEntryVM.currentGame.game.teamBScoresArray.TotalGrossScore_front9().formatted())
-                                            .foregroundColor(.blue)
-                                        
-                                        if scoreEntryVM.currentGame.game.teamBScoresArray.TotalStablefordPoints_front9() != 0 {
-                                            Text(scoreEntryVM.currentGame.game.teamBScoresArray.TotalStablefordPoints_front9().formatted())
-                                                .foregroundColor(burntOrange)
-                                                .font(.caption)
-                                                .offset(x: 13, y: 5)
-                                        }
-                                    }
-                                }
-                                
-                                
+                                CompetitorScores(teamAssignment: .TeamsAB, totalType: .frontNine, subTotalGross: Int(scoreEntryVM.currentGame.game.teamAScoresArray.TotalGrossScore_front9()), subTotalPoints: Int(scoreEntryVM.currentGame.game.teamAScoresArray.TotalStablefordPoints_front9()))
+
+                                CompetitorScores(teamAssignment: .TeamsAB, totalType: .frontNine, subTotalGross: Int(scoreEntryVM.currentGame.game.teamBScoresArray.TotalGrossScore_front9()), subTotalPoints: Int(scoreEntryVM.currentGame.game.teamBScoresArray.TotalStablefordPoints_front9()))
+                         
                             }
                             .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                             
@@ -158,7 +157,19 @@ struct ScorecardScreen: View {
                         
                        
                     case .TeamC:
-                        EmptyView()//placeholder
+                        HStack(spacing: geo.size.width * 0.048) {
+                            Spacer()
+                                .frame(width: geo.size.width * 0.011)
+                            Group{
+                                CompetitorScores(teamAssignment: .TeamC, totalType: .frontNine, subTotalGross: Int(scoreEntryVM.currentGame.game.teamCScoresArray.TotalGrossScore_front9()), subTotalPoints: Int(scoreEntryVM.currentGame.game.teamCScoresArray.TotalStablefordPoints_front9()))
+
+                            }
+                            .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
+                            
+                        }
+                        .offset(x: geo.size.width * 0.12)
+                        
+                        .fontWeight(.semibold)
                         
                     }//switch
                     
@@ -185,16 +196,13 @@ struct ScorecardScreen: View {
                             .frame(width: geo.size.width * 0.075, height: geo.size.height * 0.03)
                             .foregroundColor(burntOrange)
                         
-                        
-                        //***************SWITCH HERE************************
-                       
                         switch currentGF.assignShotsRecd {
                             
                         case .Indiv:
                         
                             HStack(spacing:0){
                                 Group{
-                                    CompetitorsScores_Indiv(holeIndex: holeIndex+9)
+                                    CompetitorScores(holeIndex: holeIndex+9, teamAssignment: .Indiv, totalType: .hole)
 //
                                 }
                                 .foregroundColor(.blue)
@@ -208,8 +216,8 @@ struct ScorecardScreen: View {
                                 Spacer()
                                     .frame(width: geo.size.width * 0.011)
                                 Group{
-                                    CompetitorsScores_Team(holeIndex: holeIndex+9, teamScoreArray: scoreEntryVM.currentGame.game.teamAScoresArray)
-                                    CompetitorsScores_Team(holeIndex: holeIndex+9, teamScoreArray: scoreEntryVM.currentGame.game.teamBScoresArray)
+                                    CompetitorScores(holeIndex: holeIndex+9, teamAssignment: .TeamsAB, totalType: .hole, teamScoreArray: scoreEntryVM.currentGame.game.teamAScoresArray)
+                                    CompetitorScores(holeIndex: holeIndex+9, teamAssignment: .TeamsAB, totalType: .hole, teamScoreArray: scoreEntryVM.currentGame.game.teamBScoresArray)
                                 }
                                 .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                                 .offset(x: geo.size.width * 0.026)
@@ -220,7 +228,7 @@ struct ScorecardScreen: View {
                                 Spacer()
                                     .frame(width: geo.size.width * 0.011)
                                 Group{
-                                    CompetitorsScores_Team(holeIndex: holeIndex+9, teamScoreArray: scoreEntryVM.currentGame.game.teamCScoresArray)
+                                    CompetitorScores(holeIndex: holeIndex+9, teamAssignment: .TeamC, totalType: .hole, teamScoreArray: scoreEntryVM.currentGame.game.teamCScoresArray)
                                 }
                                 .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                                 .offset(x: geo.size.width * 0.026)
@@ -249,7 +257,8 @@ struct ScorecardScreen: View {
                         case .Indiv:
                             HStack(spacing: 0){
                                 Group{
-                                    CompetitorScores_IndivTotalB9(competitors: scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF))
+
+                                    CompetitorScores(teamAssignment: .Indiv, totalType: .backNine)
                                 }
                                 .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                             }
@@ -263,36 +272,10 @@ struct ScorecardScreen: View {
                                     .frame(width: geo.size.width * 0.011)
                                 Group{
                                     
-                                    ZStack{
-                                        if scoreEntryVM.currentGame.game.teamAScoresArray.TotalGrossScore_back9() != 0 {
-                                            
-                                            Text(scoreEntryVM.currentGame.game.teamAScoresArray.TotalGrossScore_back9().formatted())
-                                                .foregroundColor(.blue)
-                                            
-                                            if scoreEntryVM.currentGame.game.teamAScoresArray.TotalStablefordPoints_back9() != 0 {
-                                                Text(scoreEntryVM.currentGame.game.teamAScoresArray.TotalStablefordPoints_back9().formatted())
-                                                    .foregroundColor(burntOrange)
-                                                    .font(.caption)
-                                                    .offset(x: 13, y: 5)
-                                            }
-                                        }
-                                    }
-                                    ZStack{
-                                        if scoreEntryVM.currentGame.game.teamBScoresArray.TotalGrossScore_back9() != 0 {
-                                            
-                                            Text(scoreEntryVM.currentGame.game.teamBScoresArray.TotalGrossScore_back9().formatted())
-                                                .foregroundColor(.blue)
-                                            
-                                            if scoreEntryVM.currentGame.game.teamBScoresArray.TotalStablefordPoints_back9() != 0 {
-                                                Text(scoreEntryVM.currentGame.game.teamBScoresArray.TotalStablefordPoints_back9().formatted())
-                                                    .foregroundColor(burntOrange)
-                                                    .font(.caption)
-                                                    .offset(x: 13, y: 5)
-                                            }
-                                        }
-                                    }
-                                    
-                                    
+                                        CompetitorScores(teamAssignment: .TeamsAB, totalType: .backNine, subTotalGross: Int(scoreEntryVM.currentGame.game.teamAScoresArray.TotalGrossScore_back9()), subTotalPoints: Int(scoreEntryVM.currentGame.game.teamAScoresArray.TotalStablefordPoints_back9()))
+
+                                        CompetitorScores(teamAssignment: .TeamsAB, totalType: .backNine, subTotalGross: Int(scoreEntryVM.currentGame.game.teamBScoresArray.TotalGrossScore_back9()), subTotalPoints: Int(scoreEntryVM.currentGame.game.teamBScoresArray.TotalStablefordPoints_back9()))
+                                  
                                 }
                                 .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                                 
@@ -301,16 +284,26 @@ struct ScorecardScreen: View {
                             
                             .fontWeight(.semibold)
                         case .TeamC:
-                            EmptyView()
+                            HStack(spacing: geo.size.width * 0.048) {
+                                Spacer()
+                                    .frame(width: geo.size.width * 0.011)
+                                Group{
+                                    CompetitorScores(teamAssignment: .TeamC, totalType: .backNine, subTotalGross: Int(scoreEntryVM.currentGame.game.teamCScoresArray.TotalGrossScore_back9()), subTotalPoints: Int(scoreEntryVM.currentGame.game.teamCScoresArray.TotalStablefordPoints_back9()))
+
+                                   
+                             
+                                }
+                                .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
+                                
+                            }
+                            .offset(x: geo.size.width * 0.12)
+                            
+                            .fontWeight(.semibold)
                             
                             
                         }
                     }//back 9 HStack
                
-                    
-                    
-                
-                
                 // players front 9 totals
                 HStack(spacing:0){
                     //hole summary front 9
@@ -322,16 +315,14 @@ struct ScorecardScreen: View {
                     }
                     .foregroundColor(darkTeal)
                     .fontWeight(.semibold)
-                    
-                    
-                    
-                    
+                  
                     // players fromt 9 totals
                     switch currentGF.assignShotsRecd {
                     case .Indiv:
                         HStack(spacing: 0){
                             Group{
-                                CompetitorScores_IndivTotalF9(competitors: scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF))
+                               
+                                CompetitorScores(teamAssignment: .Indiv, totalType: .frontNine)
                             }
                             .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                         }
@@ -344,37 +335,10 @@ struct ScorecardScreen: View {
                             Spacer()
                                 .frame(width: geo.size.width * 0.011)
                             Group{
-                                
-                                ZStack{
-                                    if scoreEntryVM.currentGame.game.teamAScoresArray.TotalGrossScore_front9() != 0 {
-                                        
-                                        Text(scoreEntryVM.currentGame.game.teamAScoresArray.TotalGrossScore_front9().formatted())
-                                            .foregroundColor(.blue)
-                                        
-                                        if scoreEntryVM.currentGame.game.teamAScoresArray.TotalStablefordPoints_front9() != 0 {
-                                            Text(scoreEntryVM.currentGame.game.teamAScoresArray.TotalStablefordPoints_front9().formatted())
-                                                .foregroundColor(burntOrange)
-                                                .font(.caption)
-                                                .offset(x: 13, y: 5)
-                                        }
-                                    }
-                                }
-                                ZStack{
-                                    if scoreEntryVM.currentGame.game.teamBScoresArray.TotalGrossScore_front9() != 0 {
-                                        
-                                        Text(scoreEntryVM.currentGame.game.teamBScoresArray.TotalGrossScore_front9().formatted())
-                                            .foregroundColor(.blue)
-                                        
-                                        if scoreEntryVM.currentGame.game.teamBScoresArray.TotalStablefordPoints_front9() != 0 {
-                                            Text(scoreEntryVM.currentGame.game.teamBScoresArray.TotalStablefordPoints_front9().formatted())
-                                                .foregroundColor(burntOrange)
-                                                .font(.caption)
-                                                .offset(x: 13, y: 5)
-                                        }
-                                    }
-                                }
-                                
-                                
+                                CompetitorScores(teamAssignment: .TeamsAB, totalType: .frontNine, subTotalGross: Int(scoreEntryVM.currentGame.game.teamAScoresArray.TotalGrossScore_front9()), subTotalPoints: Int(scoreEntryVM.currentGame.game.teamAScoresArray.TotalStablefordPoints_front9()))
+
+                                CompetitorScores(teamAssignment: .TeamsAB, totalType: .frontNine, subTotalGross: Int(scoreEntryVM.currentGame.game.teamBScoresArray.TotalGrossScore_front9()), subTotalPoints: Int(scoreEntryVM.currentGame.game.teamBScoresArray.TotalStablefordPoints_front9()))
+                  
                             }
                             .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                             
@@ -383,7 +347,19 @@ struct ScorecardScreen: View {
                         
                         .fontWeight(.semibold)
                     case .TeamC:
-                        EmptyView()
+                        HStack(spacing: geo.size.width * 0.048) {
+                            Spacer()
+                                .frame(width: geo.size.width * 0.011)
+                            Group{
+                                CompetitorScores(teamAssignment: .TeamC, totalType: .frontNine, subTotalGross: Int(scoreEntryVM.currentGame.game.teamCScoresArray.TotalGrossScore_front9()), subTotalPoints: Int(scoreEntryVM.currentGame.game.teamCScoresArray.TotalStablefordPoints_front9()))
+
+                            }
+                            .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
+                            
+                        }
+                        .offset(x: geo.size.width * 0.12)
+                        
+                        .fontWeight(.semibold)
                         
                     }
                 }//front 9 HStack
@@ -408,7 +384,8 @@ struct ScorecardScreen: View {
                     case .Indiv:
                         HStack(spacing: 0){
                             Group{
-                                CompetitorScores_IndivTotal(competitors: scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF))
+                               // CompetitorScores_IndivTotal(competitors: scoreEntryVM.currentGame.game.SortedCompetitors(currentGF: currentGF))
+                                CompetitorScores(teamAssignment: .Indiv, totalType: .overall)
                             }
                             .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                         }
@@ -421,37 +398,10 @@ struct ScorecardScreen: View {
                             Spacer()
                                 .frame(width: geo.size.width * 0.011)
                             Group{
-                                
-                                ZStack{
-                                    if scoreEntryVM.currentGame.game.teamAScoresArray.TotalGrossScore() != 0 {
-                                        
-                                        Text(scoreEntryVM.currentGame.game.teamAScoresArray.TotalGrossScore().formatted())
-                                            .foregroundColor(.blue)
-                                        
-                                        if scoreEntryVM.currentGame.game.teamAScoresArray.TotalStablefordPoints() != 0 {
-                                            Text(scoreEntryVM.currentGame.game.teamAScoresArray.TotalStablefordPoints().formatted())
-                                                .foregroundColor(burntOrange)
-                                                .font(.caption)
-                                                .offset(x: 13, y: 5)
-                                        }
-                                    }
-                                }
-                                ZStack{
-                                    if scoreEntryVM.currentGame.game.teamBScoresArray.TotalGrossScore() != 0 {
-                                        
-                                        Text(scoreEntryVM.currentGame.game.teamBScoresArray.TotalGrossScore().formatted())
-                                            .foregroundColor(.blue)
-                                        
-                                        if scoreEntryVM.currentGame.game.teamBScoresArray.TotalStablefordPoints() != 0 {
-                                            Text(scoreEntryVM.currentGame.game.teamBScoresArray.TotalStablefordPoints().formatted())
-                                                .foregroundColor(burntOrange)
-                                                .font(.caption)
-                                                .offset(x: 13, y: 5)
-                                        }
-                                    }
-                                }
-                                
-                                
+                                CompetitorScores(teamAssignment: .TeamsAB, totalType: .overall, subTotalGross: Int(scoreEntryVM.currentGame.game.teamAScoresArray.TotalGrossScore()), subTotalPoints: Int(scoreEntryVM.currentGame.game.teamAScoresArray.TotalStablefordPoints()))
+
+                                CompetitorScores(teamAssignment: .TeamsAB, totalType: .overall, subTotalGross: Int(scoreEntryVM.currentGame.game.teamBScoresArray.TotalGrossScore()), subTotalPoints: Int(scoreEntryVM.currentGame.game.teamBScoresArray.TotalStablefordPoints()))
+
                             }
                             .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
                             
@@ -460,7 +410,19 @@ struct ScorecardScreen: View {
                         
                         .fontWeight(.semibold)
                     case .TeamC:
-                        EmptyView()
+                        HStack(spacing: geo.size.width * 0.048) {
+                            Spacer()
+                                .frame(width: geo.size.width * 0.011)
+                            Group{
+                                CompetitorScores(teamAssignment: .TeamC, totalType: .overall, subTotalGross: Int(scoreEntryVM.currentGame.game.teamCScoresArray.TotalGrossScore()), subTotalPoints: Int(scoreEntryVM.currentGame.game.teamCScoresArray.TotalStablefordPoints()))
+
+                            }
+                            .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
+                            
+                        }
+                        .offset(x: geo.size.width * 0.12)
+                        
+                        .fontWeight(.semibold)
                         
                     }
                 } //overall total HStack
