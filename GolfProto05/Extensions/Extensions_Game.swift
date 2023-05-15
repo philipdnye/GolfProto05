@@ -386,6 +386,8 @@ extension Game {
         var result1 = ""
         var result2 = ""
         var result3 = ""
+        var textColor = ""
+        
         func Foursomes(){
             let teamAScores = self.teamScoresArray.filter({$0.team == 0}).sorted(by: {$0.hole < $1.hole})
             let teamBScores = self.teamScoresArray.filter({$0.team == 1}).sorted(by: {$0.hole < $1.hole})
@@ -426,14 +428,14 @@ extension Game {
                      result0 = " - "
                      result1 = "A/S"
                      result2 = " - "
-                     result3 = "green"
+                     textColor = "green"
                     //result[3] = holesRemainingString
                 case _ where currentMatchScore > 0:
                    // result[0] = "\(currentMatchScore) UP"
                     result0 = "\(currentMatchScore) UP"
                     result1 = ""
                     result2 = ""
-                    result3 = "red"
+                    textColor = "red"
                     
                     
                     //result[3] = holesRemainingString
@@ -441,13 +443,13 @@ extension Game {
                     result2 = "\(-currentMatchScore) UP"
                     result0 = ""
                     result1 = ""
-                    result3 = "blue"
+                    textColor = "blue"
                     //result[3] = holesRemainingString
                 default:
                     result0 = ""
                     result1 = ""
                     result2 = ""
-                    result3 = "green"
+                    textColor = "green"
                 }
                 
             }
@@ -494,10 +496,16 @@ extension Game {
             }
         }
         Foursomes()
-        return (result0, result1, result2, result3)
+        return (result0, result1, result2, textColor)
     }
    
 }
+
+
+
+
+
+
 
 
 extension Game {
@@ -1121,4 +1129,249 @@ extension Game {
           
         return result
     }
+}
+
+func CurrentMatchScoreString(currentMatchScore: Int, holesPlayed: Int, currentGF: CurrentGameFormat) -> (String, String) {
+    
+    var result: String = ""
+    
+    
+    let holesRemaining = 18 - holesPlayed
+    let holesRemainingString = "with \(holesRemaining) holes remaining"
+    
+    // results when game still in play ie not at dormie or won/lost
+    if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
+     
+        switch currentMatchScore {
+        case 0:
+            result = "All square"
+            
+        case _ where currentMatchScore > 0:
+            switch currentGF.assignTeamGrouping{
+            case .Indiv:
+                // six point game
+                break
+                
+            case .TeamsAB:
+                switch currentGF.assignShotsRecd{
+                case .Indiv:
+                    switch currentGF.noOfPlayersNeeded{
+                    case 2://singles
+                        result = "Player A \(currentMatchScore) UP"
+                    default://4BBB
+                        result = "Team A \(currentMatchScore) UP"
+                    }
+                case .TeamsAB://foursomes
+                    result = "Team A \(currentMatchScore) UP"
+                case .TeamC:
+                    break
+                    
+                    
+                }
+            case .TeamC:
+                break
+            }
+            
+        case _ where currentMatchScore < 0:
+            switch currentGF.assignTeamGrouping{
+            case .Indiv:
+                // six point game
+                break
+                
+            case .TeamsAB:
+                switch currentGF.assignShotsRecd{
+                case .Indiv:
+                    switch currentGF.noOfPlayersNeeded{
+                    case 2://singles
+                        result = "Player B \(currentMatchScore) UP"
+                    default://4BBB
+                        result = "Team B \(currentMatchScore) UP"
+                    }
+                case .TeamsAB://foursomes
+                    result = "Team B \(currentMatchScore) UP"
+                case .TeamC:
+                    break
+                }
+            case .TeamC:
+                break
+            }
+            
+        default:
+            break
+            
+        }
+    }
+    
+    // results when game at dormie
+    if currentMatchScore >= 0 && currentMatchScore == holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) == holesRemaining {
+        switch currentMatchScore {
+        case 0:
+            result = "Match halved"
+            
+        case _ where currentMatchScore > 0:
+            switch currentGF.assignTeamGrouping{
+            case .Indiv:
+                // six point game
+                break
+                
+            case .TeamsAB:
+                switch currentGF.assignShotsRecd{
+                case .Indiv:
+                    switch currentGF.noOfPlayersNeeded{
+                    case 2://singles
+                        result = "Player A DORMIE \(currentMatchScore) UP"
+                    default://4BBB
+                        result = "Team A DORMIE \(currentMatchScore) UP"
+                    }
+                case .TeamsAB://foursomes
+                    result = "Team A DORMIE \(currentMatchScore) UP"
+                case .TeamC:
+                    break
+                    
+                    
+                }
+            case .TeamC:
+                break
+            }
+            
+        case _ where currentMatchScore < 0:
+            switch currentGF.assignTeamGrouping{
+            case .Indiv:
+                // six point game
+                break
+                
+            case .TeamsAB:
+                switch currentGF.assignShotsRecd{
+                case .Indiv:
+                    switch currentGF.noOfPlayersNeeded{
+                    case 2://singles
+                        result = "Player B DORMIE \(currentMatchScore) UP"
+                    default://4BBB
+                        result = "Team B DORMIE \(currentMatchScore) UP"
+                    }
+                case .TeamsAB://foursomes
+                    result = "Team B DORMIE \(currentMatchScore) UP"
+                case .TeamC:
+                    break
+                }
+            case .TeamC:
+                break
+            }
+            
+        default:
+            break
+            
+            
+            
+        }
+    }
+   
+    
+    //results when game won or lost
+    if currentMatchScore >= 0 && currentMatchScore > holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) > holesRemaining {
+        switch currentMatchScore {
+            
+        case _ where currentMatchScore > 0:
+            switch currentGF.assignTeamGrouping{
+            case .Indiv:
+                // six point game
+                break
+                
+            case .TeamsAB:
+                switch currentGF.assignShotsRecd{
+                case .Indiv:
+                    switch currentGF.noOfPlayersNeeded{
+                    case 2://singles
+                        if holesRemaining != 0 {
+                            result = "Player A WON \(currentMatchScore) & \(holesRemaining)"
+                            
+                        } else {
+                            result = "Player A WON \(currentMatchScore) UP"
+                            
+                        }
+                    default: //4BBB
+                        if holesRemaining != 0 {
+                            result = "Team A WON \(currentMatchScore) & \(holesRemaining)"
+                            
+                        } else {
+                            result = "Team A WON \(currentMatchScore) UP"
+                            
+                        }
+                    }
+                case .TeamsAB://foursomes
+                    if holesRemaining != 0 {
+                        result = "Team A WON \(currentMatchScore) & \(holesRemaining)"
+                        
+                    } else {
+                        result = "Team A WON \(currentMatchScore) UP"
+                        
+                    }
+                case .TeamC:
+                    break
+                }
+            case .TeamC:
+                break
+            }
+            
+            
+            
+        case _ where currentMatchScore < 0:
+            switch currentGF.assignTeamGrouping{
+            case .Indiv:
+                // six point game
+                break
+                
+            case .TeamsAB:
+                switch currentGF.assignShotsRecd{
+                case .Indiv:
+                    switch currentGF.noOfPlayersNeeded{
+                    case 2://singles
+                        if holesRemaining != 0 {
+                            result = "Player A WON \(currentMatchScore) & \(holesRemaining)"
+                            
+                        } else {
+                            result = "Player A WON \(currentMatchScore) UP"
+                            
+                        }
+                    default: //4BBB
+                        if holesRemaining != 0 {
+                            result = "Team B WON \(currentMatchScore) & \(holesRemaining)"
+                            
+                        } else {
+                            result = "Team B WON \(currentMatchScore) UP"
+                            
+                        }
+                    }
+                    
+                case .TeamsAB://foursomes
+                    if holesRemaining != 0 {
+                        result = "Team B WON \(currentMatchScore) & \(holesRemaining)"
+                        
+                    } else {
+                        result = "Team B WON \(currentMatchScore) UP"
+                        
+                    }
+                case .TeamC:
+                    break
+                }
+                    
+                    
+                    
+                    
+                case .TeamC:
+                    break
+                }
+                
+                
+                
+                
+            default:
+                break
+                
+            }
+        }
+    
+    
+    
+    return (result,holesRemainingString)
 }
