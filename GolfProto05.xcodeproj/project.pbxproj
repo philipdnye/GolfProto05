@@ -115,6 +115,8 @@
 		D41FD9772A0E2FA800999AAD /* Extensions_TeamScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9762A0E2FA800999AAD /* Extensions_TeamScore.swift */; };
 		D41FD9792A0E386C00999AAD /* Extensions_TeamScoreArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9782A0E386C00999AAD /* Extensions_TeamScoreArray.swift */; };
 		D41FD9852A0E88F900999AAD /* CompetitorScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9842A0E88F900999AAD /* CompetitorScores.swift */; };
+		D41FD9872A0FE3FF00999AAD /* Extensions_Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9862A0FE3FF00999AAD /* Extensions_Color.swift */; };
+		D41FD9892A10BA1600999AAD /* ScorecardScreenStroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9882A10BA1600999AAD /* ScorecardScreenStroke.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -229,6 +231,8 @@
 		D41FD9762A0E2FA800999AAD /* Extensions_TeamScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions_TeamScore.swift; sourceTree = "<group>"; };
 		D41FD9782A0E386C00999AAD /* Extensions_TeamScoreArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions_TeamScoreArray.swift; sourceTree = "<group>"; };
 		D41FD9842A0E88F900999AAD /* CompetitorScores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitorScores.swift; sourceTree = "<group>"; };
+		D41FD9862A0FE3FF00999AAD /* Extensions_Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions_Color.swift; sourceTree = "<group>"; };
+		D41FD9882A10BA1600999AAD /* ScorecardScreenStroke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorecardScreenStroke.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -312,6 +316,7 @@
 				D41FD8882A0A1E3F00999AAD /* Extensions_CompetitorScoreArray.swift */,
 				D41FD9762A0E2FA800999AAD /* Extensions_TeamScore.swift */,
 				D41FD9782A0E386C00999AAD /* Extensions_TeamScoreArray.swift */,
+				D41FD9862A0FE3FF00999AAD /* Extensions_Color.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -367,10 +372,10 @@
 				D41FD8E32A0A1E7300999AAD /* HomeView.swift */,
 				D41FD8E42A0A1E7300999AAD /* MainScreen.swift */,
 				D41FD8C12A0A1E7300999AAD /* SettingsScreen.swift */,
-				D41FD8C22A0A1E7300999AAD /* Score entry */,
 				D41FD8C72A0A1E7300999AAD /* Clubs */,
 				D41FD8DD2A0A1E7300999AAD /* Players */,
 				D41FD8E52A0A1E7300999AAD /* Games */,
+				D41FD8C22A0A1E7300999AAD /* Score entry */,
 				D41FD8F72A0A1E7300999AAD /* Scorecard */,
 			);
 			path = Screens;
@@ -508,6 +513,7 @@
 			children = (
 				D41FD8FB2A0A1E7300999AAD /* ScoreCardScreen.swift */,
 				D41FD9842A0E88F900999AAD /* CompetitorScores.swift */,
+				D41FD9882A10BA1600999AAD /* ScorecardScreenStroke.swift */,
 			);
 			path = Scorecard;
 			sourceTree = "<group>";
@@ -669,6 +675,7 @@
 				D41FD9652A0A1EA900999AAD /* GolfDataModel.xcdatamodeld in Sources */,
 				D41FD94D2A0A1E7300999AAD /* EditClubViewModel.swift in Sources */,
 				D41FD9672A0B7A7C00999AAD /* ScoreEntryTeamRow.swift in Sources */,
+				D41FD9872A0FE3FF00999AAD /* Extensions_Color.swift in Sources */,
 				D41FD9362A0A1E7300999AAD /* HomeView.swift in Sources */,
 				D41FD9352A0A1E7300999AAD /* PlayerDetailScreen.swift in Sources */,
 				D41FD8952A0A1E3F00999AAD /* Extension_NSNumber.swift in Sources */,
@@ -680,6 +687,7 @@
 				D41FD94A2A0A1E7300999AAD /* UIColorTransformer.swift in Sources */,
 				D41FD95D2A0A1E7300999AAD /* AddGameViewModel.swift in Sources */,
 				D41FD8B12A0A1E6500999AAD /* CoreDataManager.swift in Sources */,
+				D41FD9892A10BA1600999AAD /* ScorecardScreenStroke.swift in Sources */,
 				D41FD93C2A0A1E7300999AAD /* TeamsABShotsReceived.swift in Sources */,
 				D41FD95A2A0A1E7300999AAD /* AddPlayerViewModel.swift in Sources */,
 				D41FD9212A0A1E7300999AAD /* EditCourseScreen.swift in Sources */,

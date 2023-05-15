@@ -14,16 +14,56 @@ struct ScoreEntryScreen: View {
     @State private var showHoleNavigator: Bool = false
     @State private var isShowingDialogueCommitScores: Bool = false
     @State private var isPresentedSheetScoreCard: Bool = false
-   
+    @State private var isPresentedSheetScoreCardStroke: Bool = false
+    
     var game: GameViewModel
     
     private var scoreCardButton: some View {
-        AnyView(Button(action: showScorecard){Image(systemName: "list.number")})
+        AnyView(Button(action: showScorecard){
+            ZStack {
+                Image(systemName: "list.number")
+                Text("Match")
+                    .font(.caption2)
+                    .offset(x:-1, y:17)
+                    .foregroundColor(darkTeal)
+            }
+        })
+    }
+    
+    private var scoreCardButtonStroke: some View {
+        AnyView(Button(action: showScorecardStroke){
+            ZStack {
+                Image(systemName: "list.number")
+                
+                    Text("Stroke")
+               
+                    .font(.caption2)
+                    .offset(x:-1, y:17)
+                    .foregroundColor(darkTeal)
+            }
+            
+        })
+    }
+    private var scoreCardButtonStrokeWithOutMatch: some View {
+        AnyView(Button(action: showScorecardStroke){
+          
+                Image(systemName: "list.number")
+                
+                    
+                
+//                    .font(.caption2)
+//                    .offset(x:-1, y:17)
+//                    .foregroundColor(darkTeal)
+                        
+            
+        })
     }
     private func showScorecard () {
         isPresentedSheetScoreCard.toggle()
     }
-    
+    private func showScorecardStroke () {
+        isPresentedSheetScoreCardStroke.toggle()
+    }
     var body: some View {
         ZStack{
             GeometryReader { geo in
@@ -339,7 +379,27 @@ struct ScoreEntryScreen: View {
 
                     }//playformat switch
                 case .TeamsAB:
-                    EmptyView() //placeholder
+                    switch currentGF.format {
+                    case .fourSomesMatch:
+                        
+                       
+
+                        HStack{
+                            Text(game.game.MatchResult(currentGF: currentGF)[0])
+                            Text(game.game.MatchResult(currentGF: currentGF)[1])
+                            Text(game.game.MatchResult(currentGF: currentGF)[2])
+                            Text(game.game.MatchResult(currentGF: currentGF)[3])
+
+                        }
+                        .frame(width: geo.size.width * 1, height: 50)
+                        .font(.title2)
+                        .background(gold)
+                        .offset(x: 0, y: geo.size.height * 0.93)
+                        .foregroundColor(darkTeal)
+                        .zIndex(0)
+                    default:
+                        EmptyView()
+                    }
                 case .TeamC:
                     EmptyView() //placeholder
                 }
@@ -380,7 +440,15 @@ struct ScoreEntryScreen: View {
             
             
             ToolbarItem(placement: .navigationBarLeading){
-                scoreCardButton
+                HStack{
+                    if currentGF.playFormat == .matchplay {
+                        scoreCardButtonStroke
+                        scoreCardButton
+                        
+                    } else {
+                        scoreCardButtonStrokeWithOutMatch
+                    }
+                }
             }
             }
         
@@ -392,7 +460,13 @@ struct ScoreEntryScreen: View {
             // might need a switch here for different scorecards
            ScorecardScreen()
         })
-        
+        .sheet(isPresented: $isPresentedSheetScoreCardStroke, onDismiss: {
+            
+           
+        }, content: {
+            // might need a switch here for different scorecards
+           ScorecardScreenStroke()
+        })
         
     }
 }

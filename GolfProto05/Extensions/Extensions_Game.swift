@@ -46,7 +46,6 @@ extension Game {
     }
 }
 
-
 extension Game {
     var game_duration: GameDuration {
         get {
@@ -91,6 +90,25 @@ extension Game {
     }
 }
 
+extension Game {
+    func AllScoresCommittedTeamAB(holeIndex: Int) -> Bool {
+        var scoresCommitted: [Bool] = []
+        if self.teamAScoresArray[holeIndex].scoreCommitted == true {
+       
+            scoresCommitted.append(self.teamAScoresArray[holeIndex].scoreCommitted)
+            scoresCommitted.append(self.teamBScoresArray[holeIndex].scoreCommitted)
+           
+            let hasAllItemsEqual = scoresCommitted.dropFirst().reduce(true) { (partialResult, element) in
+                return partialResult && element == scoresCommitted
+                
+                    .first
+            }
+            return hasAllItemsEqual
+        } else {
+            return false
+        }
+    }
+}
 
 
 extension Game {
@@ -150,7 +168,6 @@ extension Game {
     }
 }
 
-
 extension Game {
     func ShotsReceivedByTeam(holeIndex: Int, shots: Double, team: Int16) -> Int {
         
@@ -173,7 +190,6 @@ extension Game {
     }
 }
 
-
 extension Game {
     func ShotsReceivedByTeamPerHole(strokeIndex: Int, shots: Double) -> Int {
         var shots18Recd: Int = 0
@@ -195,21 +211,303 @@ extension Game {
     }
 }
 
-
-
-
-
-
 extension Game {
     func SortedCompetitorArray () -> [Competitor] {
         return self.competitorArray.sorted(by: {$0.playingHandicap < $1.playingHandicap})
     }
 }
+extension Game {
+    func SortedCompetitors (currentGF: CurrentGameFormat) -> [Competitor] {
+       
+        var sortedCompetitors: [Competitor] = []
+        switch currentGF.assignTeamGrouping {
+            
+        case .Indiv:
+            sortedCompetitors = self.competitorArray.sorted(by: {
+                
+                if $0.handicapIndex == $1.handicapIndex {
+                    if $0.player?.firstName ?? "" == $1.player?.firstName ?? "" {
+                        return $0.player?.objectID.description ?? "" < $1.player?.objectID.description ?? ""}
+                    
+                    return $0.player?.firstName ?? "" < $1.player?.firstName ?? "" }
+                    return $0.handicapIndex < $1.handicapIndex
+                
+            })
+       
+        case .TeamsAB:
+            
+            sortedCompetitors = self.competitorArray.sorted(by:{
+                if $0.team == $1.team {
+                    if $0.handicapIndex == $1.handicapIndex {
+                        if $0.player?.firstName ?? "" == $1.player?.firstName ?? "" {
+                            
+                            
+                            return $0.player?.objectID.description ?? "" < $1.player?.objectID.description ?? ""
+                            
+                        }
+                        return $0.player?.firstName ?? "" < $1.player?.firstName ?? ""
+                    }
+                    return $0.handicapIndex < $1.handicapIndex
+                }
+                return $0.team < $1.team
+            })
+            
+        case .TeamC:
+            sortedCompetitors = self.competitorArray.sorted(by: {
+               
+                if $0.handicapIndex == $1.handicapIndex {
+                    if $0.player?.firstName ?? "" == $1.player?.firstName ?? "" {
+                        return $0.player?.objectID.description ?? "" < $1.player?.objectID.description ?? ""}
+                    
+                    return $0.player?.firstName ?? "" < $1.player?.firstName ?? "" }
+                    return $0.handicapIndex < $1.handicapIndex
+                
+            })
+            
+            
+        }
+    return sortedCompetitors
+    }
+}
+
+extension Game {
+    func MatchResultHole(currentGF: CurrentGameFormat, holeIndex: Int) -> [String] {
+        var result = ["","",""]
+        var currentMatchScore: Int = 0
+        var holesPlayed: Int = 0
+        
+        func Foursomes(){
+            let teamAScores = self.teamScoresArray.filter({$0.team == 0}).sorted(by: {$0.hole < $1.hole})
+            let teamBScores = self.teamScoresArray.filter({$0.team == 1}).sorted(by: {$0.hole < $1.hole})
+            
+            for i in 0..<holeIndex+1 {
+                   
+                   switch self.AllScoresCommittedTeamAB(holeIndex: i){
+                   case true:
+                       holesPlayed += 1
+                  
+                       let teamANetLowScore = teamAScores[i].NetScoreMatch()
+                       let teamBNetLowScore = teamBScores[i].NetScoreMatch()
+                     
+                       switch teamANetLowScore - teamBNetLowScore {
+                           
+                       case _ where teamANetLowScore - teamBNetLowScore < 0:
+                           currentMatchScore += 1
+                           
+                       case _ where teamANetLowScore - teamBNetLowScore > 0:
+                           currentMatchScore -= 1
+                       default:
+                           break
+                       }
+                   case false:
+                       break
+                   }
+               
+           }
+            let holesRemaining = 18 - holesPlayed
+            let holesRemainingString = "with \(holesRemaining) holes remaining"
+            
+            // results when game still in play ie not at dormie or won/lost
+            if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
+                
+                
+                switch currentMatchScore {
+                case 0:
+                    result[0] = " - "
+                    result[1] = "A/S"
+                    result[2] = " - "
+                    //result[3] = holesRemainingString
+                case _ where currentMatchScore > 0:
+                    result[0] = "\(currentMatchScore) UP"
+                    //result[3] = holesRemainingString
+                case _ where currentMatchScore < 0:
+                    result[2] = "\(-currentMatchScore) UP"
+                    result[0] = "    "
+                    //result[3] = holesRemainingString
+                default:
+                    result = ["","",""]
+                }
+                
+            }
+            // results when game at dormie
+            if currentMatchScore >= 0 && currentMatchScore == holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) == holesRemaining {
+                switch currentMatchScore {
+                case 0:
+                    result[2] = "Match halved"
+                  //  result[3] = ""
+                case _ where currentMatchScore > 0:
+                    result[0] = "Team A DORMIE \(currentMatchScore) UP"
+                   // result[3] = ""
+                case _ where currentMatchScore < 0:
+                    result[1] = "Team B  DORMIE \(-currentMatchScore) UP"
+                    //result[3] = ""
+                default:
+                    result = ["","",""]
+                    
+                }
+            }
+            //results when game won or lost
+            if currentMatchScore >= 0 && currentMatchScore > holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) > holesRemaining {
+                switch currentMatchScore {
+                case _ where currentMatchScore > 0:
+                    if holesRemaining != 0 {
+                        result[0] = "Team A WON \(currentMatchScore) & \(holesRemaining)"
+                      //  result[3] = ""
+                    } else {
+                        result[0] = "Team A WON \(currentMatchScore) UP"
+                       // result[3] = ""
+                    }
+                case _ where currentMatchScore < 0:
+                    if holesRemaining != 0 {
+                        result[1] = "Team B WON \(-currentMatchScore) & \(holesRemaining)"
+                        //result[3] = ""
+                    } else {
+                        result[0] = "Team B WON \(-currentMatchScore) UP"
+                       // result[3] = ""
+                    }
+                default:
+                    result = ["","",""]
+                    
+                }
+            }
+        }
+        Foursomes()
+        return result
+    }
+   
+}
+
+extension Game {
+    func MatchResultHole1(currentGF: CurrentGameFormat, holeIndex: Int) -> (String, String, String, String) {
+        var result = ["","",""]
+        var currentMatchScore: Int = 0
+        var holesPlayed: Int = 0
+        var result0 = ""
+        var result1 = ""
+        var result2 = ""
+        var result3 = ""
+        func Foursomes(){
+            let teamAScores = self.teamScoresArray.filter({$0.team == 0}).sorted(by: {$0.hole < $1.hole})
+            let teamBScores = self.teamScoresArray.filter({$0.team == 1}).sorted(by: {$0.hole < $1.hole})
+            
+            for i in 0..<holeIndex+1 {
+                   
+                   switch self.AllScoresCommittedTeamAB(holeIndex: i){
+                   case true:
+                       holesPlayed += 1
+                  
+                       let teamANetLowScore = teamAScores[i].NetScoreMatch()
+                       let teamBNetLowScore = teamBScores[i].NetScoreMatch()
+                     
+                       switch teamANetLowScore - teamBNetLowScore {
+                           
+                       case _ where teamANetLowScore - teamBNetLowScore < 0:
+                           currentMatchScore += 1
+                           
+                       case _ where teamANetLowScore - teamBNetLowScore > 0:
+                           currentMatchScore -= 1
+                       default:
+                           break
+                       }
+                   case false:
+                       break
+                   }
+               
+           }
+            let holesRemaining = 18 - holesPlayed
+            let holesRemainingString = "with \(holesRemaining) holes remaining"
+            
+            // results when game still in play ie not at dormie or won/lost
+            if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
+                
+                
+                switch currentMatchScore {
+                case 0:
+                     result0 = " - "
+                     result1 = "A/S"
+                     result2 = " - "
+                     result3 = "green"
+                    //result[3] = holesRemainingString
+                case _ where currentMatchScore > 0:
+                   // result[0] = "\(currentMatchScore) UP"
+                    result0 = "\(currentMatchScore) UP"
+                    result1 = ""
+                    result2 = ""
+                    result3 = "red"
+                    
+                    
+                    //result[3] = holesRemainingString
+                case _ where currentMatchScore < 0:
+                    result2 = "\(-currentMatchScore) UP"
+                    result0 = ""
+                    result1 = ""
+                    result3 = "blue"
+                    //result[3] = holesRemainingString
+                default:
+                    result0 = ""
+                    result1 = ""
+                    result2 = ""
+                    result3 = "green"
+                }
+                
+            }
+            // results when game at dormie
+            if currentMatchScore >= 0 && currentMatchScore == holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) == holesRemaining {
+                switch currentMatchScore {
+                case 0:
+                    result[2] = "Match halved"
+                  //  result[3] = ""
+                case _ where currentMatchScore > 0:
+                    result[0] = "Team A DORMIE \(currentMatchScore) UP"
+                   // result[3] = ""
+                case _ where currentMatchScore < 0:
+                    result[1] = "Team B  DORMIE \(-currentMatchScore) UP"
+                    //result[3] = ""
+                default:
+                    result = ["","",""]
+                    
+                }
+            }
+            //results when game won or lost
+            if currentMatchScore >= 0 && currentMatchScore > holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) > holesRemaining {
+                switch currentMatchScore {
+                case _ where currentMatchScore > 0:
+                    if holesRemaining != 0 {
+                        result[0] = "Team A WON \(currentMatchScore) & \(holesRemaining)"
+                      //  result[3] = ""
+                    } else {
+                        result[0] = "Team A WON \(currentMatchScore) UP"
+                       // result[3] = ""
+                    }
+                case _ where currentMatchScore < 0:
+                    if holesRemaining != 0 {
+                        result[1] = "Team B WON \(-currentMatchScore) & \(holesRemaining)"
+                        //result[3] = ""
+                    } else {
+                        result[0] = "Team B WON \(-currentMatchScore) UP"
+                       // result[3] = ""
+                    }
+                default:
+                    result = ["","",""]
+                    
+                }
+            }
+        }
+        Foursomes()
+        return (result0, result1, result2, result3)
+    }
+   
+}
+
 
 extension Game {
     func MatchResult(currentGF: CurrentGameFormat) -> [String] {
        
-        var result = ["","","",""]
+        var result = ["","","",""]// Output a 4 field string array
+        //0 - Indiv or Team A
+        //1 - Team B
+        //2 - Team C
+        //3 - Holes remaining
         var currentMatchScore: Int = 0
         var holesPlayed: Int = 0
         
@@ -366,11 +664,10 @@ extension Game {
             result[3] = holesRemainingString
         }// sixpoint func
         
-        
         func SinglesMatchplay(){
             let teamA = self.competitorArray.filter({$0.team_String == .teamA})
             let teamB = self.competitorArray.filter({$0.team_String == .teamB})
-          
+          //boiler plate - just need variables for teamANetLowScore, teamBNetLowScore, and whether individuals or a team
             for i in 0..<18 {
                    
                    switch self.AllScoresCommitted(holeIndex: i){
@@ -470,107 +767,107 @@ extension Game {
                 
                 
             }
-        }
+        } //singles matchplay func
         
-         func FourballBetterBall(){
-             
-             let teamA = self.competitorArray.filter({$0.team_String == .teamA})
-             let teamB = self.competitorArray.filter({$0.team_String == .teamB})
-           
-             for i in 0..<18 {
+        func FourballBetterBall(){
+            
+            let teamA = self.competitorArray.filter({$0.team_String == .teamA})
+            let teamB = self.competitorArray.filter({$0.team_String == .teamB})
+        
+            for i in 0..<18 {
+                
+                switch self.AllScoresCommitted(holeIndex: i){
+                case true:
+                    holesPlayed += 1
                     
-                    switch self.AllScoresCommitted(holeIndex: i){
-                    case true:
-                        holesPlayed += 1
-                        
-                        
-                        
-                        let teamANetLowScore = min(teamA[0].competitorScoresArray[i].NetScoreMatch(),teamA[1].competitorScoresArray[i].NetScoreMatch() )
-                        let teamBNetLowScore = min(teamB[0].competitorScoresArray[i].NetScoreMatch(),teamB[1].competitorScoresArray[i].NetScoreMatch() )
+                    
+                    
+                    let teamANetLowScore = min(teamA[0].competitorScoresArray[i].NetScoreMatch(),teamA[1].competitorScoresArray[i].NetScoreMatch() )
+                    let teamBNetLowScore = min(teamB[0].competitorScoresArray[i].NetScoreMatch(),teamB[1].competitorScoresArray[i].NetScoreMatch() )
 
+                    
+                    switch teamANetLowScore - teamBNetLowScore {
                         
-                        switch teamANetLowScore - teamBNetLowScore {
-                            
-                        case _ where teamANetLowScore - teamBNetLowScore < 0:
-                            currentMatchScore += 1
-                            
-                        case _ where teamANetLowScore - teamBNetLowScore > 0:
-                            currentMatchScore -= 1
-                        default:
-                            break
-                        }
-                    case false:
+                    case _ where teamANetLowScore - teamBNetLowScore < 0:
+                        currentMatchScore += 1
+                        
+                    case _ where teamANetLowScore - teamBNetLowScore > 0:
+                        currentMatchScore -= 1
+                    default:
                         break
                     }
+                case false:
+                    break
+                }
+            
+        }
+            
+            
+            let holesRemaining = 18 - holesPlayed
+            let holesRemainingString = "with \(holesRemaining) holes remaining"
+        
+            
+            // results when game still in play ie not at dormie or won/lost
+            if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
+                
+                
+                switch currentMatchScore {
+                case 0:
+                    result[2] = "All square"
+                    result[3] = holesRemainingString
+                case _ where currentMatchScore > 0:
+                    result[0] = "team A \(currentMatchScore) UP"
+                    result[3] = holesRemainingString
+                case _ where currentMatchScore < 0:
+                    result[1] = "team B \(-currentMatchScore) UP"
+                    result[3] = holesRemainingString
+                default:
+                    result = ["","","",""]
+                }
                 
             }
-             
-             
-             let holesRemaining = 18 - holesPlayed
-             let holesRemainingString = "with \(holesRemaining) holes remaining"
-            
-             
-             // results when game still in play ie not at dormie or won/lost
-             if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
-                 
-                 
-                 switch currentMatchScore {
-                 case 0:
-                     result[2] = "All square"
-                     result[3] = holesRemainingString
-                 case _ where currentMatchScore > 0:
-                     result[0] = "team A \(currentMatchScore) UP"
-                     result[3] = holesRemainingString
-                 case _ where currentMatchScore < 0:
-                     result[1] = "team B \(-currentMatchScore) UP"
-                     result[3] = holesRemainingString
-                 default:
-                     result = ["","","",""]
-                 }
-                 
-             }
-             // results when game at dormie
-             if currentMatchScore >= 0 && currentMatchScore == holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) == holesRemaining {
-                 switch currentMatchScore {
-                 case 0:
-                     result[2] = "Match halved"
-                     result[3] = ""
-                 case _ where currentMatchScore > 0:
-                     result[0] = "Team A DORMIE \(currentMatchScore) UP"
-                     result[3] = ""
-                 case _ where currentMatchScore < 0:
-                     result[1] = "Team B  DORMIE \(-currentMatchScore) UP"
-                     result[3] = ""
-                 default:
-                     result = ["","","",""]
-                     
-                 }
-             }
-             //results when game won or lost
-             if currentMatchScore >= 0 && currentMatchScore > holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) > holesRemaining {
-                 switch currentMatchScore {
-                 case _ where currentMatchScore > 0:
-                     if holesRemaining != 0 {
-                         result[0] = "Team A WON \(currentMatchScore) & \(holesRemaining)"
-                         result[3] = ""
-                     } else {
-                         result[0] = "Team A WON \(currentMatchScore) UP"
-                         result[3] = ""
-                     }
-                 case _ where currentMatchScore < 0:
-                     if holesRemaining != 0 {
-                         result[1] = "Team B WON \(-currentMatchScore) & \(holesRemaining)"
-                         result[3] = ""
-                     } else {
-                         result[0] = "Team B WON \(-currentMatchScore) UP"
-                         result[3] = ""
-                     }
-                 default:
-                     result = ["","","",""]
-                     
-                 }
-             }
-        }
+            // results when game at dormie
+            if currentMatchScore >= 0 && currentMatchScore == holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) == holesRemaining {
+                switch currentMatchScore {
+                case 0:
+                    result[2] = "Match halved"
+                    result[3] = ""
+                case _ where currentMatchScore > 0:
+                    result[0] = "Team A DORMIE \(currentMatchScore) UP"
+                    result[3] = ""
+                case _ where currentMatchScore < 0:
+                    result[1] = "Team B  DORMIE \(-currentMatchScore) UP"
+                    result[3] = ""
+                default:
+                    result = ["","","",""]
+                    
+                }
+            }
+            //results when game won or lost
+            if currentMatchScore >= 0 && currentMatchScore > holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) > holesRemaining {
+                switch currentMatchScore {
+                case _ where currentMatchScore > 0:
+                    if holesRemaining != 0 {
+                        result[0] = "Team A WON \(currentMatchScore) & \(holesRemaining)"
+                        result[3] = ""
+                    } else {
+                        result[0] = "Team A WON \(currentMatchScore) UP"
+                        result[3] = ""
+                    }
+                case _ where currentMatchScore < 0:
+                    if holesRemaining != 0 {
+                        result[1] = "Team B WON \(-currentMatchScore) & \(holesRemaining)"
+                        result[3] = ""
+                    } else {
+                        result[0] = "Team B WON \(-currentMatchScore) UP"
+                        result[3] = ""
+                    }
+                default:
+                    result = ["","","",""]
+                    
+                }
+            }
+    } //4BBB func
         
         func FourballCombined(){
             
@@ -673,7 +970,99 @@ extension Game {
             
             
        } // fourball combined func
-        // the rest of this func applier there various interal funcs to the appropriate game format
+        
+        func Foursomes(){
+            let teamAScores = self.teamScoresArray.filter({$0.team == 0}).sorted(by: {$0.hole < $1.hole})
+            let teamBScores = self.teamScoresArray.filter({$0.team == 1}).sorted(by: {$0.hole < $1.hole})
+            
+            for i in 0..<18 {
+                   
+                   switch self.AllScoresCommittedTeamAB(holeIndex: i){
+                   case true:
+                       holesPlayed += 1
+                  
+                       let teamANetLowScore = teamAScores[i].NetScoreMatch()
+                       let teamBNetLowScore = teamBScores[i].NetScoreMatch()
+                     
+                       switch teamANetLowScore - teamBNetLowScore {
+                           
+                       case _ where teamANetLowScore - teamBNetLowScore < 0:
+                           currentMatchScore += 1
+                           
+                       case _ where teamANetLowScore - teamBNetLowScore > 0:
+                           currentMatchScore -= 1
+                       default:
+                           break
+                       }
+                   case false:
+                       break
+                   }
+               
+           }
+            let holesRemaining = 18 - holesPlayed
+            let holesRemainingString = "with \(holesRemaining) holes remaining"
+            
+            // results when game still in play ie not at dormie or won/lost
+            if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
+                
+                
+                switch currentMatchScore {
+                case 0:
+                    result[2] = "All square"
+                    result[3] = holesRemainingString
+                case _ where currentMatchScore > 0:
+                    result[0] = "team A \(currentMatchScore) UP"
+                    result[3] = holesRemainingString
+                case _ where currentMatchScore < 0:
+                    result[1] = "team B \(-currentMatchScore) UP"
+                    result[3] = holesRemainingString
+                default:
+                    result = ["","","",""]
+                }
+                
+            }
+            // results when game at dormie
+            if currentMatchScore >= 0 && currentMatchScore == holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) == holesRemaining {
+                switch currentMatchScore {
+                case 0:
+                    result[2] = "Match halved"
+                    result[3] = ""
+                case _ where currentMatchScore > 0:
+                    result[0] = "Team A DORMIE \(currentMatchScore) UP"
+                    result[3] = ""
+                case _ where currentMatchScore < 0:
+                    result[1] = "Team B  DORMIE \(-currentMatchScore) UP"
+                    result[3] = ""
+                default:
+                    result = ["","","",""]
+                    
+                }
+            }
+            //results when game won or lost
+            if currentMatchScore >= 0 && currentMatchScore > holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) > holesRemaining {
+                switch currentMatchScore {
+                case _ where currentMatchScore > 0:
+                    if holesRemaining != 0 {
+                        result[0] = "Team A WON \(currentMatchScore) & \(holesRemaining)"
+                        result[3] = ""
+                    } else {
+                        result[0] = "Team A WON \(currentMatchScore) UP"
+                        result[3] = ""
+                    }
+                case _ where currentMatchScore < 0:
+                    if holesRemaining != 0 {
+                        result[1] = "Team B WON \(-currentMatchScore) & \(holesRemaining)"
+                        result[3] = ""
+                    } else {
+                        result[0] = "Team B WON \(-currentMatchScore) UP"
+                        result[3] = ""
+                    }
+                default:
+                    result = ["","","",""]
+                    
+                }
+            }
+        }
         
         switch currentGF.assignTeamGrouping {
       
@@ -693,11 +1082,7 @@ extension Game {
                     result = ["","","",""]
                         }
             case .TeamsAB:
-                //let teamA = self.competitorArray.filter({$0.team_String == .teamA})
-                //let teamB = self.competitorArray.filter({$0.team_String == .teamB})
-            
-            
-            
+               
                 switch currentGF.assignShotsRecd {
                 case .Indiv:
                     switch currentGF.playFormat{
@@ -724,7 +1109,7 @@ extension Game {
                 case .TeamsAB:
                     switch currentGF.playFormat{
                     case .matchplay://4somes, greensomes, pinehurstchapman, 2v2 texas scramble
-                        break //placeholder
+                        Foursomes()
                     case .strokeplay:
                         result = ["","","",""]
                     }
@@ -732,65 +1117,8 @@ extension Game {
                     result = ["","","",""]
               
             }
-        }
+        }// the rest of this func applies the various game specific funcs to the appropriate game format
           
         return result
-    }
-}
-
-
-
-
-extension Game {
-    func SortedCompetitors (currentGF: CurrentGameFormat) -> [Competitor] {
-       
-        var sortedCompetitors: [Competitor] = []
-        switch currentGF.assignTeamGrouping {
-            
-        case .Indiv:
-            sortedCompetitors = self.competitorArray.sorted(by: {
-                
-                if $0.handicapIndex == $1.handicapIndex {
-                    if $0.player?.firstName ?? "" == $1.player?.firstName ?? "" {
-                        return $0.player?.objectID.description ?? "" < $1.player?.objectID.description ?? ""}
-                    
-                    return $0.player?.firstName ?? "" < $1.player?.firstName ?? "" }
-                    return $0.handicapIndex < $1.handicapIndex
-                
-            })
-       
-        case .TeamsAB:
-            
-            sortedCompetitors = self.competitorArray.sorted(by:{
-                if $0.team == $1.team {
-                    if $0.handicapIndex == $1.handicapIndex {
-                        if $0.player?.firstName ?? "" == $1.player?.firstName ?? "" {
-                            
-                            
-                            return $0.player?.objectID.description ?? "" < $1.player?.objectID.description ?? ""
-                            
-                        }
-                        return $0.player?.firstName ?? "" < $1.player?.firstName ?? ""
-                    }
-                    return $0.handicapIndex < $1.handicapIndex
-                }
-                return $0.team < $1.team
-            })
-            
-        case .TeamC:
-            sortedCompetitors = self.competitorArray.sorted(by: {
-               
-                if $0.handicapIndex == $1.handicapIndex {
-                    if $0.player?.firstName ?? "" == $1.player?.firstName ?? "" {
-                        return $0.player?.objectID.description ?? "" < $1.player?.objectID.description ?? ""}
-                    
-                    return $0.player?.firstName ?? "" < $1.player?.firstName ?? "" }
-                    return $0.handicapIndex < $1.handicapIndex
-                
-            })
-            
-            
-        }
-    return sortedCompetitors
     }
 }

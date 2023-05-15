@@ -101,13 +101,38 @@ struct CompetitorScores: View {
                         
                         Text(teamScoreArray[holeIndex].grossScore.formatted())
                             .foregroundColor(.blue)
-                        
+                       
                         if teamScoreArray[holeIndex].StablefordPointsNet() != 0 {
                             Text(teamScoreArray[holeIndex].StablefordPointsNet().formatted())
                                 .foregroundColor(burntOrange)
                                 .font(.caption)
                                 .offset(x: 10, y: 5)
                         }
+                        
+                        ZStack{
+                            if teamScoreArray[holeIndex].grossScore < 10 {
+                                Text("\(teamScoreArray[holeIndex].grossScore.formatted())/\(teamScoreArray[holeIndex].NetScoreMatch().formatted())")
+                                    .frame(width: 30)
+                                    .background(.yellow)
+                                    .offset(x:70, y: 0)
+                                    .foregroundColor(darkTeal)
+                                    .font(.callout)
+                            } else {
+                                Text("\(teamScoreArray[holeIndex].grossScore.formatted())/\(teamScoreArray[holeIndex].NetScoreMatch().formatted())")
+                                    .frame(width: 30)
+                                    .background(.yellow)
+                                    .offset(x:70, y: 0)
+                                    .foregroundColor(darkTeal)
+                                    .font(.caption)
+                            }
+                            if teamScoreArray[holeIndex].shotsRecdHoleMatch != 0 {
+                                Text(teamScoreArray[holeIndex].shotsRecdHoleMatch.formatted())
+                                    .offset(x:84, y:-8)
+                                    .foregroundColor(burntOrange)
+                                    .font(.caption2)
+                            }
+                        }
+                        
                     }
                 }
            default: // this will trigger for any subtotal

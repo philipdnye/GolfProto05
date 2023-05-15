@@ -72,8 +72,9 @@ struct ScorecardScreen: View {
                             .foregroundColor(darkTeal)
                        
                         Text(Int(front9Holes[holeIndex].strokeIndex).formatted())
-                            .frame(width: geo.size.width * 0.075, height: geo.size.height * 0.03)
+                            .frame(width: geo.size.width * 0.07, height: geo.size.height * 0.03)
                             .foregroundColor(burntOrange)
+                            .background(.blue)
                  
                         switch currentGF.assignShotsRecd {
                         case .Indiv:
@@ -85,17 +86,50 @@ struct ScorecardScreen: View {
                             }
                         case .TeamsAB:
                             
-                            HStack(spacing:geo.size.width * 0.048){
-                                Spacer()
-                                    .frame(width: geo.size.width * 0.011)
-                                Group{
+                            HStack(spacing:0){
+//                                Spacer()
+//                                    .frame(width: geo.size.width * 0.011)
+                                
                                     
                                     CompetitorScores(holeIndex: holeIndex, teamAssignment: .TeamsAB, totalType: .hole, teamScoreArray: scoreEntryVM.currentGame.game.teamAScoresArray)
+                                        .frame(width: geo.size.width * 0.07, height: geo.size.height * 0.03, alignment: .center)
+                                        .background(.red)
+                                        .offset(x: geo.size.width * 0.015)
+                                       
                                     CompetitorScores(holeIndex: holeIndex, teamAssignment: .TeamsAB, totalType: .hole, teamScoreArray: scoreEntryVM.currentGame.game.teamBScoresArray)
-                             
+                                        .frame(width: geo.size.width * 0.07, height: geo.size.height * 0.03, alignment: .center)
+                                        .background(.red)
+                                        .offset(x: geo.size.width * 0.026)
+                                if scoreEntryVM.currentGame.game.teamAScoresArray[holeIndex].scoreCommitted && scoreEntryVM.currentGame.game.teamBScoresArray[holeIndex].scoreCommitted {
+                                    HStack(spacing: 0){
+                                        
+                                        
+                                            
+                                            
+                                          
+                                            Text(scoreEntryVM.currentGame.game.MatchResultHole1(currentGF: currentGF, holeIndex: holeIndex).0)
+                                                .frame(width: geo.size.width * 0.069, height: geo.size.height * 0.03, alignment: .center)
+                                                .offset(x: geo.size.width * 0.21)
+                                                .font(.caption)
+                                                //.foregroundColor(burntOrange)
+                                                .foregroundColor(Color[scoreEntryVM.currentGame.game.MatchResultHole1(currentGF: currentGF, holeIndex: holeIndex).3])
+                                        Text(scoreEntryVM.currentGame.game.MatchResultHole1(currentGF: currentGF, holeIndex: holeIndex).1)
+                                            .frame(width: geo.size.width * 0.069, height: geo.size.height * 0.03, alignment: .center)
+                                            .offset(x: geo.size.width * 0.21)
+                                            .font(.caption)
+                                            //.foregroundColor(burntOrange)
+                                            .foregroundColor(Color[scoreEntryVM.currentGame.game.MatchResultHole1(currentGF: currentGF, holeIndex: holeIndex).3])
+                                        Text(scoreEntryVM.currentGame.game.MatchResultHole1(currentGF: currentGF, holeIndex: holeIndex).2)
+                                            .frame(width: geo.size.width * 0.069, height: geo.size.height * 0.03, alignment: .center)
+                                            .offset(x: geo.size.width * 0.21)
+                                            .font(.caption)
+                                            //.foregroundColor(burntOrange)
+                                            .foregroundColor(Color[scoreEntryVM.currentGame.game.MatchResultHole1(currentGF: currentGF, holeIndex: holeIndex).3])
+                                           
+                                       
+                                    }
                                 }
-                                .frame(width: geo.size.width * 0.08, height: geo.size.height * 0.03)
-                                .offset(x: geo.size.width * 0.026)
+                                
                             }
                         case .TeamC:
                             HStack(spacing:geo.size.width * 0.048){
