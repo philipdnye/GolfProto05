@@ -427,13 +427,52 @@ extension Game {
     func CurrentMatchScoreString(currentMatchScore: Int, holesPlayed: Int, currentGF: CurrentGameFormat) -> (String, String) {
         
         var result = ""
-        
+        var playerA: String = ""
+        var playerB: String = ""
+        var teamAPlayers: String = ""
+        var teamBPlayers: String = ""
         
         let holesRemaining = 18 - holesPlayed
         var holesRemainingString = "with \(holesRemaining) holes remaining"
-        var playerA = "\(self.competitorArray.filter({$0.team_String == .teamA}).first?.player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).first?.player?.lastName?.prefix(1).capitalized ?? "")"
-        var playerB = "\(self.competitorArray.filter({$0.team_String == .teamB}).first?.player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamB}).first?.player?.lastName?.prefix(1).capitalized ?? "")"
+       
+        if currentGF.assignShotsRecd == .Indiv {
+            switch currentGF.noOfPlayersNeeded {
+            case 2://singles matchplay
+                playerA = "\(self.competitorArray.filter({$0.team_String == .teamA}).first?.player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).first?.player?.lastName?.prefix(1).capitalized ?? "")"
+                
+                playerB = "\(self.competitorArray.filter({$0.team_String == .teamB}).first?.player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamB}).first?.player?.lastName?.prefix(1).capitalized ?? "")"
+            case 4://4bbb etc
+                teamAPlayers = "\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
+                    
+                teamBPlayers = "\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
+            default://poss 3 players for six point game
+                break
+            }
+        }
+        if currentGF.assignShotsRecd == .TeamsAB {
+            switch currentGF.noOfPlayersNeeded {
+            case 4:
+                teamAPlayers = "\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
+                teamBPlayers = "\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
+            case 2:
+                teamAPlayers = "\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
+                
+            default:
+                break
+            }
+            
+            }
+        
+        
+        
+        
+        
+        
+        
+        
+        
         // results when game still in play ie not at dormie or won/lost
+        
         if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
          
             switch currentMatchScore {
@@ -453,10 +492,10 @@ extension Game {
                         case 2://singles
                             result = "\(playerA) \(currentMatchScore) UP"
                         default://4BBB
-                            result = "Team A \(currentMatchScore) UP"
+                            result = "\(teamAPlayers) \(currentMatchScore) UP"
                         }
                     case .TeamsAB://foursomes
-                        result = "Team A \(currentMatchScore) UP"
+                        result = "\(teamAPlayers) \(currentMatchScore) UP"
                     case .TeamC:
                         break
                         
@@ -479,10 +518,10 @@ extension Game {
                         case 2://singles
                             result = "\(playerB) \(-currentMatchScore) UP"
                         default://4BBB
-                            result = "Team B \(-currentMatchScore) UP"
+                            result = "\(teamBPlayers) \(-currentMatchScore) UP"
                         }
                     case .TeamsAB://foursomes
-                        result = "Team B \(-currentMatchScore) UP"
+                        result = "\(teamBPlayers) \(-currentMatchScore) UP"
                     case .TeamC:
                         break
                     }
@@ -518,10 +557,10 @@ extension Game {
                             
                             result = "\(playerA) DORMIE \(currentMatchScore) UP"
                         default://4BBB
-                            result = "Team A DORMIE \(currentMatchScore) UP"
+                            result = "\(teamAPlayers) DORMIE \(currentMatchScore) UP"
                         }
                     case .TeamsAB://foursomes
-                        result = "Team A DORMIE \(currentMatchScore) UP"
+                        result = "\(teamAPlayers) \(currentMatchScore) UP"
                     case .TeamC:
                         break
                         
@@ -545,10 +584,10 @@ extension Game {
                            
                             result = "\(playerB) DORMIE \(-currentMatchScore) UP"
                         default://4BBB
-                            result = "Team B DORMIE \(-currentMatchScore) UP"
+                            result = "\(teamBPlayers) DORMIE \(-currentMatchScore) UP"
                         }
                     case .TeamsAB://foursomes
-                        result = "Team B DORMIE \(-currentMatchScore) UP"
+                        result = "\(teamBPlayers) DORMIE \(-currentMatchScore) UP"
                     case .TeamC:
                         break
                     }
@@ -590,19 +629,19 @@ extension Game {
                             }
                         default: //4BBB
                             if holesRemaining != 0 {
-                                result = "Team A WON \(currentMatchScore) & \(holesRemaining)"
+                                result = "\(teamAPlayers) WON \(currentMatchScore) & \(holesRemaining)"
                                 
                             } else {
-                                result = "Team A WON \(currentMatchScore) UP"
+                                result = "\(teamAPlayers) WON \(currentMatchScore) UP"
                                 
                             }
                         }
                     case .TeamsAB://foursomes
                         if holesRemaining != 0 {
-                            result = "Team A WON \(currentMatchScore) & \(holesRemaining)"
+                            result = "\(teamAPlayers) WON \(currentMatchScore) & \(holesRemaining)"
                             
                         } else {
-                            result = "Team A WON \(currentMatchScore) UP"
+                            result = "\(teamAPlayers) WON \(currentMatchScore) UP"
                             
                         }
                     case .TeamC:
@@ -634,20 +673,20 @@ extension Game {
                             }
                         default: //4BBB
                             if holesRemaining != 0 {
-                                result = "Team B WON \(-currentMatchScore) & \(holesRemaining)"
+                                result = "\(teamBPlayers) WON \(-currentMatchScore) & \(holesRemaining)"
                                 
                             } else {
-                                result = "Team B WON \(-currentMatchScore) UP"
+                                result = "\(teamBPlayers) WON \(-currentMatchScore) UP"
                                 
                             }
                         }
                         
                     case .TeamsAB://foursomes
                         if holesRemaining != 0 {
-                            result = "Team B WON \(-currentMatchScore) & \(holesRemaining)"
+                            result = "\(teamBPlayers) WON \(-currentMatchScore) & \(holesRemaining)"
                             
                         } else {
-                            result = "Team B WON \(-currentMatchScore) UP"
+                            result = "\(teamBPlayers) WON \(-currentMatchScore) UP"
                             
                         }
                     case .TeamC:
