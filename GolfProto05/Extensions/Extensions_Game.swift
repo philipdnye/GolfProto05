@@ -301,7 +301,7 @@ extension Game {
             default://singles && 4BB
         
                    teamA = self.competitorArray.filter({$0.team_String == .teamA})
-                    teamB = self.competitorArray.filter({$0.team_String == .teamB})
+                teamB = self.competitorArray.filter({$0.team_String == .teamB})
                 
             }
         case .TeamC:
@@ -431,9 +431,13 @@ extension Game {
         var playerB: String = ""
         var teamAPlayers: String = ""
         var teamBPlayers: String = ""
-        
+        var holesRemainingString: String = ""
         let holesRemaining = 18 - holesPlayed
-        var holesRemainingString = "with \(holesRemaining) holes remaining"
+        if holesRemaining > 1 {
+            holesRemainingString = "with \(holesRemaining) holes remaining"
+        } else {
+        holesRemainingString = "with \(holesRemaining) hole remaining"
+        }
        
         if currentGF.assignShotsRecd == .Indiv {
             switch currentGF.noOfPlayersNeeded {
