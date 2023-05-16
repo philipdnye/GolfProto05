@@ -367,14 +367,9 @@ struct ScoreEntryScreen: View {
 
 
                     default:
-                        HStack{
-                            Text("1")
-//                            Text(game.game.MatchResult(currentGF: currentGF)[0])
-//                            Text(game.game.MatchResult(currentGF: currentGF)[1])
-//                            Text(game.game.MatchResult(currentGF: currentGF)[2])
-//                            Text(game.game.MatchResult(currentGF: currentGF)[3])
-
-                        }
+                       
+                        CurrentMatchScoreScreen(game: game)
+                        
                         .frame(width: geo.size.width * 0.95, height: 35)
                         .offset(x: 0, y: geo.size.height * 0.93)
                         .foregroundColor(darkTeal)

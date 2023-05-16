@@ -117,6 +117,7 @@
 		D41FD9852A0E88F900999AAD /* CompetitorScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9842A0E88F900999AAD /* CompetitorScores.swift */; };
 		D41FD9872A0FE3FF00999AAD /* Extensions_Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9862A0FE3FF00999AAD /* Extensions_Color.swift */; };
 		D41FD9892A10BA1600999AAD /* ScorecardScreenStroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9882A10BA1600999AAD /* ScorecardScreenStroke.swift */; };
+		D41FD98B2A139B3100999AAD /* CurrentMatchScoreScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD98A2A139B3100999AAD /* CurrentMatchScoreScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -233,6 +234,7 @@
 		D41FD9842A0E88F900999AAD /* CompetitorScores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitorScores.swift; sourceTree = "<group>"; };
 		D41FD9862A0FE3FF00999AAD /* Extensions_Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions_Color.swift; sourceTree = "<group>"; };
 		D41FD9882A10BA1600999AAD /* ScorecardScreenStroke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorecardScreenStroke.swift; sourceTree = "<group>"; };
+		D41FD98A2A139B3100999AAD /* CurrentMatchScoreScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentMatchScoreScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +251,7 @@
 		D41FD8642A0A1D2C00999AAD = {
 			isa = PBXGroup;
 			children = (
+				D41FD98A2A139B3100999AAD /* CurrentMatchScoreScreen.swift */,
 				D41FD86F2A0A1D2C00999AAD /* GolfProto05 */,
 				D41FD86E2A0A1D2C00999AAD /* Products */,
 			);
@@ -713,6 +716,7 @@
 				D41FD8BF2A0A1E6500999AAD /* Club+CoreDataProperties.swift in Sources */,
 				D41FD94B2A0A1E7300999AAD /* UIImageTransformer.swift in Sources */,
 				D41FD91F2A0A1E7300999AAD /* ScoreEntryScreen.swift in Sources */,
+				D41FD98B2A139B3100999AAD /* CurrentMatchScoreScreen.swift in Sources */,
 				D41FD94C2A0A1E7300999AAD /* ScoreEntryViewModel.swift in Sources */,
 				D41FD93F2A0A1E7300999AAD /* GameDetailScreen.swift in Sources */,
 				D41FD8712A0A1D2C00999AAD /* GolfProto05App.swift in Sources */,

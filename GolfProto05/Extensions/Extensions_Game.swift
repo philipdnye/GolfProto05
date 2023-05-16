@@ -272,148 +272,6 @@ extension Game {
 
 
 
-extension Game {
-    func MatchResultHole1(currentGF: CurrentGameFormat, holeIndex: Int) -> (String, String, String, String) {
-        var result = ["","",""]
-        var currentMatchScore: Int = 0
-        var holesPlayed: Int = 0
-        var result0 = ""
-        var result1 = ""
-        var result2 = ""
-        
-        var textColor = ""
-        
-        func Foursomes(){
-            let teamAScores = self.teamScoresArray.filter({$0.team == 0}).sorted(by: {$0.hole < $1.hole})
-            let teamBScores = self.teamScoresArray.filter({$0.team == 1}).sorted(by: {$0.hole < $1.hole})
-            
-            for i in 0..<holeIndex+1 {
-                   
-                   switch self.AllScoresCommittedTeamAB(holeIndex: i){
-                   case true:
-                       holesPlayed += 1
-                  
-                       let teamANetLowScore = teamAScores[i].NetScoreMatch()
-                       let teamBNetLowScore = teamBScores[i].NetScoreMatch()
-                     
-                       switch teamANetLowScore - teamBNetLowScore {
-                           
-                       case _ where teamANetLowScore - teamBNetLowScore < 0:
-                           currentMatchScore += 1
-                           
-                       case _ where teamANetLowScore - teamBNetLowScore > 0:
-                           currentMatchScore -= 1
-                       default:
-                           break
-                       }
-                   case false:
-                       break
-                   }
-               
-           }
-            let holesRemaining = 18 - holesPlayed
-            //let holesRemainingString = "with \(holesRemaining) holes remaining"
-            
-            // results when game still in play ie not at dormie or won/lost
-            if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
-                
-                
-                switch currentMatchScore {
-                case 0:
-                     result0 = " - "
-                     result1 = "A/S"
-                     result2 = " - "
-                     textColor = "green"
-                    //result[3] = holesRemainingString
-                case _ where currentMatchScore > 0:
-                   // result[0] = "\(currentMatchScore) UP"
-                    result0 = "\(currentMatchScore) UP"
-                    result1 = ""
-                    result2 = ""
-                    textColor = "red"
-                    
-                    
-                    //result[3] = holesRemainingString
-                case _ where currentMatchScore < 0:
-                    result2 = "\(-currentMatchScore) UP"
-                    result0 = ""
-                    result1 = ""
-                    textColor = "blue"
-                    //result[3] = holesRemainingString
-                default:
-                    result0 = ""
-                    result1 = ""
-                    result2 = ""
-                    textColor = "green"
-                }
-                
-            }
-            // results when game at dormie
-            if currentMatchScore >= 0 && currentMatchScore == holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) == holesRemaining {
-                switch currentMatchScore {
-                case 0:
-                    result[2] = "Match halved"
-                  //  result[3] = ""
-                case _ where currentMatchScore > 0:
-                    result[0] = "Team A DORMIE \(currentMatchScore) UP"
-                   // result[3] = ""
-                case _ where currentMatchScore < 0:
-                    result[1] = "Team B  DORMIE \(-currentMatchScore) UP"
-                    //result[3] = ""
-                default:
-                    result = ["","",""]
-                    
-                }
-            }
-            //results when game won or lost
-            if currentMatchScore >= 0 && currentMatchScore > holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) > holesRemaining {
-                switch currentMatchScore {
-                case _ where currentMatchScore > 0:
-                    if holesRemaining != 0 {
-                        result[0] = "Team A WON \(currentMatchScore) & \(holesRemaining)"
-                      //  result[3] = ""
-                    } else {
-                        result[0] = "Team A WON \(currentMatchScore) UP"
-                       // result[3] = ""
-                    }
-                case _ where currentMatchScore < 0:
-                    if holesRemaining != 0 {
-                        result[1] = "Team B WON \(-currentMatchScore) & \(holesRemaining)"
-                        //result[3] = ""
-                    } else {
-                        result[0] = "Team B WON \(-currentMatchScore) UP"
-                       // result[3] = ""
-                    }
-                default:
-                    result = ["","",""]
-                    
-                }
-            }
-        }
-        Foursomes()
-        return (result0, result1, result2, textColor)
-    } //do not delete just yet
-   
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 extension Game {
@@ -540,7 +398,7 @@ extension Game {
         return (currentMatchScore, holesPlayed)
     }
     
-    //2 Return a string with the current overall match score, based on (1)
+    //2 Return a string with the current overall match score, based on (1). 1st string is current score, 2nd string is the no. of holes remaining
     func CurrentMatchScoreString(currentMatchScore: Int, holesPlayed: Int, currentGF: CurrentGameFormat) -> (String, String) {
         
         var result = ""
@@ -1053,5 +911,136 @@ extension Game {
         let player3 =  "\(self.SortedCompetitors(currentGF: currentGF)[2].player?.firstName ?? "") \(points[2]) pts"
         
         return (player1, player2, player3, holesRemainingString)
-    }// sixpoint func
+    }// sixpoint func - need to modidy to also give points by hole and also running total by hole
+}
+
+
+
+
+
+
+
+
+
+extension Game {
+    func MatchResultHole1(currentGF: CurrentGameFormat, holeIndex: Int) -> (String, String, String, String) {
+        var result = ["","",""]
+        var currentMatchScore: Int = 0
+        var holesPlayed: Int = 0
+        var result0 = ""
+        var result1 = ""
+        var result2 = ""
+        
+        var textColor = ""
+        
+        func Foursomes(){
+            let teamAScores = self.teamScoresArray.filter({$0.team == 0}).sorted(by: {$0.hole < $1.hole})
+            let teamBScores = self.teamScoresArray.filter({$0.team == 1}).sorted(by: {$0.hole < $1.hole})
+            
+            for i in 0..<holeIndex+1 {
+                   
+                   switch self.AllScoresCommittedTeamAB(holeIndex: i){
+                   case true:
+                       holesPlayed += 1
+                  
+                       let teamANetLowScore = teamAScores[i].NetScoreMatch()
+                       let teamBNetLowScore = teamBScores[i].NetScoreMatch()
+                     
+                       switch teamANetLowScore - teamBNetLowScore {
+                           
+                       case _ where teamANetLowScore - teamBNetLowScore < 0:
+                           currentMatchScore += 1
+                           
+                       case _ where teamANetLowScore - teamBNetLowScore > 0:
+                           currentMatchScore -= 1
+                       default:
+                           break
+                       }
+                   case false:
+                       break
+                   }
+               
+           }
+            let holesRemaining = 18 - holesPlayed
+            //let holesRemainingString = "with \(holesRemaining) holes remaining"
+            
+            // results when game still in play ie not at dormie or won/lost
+            if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
+                
+                
+                switch currentMatchScore {
+                case 0:
+                     result0 = " - "
+                     result1 = "A/S"
+                     result2 = " - "
+                     textColor = "green"
+                    //result[3] = holesRemainingString
+                case _ where currentMatchScore > 0:
+                   // result[0] = "\(currentMatchScore) UP"
+                    result0 = "\(currentMatchScore) UP"
+                    result1 = ""
+                    result2 = ""
+                    textColor = "red"
+                    
+                    
+                    //result[3] = holesRemainingString
+                case _ where currentMatchScore < 0:
+                    result2 = "\(-currentMatchScore) UP"
+                    result0 = ""
+                    result1 = ""
+                    textColor = "blue"
+                    //result[3] = holesRemainingString
+                default:
+                    result0 = ""
+                    result1 = ""
+                    result2 = ""
+                    textColor = "green"
+                }
+                
+            }
+            // results when game at dormie
+            if currentMatchScore >= 0 && currentMatchScore == holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) == holesRemaining {
+                switch currentMatchScore {
+                case 0:
+                    result[2] = "Match halved"
+                  //  result[3] = ""
+                case _ where currentMatchScore > 0:
+                    result[0] = "Team A DORMIE \(currentMatchScore) UP"
+                   // result[3] = ""
+                case _ where currentMatchScore < 0:
+                    result[1] = "Team B  DORMIE \(-currentMatchScore) UP"
+                    //result[3] = ""
+                default:
+                    result = ["","",""]
+                    
+                }
+            }
+            //results when game won or lost
+            if currentMatchScore >= 0 && currentMatchScore > holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) > holesRemaining {
+                switch currentMatchScore {
+                case _ where currentMatchScore > 0:
+                    if holesRemaining != 0 {
+                        result[0] = "Team A WON \(currentMatchScore) & \(holesRemaining)"
+                      //  result[3] = ""
+                    } else {
+                        result[0] = "Team A WON \(currentMatchScore) UP"
+                       // result[3] = ""
+                    }
+                case _ where currentMatchScore < 0:
+                    if holesRemaining != 0 {
+                        result[1] = "Team B WON \(-currentMatchScore) & \(holesRemaining)"
+                        //result[3] = ""
+                    } else {
+                        result[0] = "Team B WON \(-currentMatchScore) UP"
+                       // result[3] = ""
+                    }
+                default:
+                    result = ["","",""]
+                    
+                }
+            }
+        }
+        Foursomes()
+        return (result0, result1, result2, textColor)
+    } //do not delete just yet
 }
