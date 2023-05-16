@@ -355,10 +355,11 @@ struct ScoreEntryScreen: View {
 
                     case .sixPoint:
                         VStack{
-                            Text(game.game.MatchResult(currentGF: currentGF)[0])
-                            Text(game.game.MatchResult(currentGF: currentGF)[1])
-                            Text(game.game.MatchResult(currentGF: currentGF)[2])
-                            Text(game.game.MatchResult(currentGF: currentGF)[3])
+                            Text("1")
+//                            Text(game.game.MatchResult(currentGF: currentGF)[0])
+//                            Text(game.game.MatchResult(currentGF: currentGF)[1])
+//                            Text(game.game.MatchResult(currentGF: currentGF)[2])
+//                            Text(game.game.MatchResult(currentGF: currentGF)[3])
                         }
                         .frame(width: geo.size.width * 0.95, height: 140)
                         .offset(x: 0, y: geo.size.height * 0.79)
@@ -367,10 +368,11 @@ struct ScoreEntryScreen: View {
 
                     default:
                         HStack{
-                            Text(game.game.MatchResult(currentGF: currentGF)[0])
-                            Text(game.game.MatchResult(currentGF: currentGF)[1])
-                            Text(game.game.MatchResult(currentGF: currentGF)[2])
-                            Text(game.game.MatchResult(currentGF: currentGF)[3])
+                            Text("1")
+//                            Text(game.game.MatchResult(currentGF: currentGF)[0])
+//                            Text(game.game.MatchResult(currentGF: currentGF)[1])
+//                            Text(game.game.MatchResult(currentGF: currentGF)[2])
+//                            Text(game.game.MatchResult(currentGF: currentGF)[3])
 
                         }
                         .frame(width: geo.size.width * 0.95, height: 35)
@@ -385,10 +387,11 @@ struct ScoreEntryScreen: View {
                        
 
                         HStack{
-                            Text(game.game.MatchResult(currentGF: currentGF)[0])
-                            Text(game.game.MatchResult(currentGF: currentGF)[1])
-                            Text(game.game.MatchResult(currentGF: currentGF)[2])
-                            Text(game.game.MatchResult(currentGF: currentGF)[3])
+                            Text("1")
+//                            Text(game.game.MatchResult(currentGF: currentGF)[0])
+//                            Text(game.game.MatchResult(currentGF: currentGF)[1])
+//                            Text(game.game.MatchResult(currentGF: currentGF)[2])
+//                            Text(game.game.MatchResult(currentGF: currentGF)[3])
 
                         }
                         .frame(width: geo.size.width * 1, height: 50)
