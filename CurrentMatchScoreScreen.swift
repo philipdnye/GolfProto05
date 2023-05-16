@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CurrentMatchScoreScreen: View {
     @EnvironmentObject var currentGF: CurrentGameFormat
+    @Binding var neeedsRefresh: Bool
     var game: GameViewModel
     var body: some View {
         let currentMatchScore = game.game.CalcCurrentMatchScore(currentGF: currentGF, byHole: false, holeIndex: nil).0
@@ -20,7 +21,7 @@ struct CurrentMatchScoreScreen: View {
 //                            Text(game.game.MatchResult(currentGF: currentGF)[1])
 //                            Text(game.game.MatchResult(currentGF: currentGF)[2])
 //                            Text(game.game.MatchResult(currentGF: currentGF)[3])
-
+            Text(neeedsRefresh.description)
         }
     }
 }
@@ -28,7 +29,7 @@ struct CurrentMatchScoreScreen: View {
 struct CurrentMatchScoreScreen_Previews: PreviewProvider {
     static var previews: some View {
         let game = GameViewModel(game: Game(context: CoreDataManager.shared.viewContext))
-        CurrentMatchScoreScreen(game: game)
+        CurrentMatchScoreScreen(neeedsRefresh: .constant(false),game: game)
             .environmentObject(CurrentGameFormat())
     }
 }

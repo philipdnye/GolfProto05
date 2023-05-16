@@ -15,6 +15,7 @@ struct ScoreEntryScreen: View {
     @State private var isShowingDialogueCommitScores: Bool = false
     @State private var isPresentedSheetScoreCard: Bool = false
     @State private var isPresentedSheetScoreCardStroke: Bool = false
+    @State private var needsRefresh: Bool = false
     
     var game: GameViewModel
     
@@ -66,6 +67,9 @@ struct ScoreEntryScreen: View {
     }
     var body: some View {
         ZStack{
+//            Text(needsRefresh.description)
+//                .frame(width:0, height: 0)
+//                .opacity(0)
             GeometryReader { geo in
                 HoleNavigatorPopUp(scoreEntryVM: scoreEntryVM,showHoleNavigator: $showHoleNavigator)
                     .zIndex(1)
@@ -214,6 +218,7 @@ struct ScoreEntryScreen: View {
                                 }
                                 
                                 scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
+                                needsRefresh.toggle()
                                 //                           FOR COMPETITORS
                             case .TeamsAB:
                                 switch currentGF.noOfPlayersNeeded {
@@ -222,9 +227,11 @@ struct ScoreEntryScreen: View {
                                         scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
                                     }
                                     scoreEntryVM.saveCompetitorsScoreTeam()
+                                    needsRefresh.toggle()
                                 case 2:
                                     scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][0] = true
                                     scoreEntryVM.saveCompetitorsScoreTeam2P()
+                                    needsRefresh.toggle()
                                 default:
                                     break
                                 }
@@ -232,6 +239,7 @@ struct ScoreEntryScreen: View {
                                 
                                 scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][0] = true
                                 scoreEntryVM.saveCompetitorScoreTeamC()
+                                needsRefresh.toggle()
                                 
                                 
                             }
@@ -262,7 +270,7 @@ struct ScoreEntryScreen: View {
                                     scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
                                 }
                                 scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
-                                
+                                needsRefresh.toggle()
                             case .TeamsAB:
                                 switch currentGF.noOfPlayersNeeded {
                                 case 4:
@@ -270,9 +278,11 @@ struct ScoreEntryScreen: View {
                                         scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][i] = true
                                     }
                                     scoreEntryVM.saveCompetitorsScoreTeam()
+                                    needsRefresh.toggle()
                                 case 2:
                                     scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][0] = true
                                     scoreEntryVM.saveCompetitorsScoreTeam2P()
+                                    needsRefresh.toggle()
                                 default:
                                     break
                                 }
@@ -282,6 +292,7 @@ struct ScoreEntryScreen: View {
                                 
                                 scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][0] = true
                                 scoreEntryVM.saveCompetitorScoreTeamC()
+                                needsRefresh.toggle()
                                 
                             }
                             scoreEntryVM.holeIndex += 1
@@ -295,7 +306,7 @@ struct ScoreEntryScreen: View {
                 switch currentGF.assignShotsRecd {
                 case .Indiv:
                     ForEach(Array(game.game.SortedCompetitors(currentGF: currentGF).enumerated()), id: \.element){index, item in
-                        ScoreEntryCompetitorRow(competitorIndex: index)
+                        ScoreEntryCompetitorRow(competitorIndex: index, needsRefresh: $needsRefresh)
                             .frame(width: geo.size.width * 0.95, height: 75)
                             .offset(x: 0, y: geo.size.height * CGFloat(((Double(index)+1)*0.15)+0.2))
                         
@@ -314,12 +325,12 @@ struct ScoreEntryScreen: View {
                     switch currentGF.noOfPlayersNeeded {
                     case 4:
                         ForEach(0..<2){teamIndex in
-                            ScoreEntryTeamRowButtons(teamIndex: teamIndex)
+                            ScoreEntryTeamRowButtons(needsRefresh: $needsRefresh, teamIndex: teamIndex)
                                 .frame(width: geo.size.width * 0.95, height: 75)
                                 .offset(x: geo.size.width * 0.2, y: geo.size.height * CGFloat(((Double(teamIndex)+1)*0.3)+0.13))
                         }
                     case 2:
-                        ScoreEntryTeamRowButtons(teamIndex: 0)
+                        ScoreEntryTeamRowButtons(needsRefresh: $needsRefresh, teamIndex: 0)
                             .frame(width: geo.size.width * 0.95, height: 75)
                             .offset(x: geo.size.width * 0.2, y: geo.size.height * CGFloat(((Double(0)+1)*0.3)+0.13))
                     default:
@@ -333,7 +344,7 @@ struct ScoreEntryScreen: View {
                             .offset(x: 0, y: geo.size.height * CGFloat(((Double(index)+1)*0.15)+0.2))
                     }
                     
-                    ScoreEntryTeamRowButtons(teamIndex: 0)
+                    ScoreEntryTeamRowButtons(needsRefresh: $needsRefresh, teamIndex: 0)
                         .frame(width: geo.size.width * 0.95, height: 75)
                         .offset(x: geo.size.width * 0.2, y: geo.size.height * CGFloat(((Double(0.5)+1)*0.3)+0.13))
                     
@@ -368,7 +379,7 @@ struct ScoreEntryScreen: View {
 
                     default:
                        
-                        CurrentMatchScoreScreen(game: game)
+                        CurrentMatchScoreScreen(neeedsRefresh: $needsRefresh,game: game)
                         
                         .frame(width: geo.size.width * 0.95, height: 35)
                         .offset(x: 0, y: geo.size.height * 0.93)

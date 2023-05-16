@@ -14,6 +14,7 @@ struct ScoreEntryCompetitorRow: View {
 
     @EnvironmentObject var scoreEntryVM: ScoreEntryViewModel
     @EnvironmentObject var currentGF: CurrentGameFormat
+    @Binding var needsRefresh: Bool
     var body: some View {
         
         HStack(spacing:0){
@@ -45,6 +46,7 @@ struct ScoreEntryCompetitorRow: View {
                     scoreEntryVM.competitorsScores[scoreEntryVM.holeIndex][competitorIndex] -= 1
                     scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][competitorIndex] = true
                     scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
+                    needsRefresh.toggle()
 //
                 }) {
                     Image(systemName: "minus.circle.fill")
@@ -57,17 +59,18 @@ struct ScoreEntryCompetitorRow: View {
 //
                 switch scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][competitorIndex] {// changes the opacity of the font depending on whther the score has been committed
                 case false:
-                    CompetitorRowScoreBox(competitorIndex: competitorIndex, opacity: 0.5)
+                    CompetitorRowScoreBox(competitorIndex: competitorIndex, opacity: 0.5, needsRefresh: $needsRefresh)
                     
 //
                 case true:
-                    CompetitorRowScoreBox(competitorIndex: competitorIndex, opacity: 1.0)
+                    CompetitorRowScoreBox(competitorIndex: competitorIndex, opacity: 1.0, needsRefresh: $needsRefresh)
                 }
                 
                 Button(action: {
                     scoreEntryVM.competitorsScores[scoreEntryVM.holeIndex][competitorIndex] += 1
                     scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][competitorIndex] = true
                     scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
+                    needsRefresh.toggle()
 
                 }) {
                     Image(systemName: "plus.circle.fill")
@@ -86,7 +89,7 @@ struct ScoreEntryCompetitorRow: View {
 }
 struct ScoreEntryCompetitorRow_Previews: PreviewProvider {
     static var previews: some View {
-        ScoreEntryCompetitorRow(competitorIndex: 0)
+        ScoreEntryCompetitorRow(competitorIndex: 0, needsRefresh: .constant(false))
             .environmentObject(ScoreEntryViewModel())
             .environmentObject(CurrentGameFormat())
             

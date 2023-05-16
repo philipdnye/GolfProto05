@@ -10,6 +10,7 @@ import SwiftUI
 struct CompetitorRowScoreBox: View {
     var competitorIndex: Int
     var opacity: Double = 0.0
+    @Binding var needsRefresh: Bool
     @EnvironmentObject var scoreEntryVM: ScoreEntryViewModel
     @EnvironmentObject var currentGF: CurrentGameFormat
     var body: some View {
@@ -31,6 +32,7 @@ struct CompetitorRowScoreBox: View {
                 .onTapGesture(count: 2, perform:{
                     scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][competitorIndex].toggle()
                     scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
+                    needsRefresh.toggle()
                 })
             // need a switch here for match or strokeplay
             switch currentGF.playFormat {
@@ -64,7 +66,7 @@ struct CompetitorRowScoreBox: View {
 
 struct CompetitorRowScoreBox_Previews: PreviewProvider {
     static var previews: some View {
-        CompetitorRowScoreBox(competitorIndex: 0, opacity: 1)
+        CompetitorRowScoreBox(competitorIndex: 0, opacity: 1, needsRefresh: .constant(false))
             .environmentObject(ScoreEntryViewModel())
             .environmentObject(CurrentGameFormat())
     }

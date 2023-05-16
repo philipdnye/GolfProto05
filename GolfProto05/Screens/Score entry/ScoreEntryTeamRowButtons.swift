@@ -10,6 +10,7 @@ import SwiftUI
 struct ScoreEntryTeamRowButtons: View {
     @EnvironmentObject var scoreEntryVM: ScoreEntryViewModel
     @EnvironmentObject var currentGF: CurrentGameFormat
+    @Binding var needsRefresh: Bool
     var teamIndex: Int
     var body: some View {
         HStack(spacing:25){
@@ -17,15 +18,18 @@ struct ScoreEntryTeamRowButtons: View {
           
                 scoreEntryVM.teamsScores[scoreEntryVM.holeIndex][teamIndex] -= 1
                 scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][teamIndex] = true
-                
+                needsRefresh.toggle()
                 switch currentGF.assignShotsRecd {
                     
                 case .TeamsAB:
                     scoreEntryVM.saveCompetitorsScoreTeam()
+                    needsRefresh.toggle()
                 case .TeamC:
                     scoreEntryVM.saveCompetitorScoreTeamC()
+                    needsRefresh.toggle()
                 default:
                     scoreEntryVM.saveCompetitorsScoreTeam()
+                    needsRefresh.toggle()
                     
                 }
                 
@@ -41,27 +45,30 @@ struct ScoreEntryTeamRowButtons: View {
 //
             switch scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][teamIndex] {// changes the opacity of the font depending on whther the score has been committed
             case false:
-                TeamRowScoreBox(teamIndex: teamIndex, opacity: 0.5)
+                TeamRowScoreBox(teamIndex: teamIndex, opacity: 0.5, needsRefresh: $needsRefresh)
                 
 //
             case true:
-                TeamRowScoreBox(teamIndex: teamIndex, opacity: 1.0)
+                TeamRowScoreBox(teamIndex: teamIndex, opacity: 1.0, needsRefresh: $needsRefresh)
             }
             
             Button(action: {
                
                 scoreEntryVM.teamsScores[scoreEntryVM.holeIndex][teamIndex] += 1
                 scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][teamIndex] = true
-                
+                needsRefresh.toggle()
                 
                 switch currentGF.assignShotsRecd {
                     
                 case .TeamsAB:
                     scoreEntryVM.saveCompetitorsScoreTeam()
+                    needsRefresh.toggle()
                 case .TeamC:
                     scoreEntryVM.saveCompetitorScoreTeamC()
+                    needsRefresh.toggle()
                 default:
                     scoreEntryVM.saveCompetitorsScoreTeam()
+                    needsRefresh.toggle()
                     
                 }
             }) {
@@ -76,7 +83,7 @@ struct ScoreEntryTeamRowButtons: View {
 
 struct ScoreEntryTeamRowButtons_Previews: PreviewProvider {
     static var previews: some View {
-        ScoreEntryTeamRowButtons(teamIndex: 0)
+        ScoreEntryTeamRowButtons(needsRefresh: .constant(false), teamIndex: 0)
             .environmentObject(ScoreEntryViewModel())
             .environmentObject(CurrentGameFormat())
     }

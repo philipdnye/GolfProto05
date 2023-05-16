@@ -12,6 +12,7 @@ struct TeamRowScoreBox: View {
     var opacity: Double = 0.0
     @EnvironmentObject var scoreEntryVM: ScoreEntryViewModel
     @EnvironmentObject var currentGF: CurrentGameFormat
+    @Binding var needsRefresh: Bool
     
     var body: some View {
         ZStack{
@@ -30,15 +31,18 @@ struct TeamRowScoreBox: View {
                 .opacity(opacity)
                 .onTapGesture(count: 2, perform:{
                     scoreEntryVM.scoresCommitted[scoreEntryVM.holeIndex][teamIndex].toggle()
-                    
+                    needsRefresh.toggle()
                     switch currentGF.assignShotsRecd {
                         
                     case .TeamsAB:
                         scoreEntryVM.saveCompetitorsScoreTeam()
+                        needsRefresh.toggle()
                     case .TeamC:
                         scoreEntryVM.saveCompetitorScoreTeamC()
+                        needsRefresh.toggle()
                     default:
                         scoreEntryVM.saveCompetitorsScoreTeam()
+                        needsRefresh.toggle()
                         
                     }
                 })
@@ -84,7 +88,7 @@ struct TeamRowScoreBox: View {
 
 struct TeamRowScoreBox_Previews: PreviewProvider {
     static var previews: some View {
-        TeamRowScoreBox(teamIndex: 0, opacity: 1)
+        TeamRowScoreBox(teamIndex: 0, opacity: 1, needsRefresh: .constant(false))
             .environmentObject(ScoreEntryViewModel())
             .environmentObject(CurrentGameFormat())
     }
