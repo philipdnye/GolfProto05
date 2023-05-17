@@ -17,11 +17,10 @@ struct CurrentMatchScoreScreen: View {
         HStack{
             Text(game.game.CurrentMatchScoreString(currentMatchScore: currentMatchScore, holesPlayed: holesPlayed, currentGF: currentGF).0)
             Text(game.game.CurrentMatchScoreString(currentMatchScore: currentMatchScore, holesPlayed: holesPlayed, currentGF: currentGF).1)
-//                            Text(game.game.MatchResult(currentGF: currentGF)[0])
-//                            Text(game.game.MatchResult(currentGF: currentGF)[1])
-//                            Text(game.game.MatchResult(currentGF: currentGF)[2])
-//                            Text(game.game.MatchResult(currentGF: currentGF)[3])
+
             Text(neeedsRefresh.description)
+                .frame(width: 0, height: 0)
+                .opacity(0)
         }
     }
 }

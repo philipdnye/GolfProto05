@@ -251,7 +251,6 @@
 		D41FD8642A0A1D2C00999AAD = {
 			isa = PBXGroup;
 			children = (
-				D41FD98A2A139B3100999AAD /* CurrentMatchScoreScreen.swift */,
 				D41FD86F2A0A1D2C00999AAD /* GolfProto05 */,
 				D41FD86E2A0A1D2C00999AAD /* Products */,
 			);
@@ -394,6 +393,7 @@
 				D41FD9662A0B7A7C00999AAD /* ScoreEntryTeamRow.swift */,
 				D41FD8C52A0A1E7300999AAD /* HoleNavigatorPopUp.swift */,
 				D41FD8C62A0A1E7300999AAD /* ScoreEntryScreen.swift */,
+				D41FD98A2A139B3100999AAD /* CurrentMatchScoreScreen.swift */,
 			);
 			path = "Score entry";
 			sourceTree = "<group>";

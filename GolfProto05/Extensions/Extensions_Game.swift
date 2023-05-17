@@ -298,6 +298,7 @@ extension Game {
             case .TeamsAB://foursomes
               teamAScores = self.teamScoresArray.filter({$0.team == 0}).sorted(by: {$0.hole < $1.hole})
                teamBScores = self.teamScoresArray.filter({$0.team == 1}).sorted(by: {$0.hole < $1.hole})
+                
             default://singles && 4BB
         
                    teamA = self.competitorArray.filter({$0.team_String == .teamA})
@@ -434,9 +435,9 @@ extension Game {
         var holesRemainingString: String = ""
         let holesRemaining = 18 - holesPlayed
         if holesRemaining > 1 {
-            holesRemainingString = "with \(holesRemaining) holes remaining"
+            holesRemainingString = " \(holesRemaining) holes remaining"
         } else {
-        holesRemainingString = "with \(holesRemaining) hole remaining"
+        holesRemainingString = " \(holesRemaining) hole remaining"
         }
        
         if currentGF.assignShotsRecd == .Indiv {
@@ -446,9 +447,9 @@ extension Game {
                 
                 playerB = "\(self.competitorArray.filter({$0.team_String == .teamB}).first?.player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamB}).first?.player?.lastName?.prefix(1).capitalized ?? "")"
             case 4://4bbb etc
-                teamAPlayers = "\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
+                teamAPlayers = "\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
                     
-                teamBPlayers = "\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
+                teamBPlayers = "\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
             default://poss 3 players for six point game
                 break
             }
@@ -456,10 +457,11 @@ extension Game {
         if currentGF.assignShotsRecd == .TeamsAB {
             switch currentGF.noOfPlayersNeeded {
             case 4:
-                teamAPlayers = "\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
-                teamBPlayers = "\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
+                teamAPlayers = "\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
+                    
+                teamBPlayers = "\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
             case 2:
-                teamAPlayers = "\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
+                teamAPlayers = "\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
                 
             default:
                 break
@@ -979,10 +981,37 @@ extension Game {
         
         let holesRemaining = 18 - holesPlayed
         let holesRemainingString = "with \(holesRemaining) holes remaining"
+       
+        let lowPoints = points.min() ?? 0
         
-        let player1 =  "\(self.SortedCompetitors(currentGF: currentGF)[0].player?.firstName ?? "") \(points[0]) pts"
-        let player2 =  "\(self.SortedCompetitors(currentGF: currentGF)[1].player?.firstName ?? "") \(points[1]) pts"
-        let player3 =  "\(self.SortedCompetitors(currentGF: currentGF)[2].player?.firstName ?? "") \(points[2]) pts"
+        var player1NetPoints: String = ""
+        var player2NetPoints: String = ""
+        var player3NetPoints: String = ""
+        
+        
+        if points[0] - lowPoints != 0 {
+            player1NetPoints = String(points[0] - lowPoints)
+        } else {
+            player1NetPoints = "zip"
+        }
+        
+        if points[1] - lowPoints != 0 {
+            player2NetPoints = String(points[1] - lowPoints)
+        } else {
+            player2NetPoints = "zip"
+        }
+        
+        if points[2] - lowPoints != 0 {
+            player3NetPoints = String(points[2] - lowPoints)
+        } else {
+            player3NetPoints = "zip"
+        }
+        
+        
+        
+        let player1 =  "\(self.SortedCompetitors(currentGF: currentGF)[0].player?.firstName ?? "") \(points[0]) (\(player1NetPoints)) pts"
+        let player2 =  "\(self.SortedCompetitors(currentGF: currentGF)[1].player?.firstName ?? "") \(points[1]) (\(player2NetPoints)) pts"
+        let player3 =  "\(self.SortedCompetitors(currentGF: currentGF)[2].player?.firstName ?? "") \(points[2]) (\(player3NetPoints)) pts"
         
         return (player1, player2, player3, holesRemainingString)
     }// sixpoint func - need to modidy to also give points by hole and also running total by hole

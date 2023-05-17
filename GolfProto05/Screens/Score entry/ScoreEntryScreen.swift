@@ -366,11 +366,11 @@ struct ScoreEntryScreen: View {
 
                     case .sixPoint:
                         VStack{
-                            Text("1")
-//                            Text(game.game.MatchResult(currentGF: currentGF)[0])
-//                            Text(game.game.MatchResult(currentGF: currentGF)[1])
-//                            Text(game.game.MatchResult(currentGF: currentGF)[2])
-//                            Text(game.game.MatchResult(currentGF: currentGF)[3])
+                            Text(game.game.SixPointString(currentGF: currentGF).0)
+                            Text(game.game.SixPointString(currentGF: currentGF).1)
+                            Text(game.game.SixPointString(currentGF: currentGF).2)
+                            Text(game.game.SixPointString(currentGF: currentGF).3)
+
                         }
                         .frame(width: geo.size.width * 0.95, height: 140)
                         .offset(x: 0, y: geo.size.height * 0.79)
@@ -393,15 +393,13 @@ struct ScoreEntryScreen: View {
                        
 
                         HStack{
-                            Text("1")
-//                            Text(game.game.MatchResult(currentGF: currentGF)[0])
-//                            Text(game.game.MatchResult(currentGF: currentGF)[1])
-//                            Text(game.game.MatchResult(currentGF: currentGF)[2])
-//                            Text(game.game.MatchResult(currentGF: currentGF)[3])
+                            CurrentMatchScoreScreen(neeedsRefresh: $needsRefresh,game: game)
+
 
                         }
                         .frame(width: geo.size.width * 1, height: 50)
-                        .font(.title2)
+                        .font(.title3)
+                        //.fontWeight(.semibold)
                         .background(gold)
                         .offset(x: 0, y: geo.size.height * 0.93)
                         .foregroundColor(darkTeal)
