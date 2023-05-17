@@ -23,17 +23,31 @@ struct CurrentMatchScoreScreen: View {
             
             HStack {
                 Text("Gross: \(game.game.teamScoresArray.TotalGrossScore().formatted())")
-                Text(scoreToPar.formatted())
+                    .foregroundColor(darkTeal)
+                Text(scoreToPar.ScoreToParString())
+                    .foregroundColor(burntOrange)
+                    .font(.title2)
+                Text(" - ")
                 Text(String(format: "%.2f", game.game.TotalPlayingHandicapC()))
+                Text(" = ")
                 Text(String(format: "%.2f", netScore))
-                Text(game.game.teamScoresArray.TotalParSoFar().formatted())
-               
+                    .foregroundColor(burntOrange)
+                    .font(.title2)
+                
+                
+            }
+        case .sixPoint:
+            VStack{
+                Text(game.game.SixPointString(currentGF: currentGF).0)
+                Text(game.game.SixPointString(currentGF: currentGF).1)
+                Text(game.game.SixPointString(currentGF: currentGF).2)
+                Text(game.game.SixPointString(currentGF: currentGF).3)
+
             }
             
             
             
-            
-        default: // for everything other than a texas scramble
+        default: // for everything other than a texas scramble or sixpoint
             let currentMatchScore = game.game.CalcCurrentMatchScore(currentGF: currentGF, byHole: false, holeIndex: nil).0
             let holesPlayed = game.game.CalcCurrentMatchScore(currentGF: currentGF, byHole: false, holeIndex: nil).1
             HStack{

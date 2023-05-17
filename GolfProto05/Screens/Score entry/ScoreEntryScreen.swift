@@ -365,13 +365,7 @@ struct ScoreEntryScreen: View {
 
 
                     case .sixPoint:
-                        VStack{
-                            Text(game.game.SixPointString(currentGF: currentGF).0)
-                            Text(game.game.SixPointString(currentGF: currentGF).1)
-                            Text(game.game.SixPointString(currentGF: currentGF).2)
-                            Text(game.game.SixPointString(currentGF: currentGF).3)
-
-                        }
+                        CurrentMatchScoreScreen(neeedsRefresh: $needsRefresh,game: game)
                         .frame(width: geo.size.width * 0.95, height: 140)
                         .offset(x: 0, y: geo.size.height * 0.79)
                         .foregroundColor(darkTeal)

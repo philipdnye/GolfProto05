@@ -15,7 +15,7 @@
 		D41FD8922A0A1E3F00999AAD /* Extensions_CompetitorScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8842A0A1E3F00999AAD /* Extensions_CompetitorScore.swift */; };
 		D41FD8932A0A1E3F00999AAD /* Extensions_Competitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8852A0A1E3F00999AAD /* Extensions_Competitor.swift */; };
 		D41FD8942A0A1E3F00999AAD /* Extensions_HandicapArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8862A0A1E3F00999AAD /* Extensions_HandicapArray.swift */; };
-		D41FD8952A0A1E3F00999AAD /* Extension_NSNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8872A0A1E3F00999AAD /* Extension_NSNumber.swift */; };
+		D41FD8952A0A1E3F00999AAD /* Extensions_NSNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8872A0A1E3F00999AAD /* Extensions_NSNumber.swift */; };
 		D41FD8962A0A1E3F00999AAD /* Extensions_CompetitorScoreArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8882A0A1E3F00999AAD /* Extensions_CompetitorScoreArray.swift */; };
 		D41FD8972A0A1E3F00999AAD /* Extensions_Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD8892A0A1E3F00999AAD /* Extensions_Game.swift */; };
 		D41FD8982A0A1E3F00999AAD /* Extensions_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD88A2A0A1E3F00999AAD /* Extensions_String.swift */; };
@@ -118,6 +118,7 @@
 		D41FD9872A0FE3FF00999AAD /* Extensions_Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9862A0FE3FF00999AAD /* Extensions_Color.swift */; };
 		D41FD9892A10BA1600999AAD /* ScorecardScreenStroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9882A10BA1600999AAD /* ScorecardScreenStroke.swift */; };
 		D41FD98B2A139B3100999AAD /* CurrentMatchScoreScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD98A2A139B3100999AAD /* CurrentMatchScoreScreen.swift */; };
+		D41FD98D2A14FD3F00999AAD /* Extensions_Integer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD98C2A14FD3F00999AAD /* Extensions_Integer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -132,7 +133,7 @@
 		D41FD8842A0A1E3F00999AAD /* Extensions_CompetitorScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions_CompetitorScore.swift; sourceTree = "<group>"; };
 		D41FD8852A0A1E3F00999AAD /* Extensions_Competitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions_Competitor.swift; sourceTree = "<group>"; };
 		D41FD8862A0A1E3F00999AAD /* Extensions_HandicapArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions_HandicapArray.swift; sourceTree = "<group>"; };
-		D41FD8872A0A1E3F00999AAD /* Extension_NSNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_NSNumber.swift; sourceTree = "<group>"; };
+		D41FD8872A0A1E3F00999AAD /* Extensions_NSNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions_NSNumber.swift; sourceTree = "<group>"; };
 		D41FD8882A0A1E3F00999AAD /* Extensions_CompetitorScoreArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions_CompetitorScoreArray.swift; sourceTree = "<group>"; };
 		D41FD8892A0A1E3F00999AAD /* Extensions_Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions_Game.swift; sourceTree = "<group>"; };
 		D41FD88A2A0A1E3F00999AAD /* Extensions_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions_String.swift; sourceTree = "<group>"; };
@@ -235,6 +236,7 @@
 		D41FD9862A0FE3FF00999AAD /* Extensions_Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions_Color.swift; sourceTree = "<group>"; };
 		D41FD9882A10BA1600999AAD /* ScorecardScreenStroke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorecardScreenStroke.swift; sourceTree = "<group>"; };
 		D41FD98A2A139B3100999AAD /* CurrentMatchScoreScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentMatchScoreScreen.swift; sourceTree = "<group>"; };
+		D41FD98C2A14FD3F00999AAD /* Extensions_Integer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions_Integer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,7 +310,6 @@
 				D41FD8832A0A1E3F00999AAD /* Extensions_TeeBox.swift */,
 				D41FD8852A0A1E3F00999AAD /* Extensions_Competitor.swift */,
 				D41FD8862A0A1E3F00999AAD /* Extensions_HandicapArray.swift */,
-				D41FD8872A0A1E3F00999AAD /* Extension_NSNumber.swift */,
 				D41FD8892A0A1E3F00999AAD /* Extensions_Game.swift */,
 				D41FD88A2A0A1E3F00999AAD /* Extensions_String.swift */,
 				D41FD88B2A0A1E3F00999AAD /* Extensions_HoleArray.swift */,
@@ -318,7 +319,9 @@
 				D41FD8882A0A1E3F00999AAD /* Extensions_CompetitorScoreArray.swift */,
 				D41FD9762A0E2FA800999AAD /* Extensions_TeamScore.swift */,
 				D41FD9782A0E386C00999AAD /* Extensions_TeamScoreArray.swift */,
+				D41FD8872A0A1E3F00999AAD /* Extensions_NSNumber.swift */,
 				D41FD9862A0FE3FF00999AAD /* Extensions_Color.swift */,
+				D41FD98C2A14FD3F00999AAD /* Extensions_Integer.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -666,6 +669,7 @@
 				D41FD91B2A0A1E7300999AAD /* SettingsScreen.swift in Sources */,
 				D41FD9502A0A1E7300999AAD /* CourseListViewModel.swift in Sources */,
 				D41FD92A2A0A1E7300999AAD /* HolesLayout9.swift in Sources */,
+				D41FD98D2A14FD3F00999AAD /* Extensions_Integer.swift in Sources */,
 				D41FD93D2A0A1E7300999AAD /* ChangeMatchTeeBoxSheet.swift in Sources */,
 				D41FD9442A0A1E7300999AAD /* GameListScreen.swift in Sources */,
 				D41FD95F2A0A1E7300999AAD /* TeamScoreViewModel.swift in Sources */,
@@ -681,7 +685,7 @@
 				D41FD9872A0FE3FF00999AAD /* Extensions_Color.swift in Sources */,
 				D41FD9362A0A1E7300999AAD /* HomeView.swift in Sources */,
 				D41FD9352A0A1E7300999AAD /* PlayerDetailScreen.swift in Sources */,
-				D41FD8952A0A1E3F00999AAD /* Extension_NSNumber.swift in Sources */,
+				D41FD8952A0A1E3F00999AAD /* Extensions_NSNumber.swift in Sources */,
 				D41FD8902A0A1E3F00999AAD /* GameFormats.swift in Sources */,
 				D41FD92D2A0A1E7300999AAD /* ClubListRowItem.swift in Sources */,
 				D41FD9372A0A1E7300999AAD /* MainScreen.swift in Sources */,
