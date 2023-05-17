@@ -407,8 +407,13 @@ struct ScoreEntryScreen: View {
                     default:
                         EmptyView()
                     }
-                case .TeamC:
-                    EmptyView() //placeholder
+                case .TeamC://placeholder for texas scramble
+                    CurrentMatchScoreScreen(neeedsRefresh: $needsRefresh,game: game)
+                        .frame(width: geo.size.width * 0.95, height: 35)
+                        .offset(x: 0, y: geo.size.height * 0.93)
+                        .foregroundColor(darkTeal)
+
+                    
                 }
                 //**************************
 

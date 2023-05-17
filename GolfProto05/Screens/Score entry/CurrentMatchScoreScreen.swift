@@ -12,15 +12,38 @@ struct CurrentMatchScoreScreen: View {
     @Binding var neeedsRefresh: Bool
     var game: GameViewModel
     var body: some View {
-        let currentMatchScore = game.game.CalcCurrentMatchScore(currentGF: currentGF, byHole: false, holeIndex: nil).0
-        let holesPlayed = game.game.CalcCurrentMatchScore(currentGF: currentGF, byHole: false, holeIndex: nil).1
-        HStack{
-            Text(game.game.CurrentMatchScoreString(currentMatchScore: currentMatchScore, holesPlayed: holesPlayed, currentGF: currentGF).0)
-            Text(game.game.CurrentMatchScoreString(currentMatchScore: currentMatchScore, holesPlayed: holesPlayed, currentGF: currentGF).1)
-
-            Text(neeedsRefresh.description)
-                .frame(width: 0, height: 0)
-                .opacity(0)
+        switch currentGF.format {
+        case _ where currentGF.format == .fourPlayScramble || currentGF.format == .threePlayScramble || currentGF.format == .twoPlayScramble:
+            let netScore = Double(game.game.teamScoresArray.TotalGrossScore()) - game.game.TotalPlayingHandicapC()
+          
+            
+            
+           let scoreToPar = Int(game.game.teamScoresArray.TotalGrossScore()) - Int(game.game.teamScoresArray.TotalParSoFar())
+            
+            
+            HStack {
+                Text("Gross: \(game.game.teamScoresArray.TotalGrossScore().formatted())")
+                Text(scoreToPar.formatted())
+                Text(String(format: "%.2f", game.game.TotalPlayingHandicapC()))
+                Text(String(format: "%.2f", netScore))
+                Text(game.game.teamScoresArray.TotalParSoFar().formatted())
+               
+            }
+            
+            
+            
+            
+        default: // for everything other than a texas scramble
+            let currentMatchScore = game.game.CalcCurrentMatchScore(currentGF: currentGF, byHole: false, holeIndex: nil).0
+            let holesPlayed = game.game.CalcCurrentMatchScore(currentGF: currentGF, byHole: false, holeIndex: nil).1
+            HStack{
+                Text(game.game.CurrentMatchScoreString(currentMatchScore: currentMatchScore, holesPlayed: holesPlayed, currentGF: currentGF).0)
+                Text(game.game.CurrentMatchScoreString(currentMatchScore: currentMatchScore, holesPlayed: holesPlayed, currentGF: currentGF).1)
+                
+                Text(neeedsRefresh.description)
+                    .frame(width: 0, height: 0)
+                    .opacity(0)
+            }
         }
     }
 }

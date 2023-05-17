@@ -48,6 +48,17 @@ extension [TeamScore] {
     }
 }
 
+extension [TeamScore] {
+    func TotalParSoFar() -> Int16 {
+        var total:Int16 = 0
+        for hole in self {
+            if (hole as AnyObject).scoreCommitted {
+                total += (hole as AnyObject).par
+            }
+        }
+        return total
+    }
+}
 
 extension [TeamScore] {
     func TotalStablefordPoints_front9 () -> Int16 {
