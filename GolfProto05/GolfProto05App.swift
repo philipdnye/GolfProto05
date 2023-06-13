@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct GolfProto05App: App {
+    
     var body: some Scene {
         WindowGroup {
             MainScreen()

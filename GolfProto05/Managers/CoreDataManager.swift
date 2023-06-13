@@ -7,32 +7,86 @@
 
 import Foundation
 import CoreData
+import UIKit
 
-class CoreDataManager {
+class CoreDataManager: ObservableObject {
+    
+    // For showing the list of clubs
+    @Published private(set) var clubs: [Club] = []
+    
     
     let persistentContainer: NSPersistentContainer
     
     static let shared = CoreDataManager()
     
-    private init() {
+    // For use with Xcode Previews, provides some data to work with for examples
+    static var previewClub: CoreDataManager = {
+        let coreDataManager = CoreDataManager(inMemory: true)
+        
+        let clubs = [
+            "North Hants",
+            "Wentworth",
+            "Sunningdale",
+            "Walton Heath"
+        ]
+        
+        for club in clubs {
+            coreDataManager.saveClubPreview(named: club)
+        }
+       
+        // Now save these movies in the Core Data store
+        do {
+            try coreDataManager.persistentContainer.viewContext.save()
+        } catch {
+            // Something went wrong 😭
+            print("Failed to save test clubs: \(error)")
+        }
+
+        return coreDataManager
+        
+        
+    }()
+    
+    
+    
+    
+    
+   init(inMemory: Bool = false) {
         
         ValueTransformer.setValueTransformer(UIColorTransformer(), forName: NSValueTransformerName("UIColorTransformer"))
         ValueTransformer.setValueTransformer(UIImageTransformer(), forName: NSValueTransformerName("UIImageTransformer"))
         
         persistentContainer = NSPersistentCloudKitContainer(name: "GolfDataModel")
+       
+       
+       
         persistentContainer.persistentStoreDescriptions.first!.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-        persistentContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+       persistentContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+       persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+      
+       
+       // Don't save information for future use if running in memory...
+       if inMemory {
+           persistentContainer.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+       }
+       
+       
+       
+       
+      
         
-        
-        persistentContainer.loadPersistentStores {(description, error) in
-           
-            
-            
-            
-            
+       
+       // Attempt to load persistent stores (the underlying storage of data)
+       persistentContainer.loadPersistentStores {(description, error) in
+       
             if let error = error {
                 fatalError("Failed to initialise Core Data \(error)")
+            }else {
+                
+                print("Successfully loaded persistent stores.")
+                
+                // Get all the clubs
+                self.clubs = self.getAllClubsPreview()
             }
         }
         
@@ -289,5 +343,163 @@ class CoreDataManager {
     }
     
     
+    
+}
+// Save a club
+extension CoreDataManager {
+    
+    func saveClubPreview(named name: String) {
+        
+        func addRandomHoles(vm: TeeBox){
+            func calcPar(distance: Int) -> Int {
+                if distance <= 245 {return 3}
+                if distance >= 465 {return 5}
+                return 4
+            }
+            var strokeIndexes = Array(1...18)
+            
+            for i in 0...17 {
+                let hole = Hole(context: persistentContainer.viewContext)
+              
+                hole.teeBox = vm
+                hole.name = "hole name"
+                hole.number = Int16(i+1)
+                hole.distance = Int16.random(in: 110..<550)
+                hole.par = Int16(calcPar(distance: Int(exactly: hole.distance)!))
+                hole.strokeIndex = Int16(strokeIndexes.randomElement()!)
+                
+                let position = strokeIndexes.firstIndex(of: Int(exactly: hole.strokeIndex)!)
+                strokeIndexes.remove(at: position!)
+               
+                do {
+                    
+                    // Persist the data in this managed object context to the underlying store
+                    try persistentContainer.viewContext.save()
+                    
+                    print("Club saved successfully")
+                    
+                    // Refresh the list of movies
+                    //movies = getAllMovies()
+                    
+                } catch {
+                    
+                    // Something went wrong 😭
+                    print("Failed to save club: \(error)")
+                    
+                    // Rollback any changes in the managed object context
+                    persistentContainer.viewContext.rollback()
+                    
+                }
+                
+                
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // New Movie instance is tied to the managed object context
+        let club = Club(context: persistentContainer.viewContext)
+        let course = Course(context: persistentContainer.viewContext)
+        let teeBox = TeeBox(context: persistentContainer.viewContext)
+        let teeBox1 = TeeBox(context: persistentContainer.viewContext)
+        let teeBox2 = TeeBox(context: persistentContainer.viewContext)
+        
+        
+        
+        club.name = name
+        club.addressLine1 = "Minley Road"
+        club.addressLine2 = "Near station"
+        club.addressLine3 = "Fleet"
+        club.addressLine4 = "Hampshire"
+        club.postCode = "GU51 5NP"
+        club.distMetric = 1
+        club.email = "philipdnye@me.com"
+        club.clubImage = UIImage(named: "IMG_0791.jpeg")
+        course.club = club
+        course.name = "Original course"
+        teeBox.course = course
+        teeBox.colour = "White"
+        teeBox.teeBoxColor = UIColor(.white)
+        teeBox.courseRating = 70.0
+        teeBox.slopeRating = 125
+        teeBox1.course = course
+        teeBox1.colour = "Yellow"
+        teeBox1.teeBoxColor = UIColor(.yellow)
+        teeBox1.courseRating = 69.0
+        teeBox1.slopeRating = 122
+        teeBox2.course = course
+        teeBox2.colour = "Red"
+        teeBox2.teeBoxColor = UIColor(.red)
+        teeBox2.courseRating = 68.0
+        teeBox2.slopeRating = 128
+        addRandomHoles(vm: teeBox)
+        addRandomHoles(vm: teeBox1)
+        addRandomHoles(vm: teeBox2)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        do {
+            
+            // Persist the data in this managed object context to the underlying store
+            try persistentContainer.viewContext.save()
+            
+            print("Club saved successfully")
+            
+            // Refresh the list of movies
+            //movies = getAllMovies()
+            
+        } catch {
+            
+            // Something went wrong 😭
+            print("Failed to save club: \(error)")
+            
+            // Rollback any changes in the managed object context
+            persistentContainer.viewContext.rollback()
+            
+        }
+        
+    }
+
+}
+
+
+// Get all the clubs
+extension CoreDataManager {
+    
+    // Made private because views will access the movies retrieved from Core Data via the movies array in StorageProvider
+    private func getAllClubsPreview() -> [Club] {
+        
+        // Must specify the type with annotation, otherwise Xcode won't know what overload of fetchRequest() to use (we want to use the one for the Club entity)
+        // The generic argument <Club> allows Swift to know what kind of managed object a fetch request returns, which will make it easier to return the list of clubs as an array
+        let fetchRequest: NSFetchRequest<Club> = Club.fetchRequest()
+        
+        do {
+            
+            // Return an array of Movie objects, retrieved from the Core Data store
+            return try persistentContainer.viewContext.fetch(fetchRequest)
+            
+        } catch {
+            
+            print("Failed to fetch clubs \(error)")
+            
+        }
+        
+        // If an error occured, return nothing
+        return []
+    }
     
 }

@@ -119,6 +119,7 @@
 		D41FD9892A10BA1600999AAD /* ScorecardScreenStroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD9882A10BA1600999AAD /* ScorecardScreenStroke.swift */; };
 		D41FD98B2A139B3100999AAD /* CurrentMatchScoreScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD98A2A139B3100999AAD /* CurrentMatchScoreScreen.swift */; };
 		D41FD98D2A14FD3F00999AAD /* Extensions_Integer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41FD98C2A14FD3F00999AAD /* Extensions_Integer.swift */; };
+		D491F3162A1A7D2500B4F45E /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D491F3152A1A7D2500B4F45E /* PreviewProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -237,6 +238,7 @@
 		D41FD9882A10BA1600999AAD /* ScorecardScreenStroke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorecardScreenStroke.swift; sourceTree = "<group>"; };
 		D41FD98A2A139B3100999AAD /* CurrentMatchScoreScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentMatchScoreScreen.swift; sourceTree = "<group>"; };
 		D41FD98C2A14FD3F00999AAD /* Extensions_Integer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions_Integer.swift; sourceTree = "<group>"; };
+		D491F3152A1A7D2500B4F45E /* PreviewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +277,7 @@
 				D41FD8702A0A1D2C00999AAD /* GolfProto05App.swift */,
 				D41FD8742A0A1D2C00999AAD /* Assets.xcassets */,
 				D41FD88E2A0A1E3F00999AAD /* Colours */,
+				D491F3142A1A7CF600B4F45E /* Extensions for previews */,
 				D41FD8822A0A1E3F00999AAD /* Extensions */,
 				D41FD8A02A0A1E6500999AAD /* Managers */,
 				D41FD8A22A0A1E6500999AAD /* Models */,
@@ -595,6 +598,14 @@
 			path = Games;
 			sourceTree = "<group>";
 		};
+		D491F3142A1A7CF600B4F45E /* Extensions for previews */ = {
+			isa = PBXGroup;
+			children = (
+				D491F3152A1A7D2500B4F45E /* PreviewProvider.swift */,
+			);
+			path = "Extensions for previews";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -670,6 +681,7 @@
 				D41FD9502A0A1E7300999AAD /* CourseListViewModel.swift in Sources */,
 				D41FD92A2A0A1E7300999AAD /* HolesLayout9.swift in Sources */,
 				D41FD98D2A14FD3F00999AAD /* Extensions_Integer.swift in Sources */,
+				D491F3162A1A7D2500B4F45E /* PreviewProvider.swift in Sources */,
 				D41FD93D2A0A1E7300999AAD /* ChangeMatchTeeBoxSheet.swift in Sources */,
 				D41FD9442A0A1E7300999AAD /* GameListScreen.swift in Sources */,
 				D41FD95F2A0A1E7300999AAD /* TeamScoreViewModel.swift in Sources */,

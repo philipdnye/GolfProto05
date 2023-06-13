@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CurrentMatchScoreScreen: View {
     @EnvironmentObject var currentGF: CurrentGameFormat
+    @EnvironmentObject var scoreEntryVM: ScoreEntryViewModel
     @Binding var neeedsRefresh: Bool
     var game: GameViewModel
     var body: some View {
@@ -38,10 +39,10 @@ struct CurrentMatchScoreScreen: View {
             }
         case .sixPoint:
             VStack{
-                Text(game.game.SixPointString(currentGF: currentGF).0)
-                Text(game.game.SixPointString(currentGF: currentGF).1)
-                Text(game.game.SixPointString(currentGF: currentGF).2)
-                Text(game.game.SixPointString(currentGF: currentGF).3)
+                Text(game.game.SixPointString(currentGF: currentGF, holeIndex: scoreEntryVM.holeIndex)[0])
+                Text(game.game.SixPointString(currentGF: currentGF, holeIndex: scoreEntryVM.holeIndex)[1])
+                Text(game.game.SixPointString(currentGF: currentGF, holeIndex: scoreEntryVM.holeIndex)[2])
+                Text(game.game.SixPointString(currentGF: currentGF, holeIndex: scoreEntryVM.holeIndex)[3])
 
             }
             
@@ -67,5 +68,6 @@ struct CurrentMatchScoreScreen_Previews: PreviewProvider {
         let game = GameViewModel(game: Game(context: CoreDataManager.shared.viewContext))
         CurrentMatchScoreScreen(neeedsRefresh: .constant(false),game: game)
             .environmentObject(CurrentGameFormat())
+            .environmentObject(ScoreEntryViewModel())
     }
 }

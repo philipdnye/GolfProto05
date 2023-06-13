@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ClubListRowItem: View {
+    
     @StateObject private var clubListVM = ClubListViewModel()
     @Binding var needsRefresh: Bool
     let club: ClubViewModel
@@ -49,7 +50,8 @@ struct ClubListRowItem: View {
 
 struct ClubListRowItem_Previews: PreviewProvider {
     static var previews: some View {
-        let club = ClubViewModel(club: Club(context: CoreDataManager.shared.viewContext))
+        let club = ClubViewModel(club: Club.example)
         ClubListRowItem(needsRefresh: .constant(false),club: club)//.embedInNavigationView()
+            .environmentObject(CoreDataManager.previewClub)
     }
 }

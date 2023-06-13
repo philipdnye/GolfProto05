@@ -296,12 +296,12 @@ extension Game {
         case .TeamsAB:
             switch currentGF.assignShotsRecd{
             case .TeamsAB://foursomes
-              teamAScores = self.teamScoresArray.filter({$0.team == 0}).sorted(by: {$0.hole < $1.hole})
-               teamBScores = self.teamScoresArray.filter({$0.team == 1}).sorted(by: {$0.hole < $1.hole})
+                teamAScores = self.teamScoresArray.filter({$0.team == 0}).sorted(by: {$0.hole < $1.hole})
+                teamBScores = self.teamScoresArray.filter({$0.team == 1}).sorted(by: {$0.hole < $1.hole})
                 
             default://singles && 4BB
-        
-                   teamA = self.competitorArray.filter({$0.team_String == .teamA})
+                
+                teamA = self.competitorArray.filter({$0.team_String == .teamA})
                 teamB = self.competitorArray.filter({$0.team_String == .teamB})
                 
             }
@@ -311,9 +311,9 @@ extension Game {
         }//assign team grouping
         //if you call this function with by hole as false it will provide the overall match score, otherwise the current match score on that hole
         switch byHole {
-            case false:
+        case false:
             noOfHoles = 18
-            case true:
+        case true:
             noOfHoles = holeIndex ?? 0
         }
         
@@ -321,7 +321,7 @@ extension Game {
         
         for i in 0..<noOfHoles {
             
-           
+            
             //for 4BBB, 4BC, Singles, Six point
             switch currentGF.assignShotsRecd {
                 
@@ -333,58 +333,58 @@ extension Game {
                 case true: // need to switch for 4BBB and 4Bcombined
                     
                     switch currentGF.noOfPlayersNeeded{
-                        case 4:
+                    case 4:
                         
                         
                         switch currentGF.format {
-                                    //4BBB
-                                case .fourBallBBMatch:
+                            //4BBB
+                        case .fourBallBBMatch:
                             holesPlayed += 1
-                                    teamANetLowScore = min(teamA[0].competitorScoresArray[i].NetScoreMatch(),teamA[1].competitorScoresArray[i].NetScoreMatch() )
-                                    teamBNetLowScore = min(teamB[0].competitorScoresArray[i].NetScoreMatch(),teamB[1].competitorScoresArray[i].NetScoreMatch() )
-                                    
-                                    
-                                    //4BCombined
-                                case .fourBallCombinedMatch:
+                            teamANetLowScore = min(teamA[0].competitorScoresArray[i].NetScoreMatch(),teamA[1].competitorScoresArray[i].NetScoreMatch() )
+                            teamBNetLowScore = min(teamB[0].competitorScoresArray[i].NetScoreMatch(),teamB[1].competitorScoresArray[i].NetScoreMatch() )
+                            
+                            
+                            //4BCombined
+                        case .fourBallCombinedMatch:
                             holesPlayed += 1
-                                    teamANetLowScore = teamA[0].competitorScoresArray[i].NetScoreMatch() + teamA[1].competitorScoresArray[i].NetScoreMatch()
-                                    teamBNetLowScore = teamB[0].competitorScoresArray[i].NetScoreMatch() + teamB[1].competitorScoresArray[i].NetScoreMatch()
-                                default:
-                                    break
+                            teamANetLowScore = teamA[0].competitorScoresArray[i].NetScoreMatch() + teamA[1].competitorScoresArray[i].NetScoreMatch()
+                            teamBNetLowScore = teamB[0].competitorScoresArray[i].NetScoreMatch() + teamB[1].competitorScoresArray[i].NetScoreMatch()
+                        default:
+                            break
                             
                         }
                         
-                                case 2: //singles
+                    case 2: //singles
                         holesPlayed += 1
-                                    teamANetLowScore = Int16(teamA.first?.competitorScoresArray[i].NetScoreMatch() ?? 0)
-                                    teamBNetLowScore = Int16(teamB.first?.competitorScoresArray[i].NetScoreMatch() ?? 0)
-                            
-                                default:
-                                    break //use this for 6 point????
-                                }
-                   
+                        teamANetLowScore = Int16(teamA.first?.competitorScoresArray[i].NetScoreMatch() ?? 0)
+                        teamBNetLowScore = Int16(teamB.first?.competitorScoresArray[i].NetScoreMatch() ?? 0)
+                        
+                    default:
+                        break //use this for 6 point????
+                    }
+                    
                     //only altering currentMAtchScore when all scores have been committed
                     switch teamANetLowScore - teamBNetLowScore {
-                    
+                        
                     case _ where teamANetLowScore - teamBNetLowScore < 0:
-                    currentMatchScore += 1
-                    
+                        currentMatchScore += 1
+                        
                     case _ where teamANetLowScore - teamBNetLowScore > 0:
-                    currentMatchScore -= 1
+                        currentMatchScore -= 1
                     default:
+                        break
+                    }
+                    
+                    
+                    
+                    
+                    
+                case false:
                     break
+                    
+                    
                 }
-                    
-                    
-                    
-                    
-                    
-                            case false:
-                                break
-                                
-                            
-                                }
-                  
+                
                 
             case .TeamsAB:
                 switch self.AllScoresCommittedTeamAB(holeIndex: i){
@@ -393,17 +393,17 @@ extension Game {
                     holesPlayed += 1
                     teamANetLowScore = teamAScores[i].NetScoreMatch()
                     teamBNetLowScore = teamBScores[i].NetScoreMatch()
-                   
+                    
                     switch teamANetLowScore - teamBNetLowScore {
-                    
+                        
                     case _ where teamANetLowScore - teamBNetLowScore < 0:
-                    currentMatchScore += 1
-                    
+                        currentMatchScore += 1
+                        
                     case _ where teamANetLowScore - teamBNetLowScore > 0:
-                    currentMatchScore -= 1
+                        currentMatchScore -= 1
                     default:
-                    break
-                }
+                        break
+                    }
                     
                     
                     
@@ -411,7 +411,7 @@ extension Game {
                 case false:
                     break
                 }
-               
+                
             case .TeamC:
                 break
                 
@@ -420,7 +420,7 @@ extension Game {
             
             
         } // for i in
-           
+        
         return (currentMatchScore, holesPlayed)
     }
     
@@ -437,9 +437,9 @@ extension Game {
         if holesRemaining > 1 {
             holesRemainingString = " \(holesRemaining) holes remaining"
         } else {
-        holesRemainingString = " \(holesRemaining) hole remaining"
+            holesRemainingString = " \(holesRemaining) hole remaining"
         }
-       
+        
         if currentGF.assignShotsRecd == .Indiv {
             switch currentGF.noOfPlayersNeeded {
             case 2://singles matchplay
@@ -448,7 +448,7 @@ extension Game {
                 playerB = "\(self.competitorArray.filter({$0.team_String == .teamB}).first?.player?.firstName?.capitalized ?? "") \(self.competitorArray.filter({$0.team_String == .teamB}).first?.player?.lastName?.prefix(1).capitalized ?? "")"
             case 4://4bbb etc
                 teamAPlayers = "\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
-                    
+                
                 teamBPlayers = "\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
             default://poss 3 players for six point game
                 break
@@ -458,7 +458,7 @@ extension Game {
             switch currentGF.noOfPlayersNeeded {
             case 4:
                 teamAPlayers = "\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
-                    
+                
                 teamBPlayers = "\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamB}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
             case 2:
                 teamAPlayers = "\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[0].player?.lastName?.prefix(1).capitalized ?? "") & \(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.firstName?.prefix(1).capitalized ?? "")\(self.competitorArray.filter({$0.team_String == .teamA}).sorted(by: {$0.firstName ?? "" < $1.firstName ?? ""})[1].player?.lastName?.prefix(1).capitalized ?? "")"
@@ -467,7 +467,7 @@ extension Game {
                 break
             }
             
-            }
+        }
         
         
         
@@ -480,7 +480,7 @@ extension Game {
         // results when game still in play ie not at dormie or won/lost
         
         if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
-         
+            
             switch currentMatchScore {
             case 0:
                 result = "All square"
@@ -587,7 +587,7 @@ extension Game {
                     case .Indiv:
                         switch currentGF.noOfPlayersNeeded{
                         case 2://singles
-                           
+                            
                             result = "\(playerB) DORMIE \(-currentMatchScore) UP"
                         default://4BBB
                             result = "\(teamBPlayers) DORMIE \(-currentMatchScore) UP"
@@ -608,7 +608,7 @@ extension Game {
                 
             }
         }
-       
+        
         
         //results when game won or lost
         if currentMatchScore >= 0 && currentMatchScore > holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) > holesRemaining {
@@ -698,22 +698,22 @@ extension Game {
                     case .TeamC:
                         break
                     }
-                        
-                        
-                        
-                        
-                    case .TeamC:
-                        break
-                    }
                     
                     
                     
                     
-                default:
+                case .TeamC:
                     break
-                    
                 }
+                
+                
+                
+                
+            default:
+                break
+                
             }
+        }
         
         
         
@@ -722,8 +722,8 @@ extension Game {
     
     //3 Func to return the 1UP, A/S, UP for match score on hole by hole basis. 4th string is for Color. this needs work still!! loop on holesPlayed
     func CurrentMatchScoreByHoleString(currentMatchScore: Int, holesPlayed: Int, currentGF: CurrentGameFormat) -> (String, String, String, String){
-    // results when game still in play ie not at dormie or won/lost
-       
+        // results when game still in play ie not at dormie or won/lost
+        
         
         
         
@@ -738,242 +738,184 @@ extension Game {
         var result2 = ""
         //var result3 = ""
         var textColor = ""
-    if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
-        
-        
-        switch currentMatchScore {
-        case 0:
-             result0 = " - "
-             result1 = "A/S"
-             result2 = " - "
-             textColor = "green"
-            //result[3] = holesRemainingString
-        case _ where currentMatchScore > 0:
-           // result[0] = "\(currentMatchScore) UP"
-            result0 = "\(currentMatchScore) UP"
-            result1 = ""
-            result2 = ""
-            textColor = "red"
+        if currentMatchScore >= 0 && currentMatchScore < holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) < holesRemaining {
             
             
-            //result[3] = holesRemainingString
-        case _ where currentMatchScore < 0:
-            result2 = "\(-currentMatchScore) UP"
-            result0 = ""
-            result1 = ""
-            textColor = "blue"
-            //result[3] = holesRemainingString
-        default:
-            result0 = ""
-            result1 = ""
-            result2 = ""
-            textColor = "green"
-        }
-        
-    }
-    // results when game at dormie
-    if currentMatchScore >= 0 && currentMatchScore == holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) == holesRemaining {
-        switch currentMatchScore {
-        case 0:
-            result0 = "Match halved"
-            result1 = ""
-            result2 = ""
-            textColor = "green"
-          
-        case _ where currentMatchScore > 0:
-            result0 = "Team A DORMIE \(currentMatchScore) UP"
-            result1 = ""
-            result2 = ""
-            textColor = "green"
-        case _ where currentMatchScore < 0:
-            result0 = "Team B  DORMIE \(-currentMatchScore) UP"
-            result1 = ""
-            result2 = ""
-            textColor = "green"
-        default:
-            result0 = ""
-            result1 = ""
-            result2 = ""
-            textColor = "green"
-            
-        }
-    }
-    //results when game won or lost WILL NEED TO AMEND TO SWITCH BETWEEN TEAMS AND PLAYERS 4BALL AND 2 BALL
-        
-    if currentMatchScore >= 0 && currentMatchScore > holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) > holesRemaining {
-        switch currentMatchScore {
-        case _ where currentMatchScore > 0:
-            if holesRemaining != 0 {
-                result0 = "Team A WON \(currentMatchScore) & \(holesRemaining)"
+            switch currentMatchScore {
+            case 0:
+                result0 = " - "
+                result1 = "A/S"
+                result2 = " - "
+                textColor = "green"
+                //result[3] = holesRemainingString
+            case _ where currentMatchScore > 0:
+                // result[0] = "\(currentMatchScore) UP"
+                result0 = "\(currentMatchScore) UP"
                 result1 = ""
                 result2 = ""
-                textColor = "green"
-            } else {
-                result0 = "Team A WON \(currentMatchScore) UP"
+                textColor = "red"
+                
+                
+                //result[3] = holesRemainingString
+            case _ where currentMatchScore < 0:
+                result2 = "\(-currentMatchScore) UP"
+                result0 = ""
+                result1 = ""
+                textColor = "blue"
+                //result[3] = holesRemainingString
+            default:
+                result0 = ""
                 result1 = ""
                 result2 = ""
                 textColor = "green"
             }
-        case _ where currentMatchScore < 0:
-            if holesRemaining != 0 {
-                result0 = "Team B WON \(-currentMatchScore) & \(holesRemaining)"
-                result1 = ""
-                result2 = ""
-                textColor = "green"
-            } else {
-                result0 = "Team B WON \(-currentMatchScore) UP"
-                result1 = ""
-                result2 = ""
-                textColor = "green"
-            }
-        default:
-            result0 = ""
-            result1 = ""
-            result2 = ""
-            textColor = "green"
             
         }
-    }
+        // results when game at dormie
+        if currentMatchScore >= 0 && currentMatchScore == holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) == holesRemaining {
+            switch currentMatchScore {
+            case 0:
+                result0 = "Match halved"
+                result1 = ""
+                result2 = ""
+                textColor = "green"
+                
+            case _ where currentMatchScore > 0:
+                result0 = "Team A DORMIE \(currentMatchScore) UP"
+                result1 = ""
+                result2 = ""
+                textColor = "green"
+            case _ where currentMatchScore < 0:
+                result0 = "Team B  DORMIE \(-currentMatchScore) UP"
+                result1 = ""
+                result2 = ""
+                textColor = "green"
+            default:
+                result0 = ""
+                result1 = ""
+                result2 = ""
+                textColor = "green"
+                
+            }
+        }
+        //results when game won or lost WILL NEED TO AMEND TO SWITCH BETWEEN TEAMS AND PLAYERS 4BALL AND 2 BALL
+        
+        if currentMatchScore >= 0 && currentMatchScore > holesRemaining || currentMatchScore <= 0 && (currentMatchScore * -1) > holesRemaining {
+            switch currentMatchScore {
+            case _ where currentMatchScore > 0:
+                if holesRemaining != 0 {
+                    result0 = "Team A WON \(currentMatchScore) & \(holesRemaining)"
+                    result1 = ""
+                    result2 = ""
+                    textColor = "green"
+                } else {
+                    result0 = "Team A WON \(currentMatchScore) UP"
+                    result1 = ""
+                    result2 = ""
+                    textColor = "green"
+                }
+            case _ where currentMatchScore < 0:
+                if holesRemaining != 0 {
+                    result0 = "Team B WON \(-currentMatchScore) & \(holesRemaining)"
+                    result1 = ""
+                    result2 = ""
+                    textColor = "green"
+                } else {
+                    result0 = "Team B WON \(-currentMatchScore) UP"
+                    result1 = ""
+                    result2 = ""
+                    textColor = "green"
+                }
+            default:
+                result0 = ""
+                result1 = ""
+                result2 = ""
+                textColor = "green"
+                
+            }
+        }
         return (result0, result1, result2, textColor)
     }
+ 
     
-    func SixPointString(currentGF: CurrentGameFormat) -> (String, String, String, String){
+    func SixPointString(currentGF: CurrentGameFormat, holeIndex: Int) -> [String] {
         
-        let sixPointNetScores_CompetitorA = self.SortedCompetitors(currentGF: currentGF)[0].competitorScoresArray
-        let sixPointNetScores_CompetitorB = self.SortedCompetitors(currentGF: currentGF)[1].competitorScoresArray
-        let sixPointNetScores_CompetitorC = self.SortedCompetitors(currentGF: currentGF)[2].competitorScoresArray
+        let sixPointGrossScores_CompetitorA = self.SortedCompetitors(currentGF: currentGF)[0].competitorScoresArray
+        let sixPointGrossScores_CompetitorB = self.SortedCompetitors(currentGF: currentGF)[1].competitorScoresArray
+        let sixPointGrossScores_CompetitorC = self.SortedCompetitors(currentGF: currentGF)[2].competitorScoresArray
         var holesPlayed = 0
-        var array = [0,0,0]
-        var holeResult: Int = 0
-        var points = [0,0,0]
+        var netScores = [0,0,0]
+       // var holeResult: Int = 0
+        var totalPoints = [0,0,0]
+        var holePoints: [[Int]] = Array(repeating: [0,0,0], count: 18)
         
-        for i in 0..<18 {
+        for j in 0..<18 {
             
-            switch self.AllScoresCommitted(holeIndex: i){
+            switch self.AllScoresCommitted(holeIndex: j){
             case true:
                 holesPlayed += 1
-                array[0] = Int(sixPointNetScores_CompetitorA[i].NetScoreMatch())
-                array[1] = Int(sixPointNetScores_CompetitorB[i].NetScoreMatch())
-                array[2] = Int(sixPointNetScores_CompetitorC[i].NetScoreMatch())
                 
+                // create a netScores array with the three players
+                netScores[0] = Int(sixPointGrossScores_CompetitorA[j].NetScoreMatch())
+                netScores[1] = Int(sixPointGrossScores_CompetitorB[j].NetScoreMatch())
+                netScores[2] = Int(sixPointGrossScores_CompetitorC[j].NetScoreMatch())
                 
+                let lowestNetScore = netScores.min()
+                let highestNetScore = netScores.max()
                 
-                switch array {
-                case _ where array[0] == array[1] && array[1] == array[2]:
-                    holeResult = 1
+                if lowestNetScore == highestNetScore {
+                    //totalPoints = [2,2,2]
+                    for i in 0..<3 {
+                        totalPoints[i] += 2
+                        holePoints[j][i] = 2
+                        
+                    }
                     
-                case _ where array[0] < array[1] && array[1] == array[2]:
-                    holeResult = 2
                     
-                case _ where array[0] < array[1] && array[1] < array[2]:
-                    holeResult = 3
-                    
-                case _ where array[0] < array[1] && array[1] > array[2] && array[0] < array[2]:
-                    holeResult = 4
-                    
-                case _ where array[0] > array[1] && array[0] == array[2]:
-                    holeResult = 5
-                    
-                case _ where array[0] > array[1] && array[2] > array[1] && array[0] < array[2]:
-                    holeResult = 6
-                    
-                case _ where array[0] > array[1] && array[2] > array[1] && array[0] > array[2]:
-                    holeResult = 7
-                    
-                case _ where array[2] < array[1] && array[1] == array[0]:
-                    holeResult = 8
-                    
-                case _ where array[2] < array[0] && array[2] < array[1] && array[0] < array[1]:
-                    holeResult = 9
-                    
-                case _ where array[2] < array[0] && array[2] < array[1] && array[1] < array[0]:
-                    holeResult = 10
-                    
-                case _ where array[0] == array[1] && array[1] < array[2]:
-                    holeResult = 11
-                    
-                case _ where array[0] == array[2] && array[0] < array[1]:
-                    holeResult = 12
-                    
-                case _ where array[1] == array[2] && array[0] > array[1]:
-                    holeResult = 13
-                    
-                default:
-                    holeResult = 0
-                    
-                }
-                switch holeResult {
-                case 1:
-                    points[0] += 2
-                    points[1] += 2
-                    points[2] += 2
-                    
-                case 2:
-                    points[0] += 4
-                    points[1] += 1
-                    points[2] += 1
-                    
-                case 3:
-                    points[0] += 4
-                    points[1] += 2
-                    points[2] += 0
-                    
-                case 4:
-                    points[0] += 4
-                    points[1] += 0
-                    points[2] += 2
-                    
-                case 5:
-                    points[0] += 1
-                    points[1] += 4
-                    points[2] += 1
-                    
-                case 6:
-                    points[0] += 2
-                    points[1] += 4
-                    points[2] += 0
-                    
-                case 7:
-                    points[0] += 0
-                    points[1] += 4
-                    points[2] += 2
-                    
-                case 8:
-                    points[0] += 1
-                    points[1] += 1
-                    points[2] += 4
-                    
-                case 9:
-                    points[0] += 2
-                    points[1] += 0
-                    points[2] += 4
-                    
-                case 10:
-                    points[0] += 0
-                    points[1] += 2
-                    points[2] += 4
-                    
-                case 11:
-                    points[0] += 3
-                    points[1] += 3
-                    points[2] += 0
-                    
-                case 12:
-                    points[0] += 3
-                    points[1] += 0
-                    points[2] += 3
-                    
-                case 13:
-                    points[0] += 0
-                    points[1] += 3
-                    points[2] += 3
-                    
-                default:
-                    points[0] += 0
-                    points[1] += 0
-                    points[2] += 0
-                    
-                }
+                } else {// if not all equal points then calculate for EACH player whether score is MIN or MAX and how many other MIN or MAX
+                
+                        
+                // calculate count of highest and lowest scores
+                var highestNetScoreCount = 0
+                var lowestNetScoreCount = 0
+                      
+                        netScores.forEach{
+                            compScore in if compScore == highestNetScore {highestNetScoreCount += 1}
+                        }
+                        netScores.forEach{
+                            compScore in if compScore == lowestNetScore {lowestNetScoreCount += 1}
+                        }
+                        
+                        for i in 0..<3 {
+                            if netScores[i] == highestNetScore {
+                                switch highestNetScoreCount {
+                                case 1:
+                                    totalPoints[i] += 0
+                                    holePoints[j][i] = 0
+                                default:// only other possible value is 2 (cannot be zero and if 3 would have been diverted in first part of IF statement
+                                    totalPoints[i] += 1
+                                    holePoints[j][i] = 1
+                                }
+                            }
+                            if netScores[i] == lowestNetScore {
+                                switch lowestNetScoreCount {
+                                case 1:
+                                    totalPoints[i] += 4
+                                    holePoints[j][i] = 4
+                                default:
+                                    totalPoints[i] += 3
+                                    holePoints[j][i] = 3
+                                }
+                            }
+                            if netScores[i] != lowestNetScore && netScores[i] != highestNetScore {
+                                totalPoints[i] += 2
+                                holePoints[j][i] = 2
+                            }
+                          
+                        }
+                        
+                 }
+      
             case false:
                 break
             }
@@ -981,40 +923,46 @@ extension Game {
         
         let holesRemaining = 18 - holesPlayed
         let holesRemainingString = "with \(holesRemaining) holes remaining"
-       
-        let lowPoints = points.min() ?? 0
+        
+        let lowPoints = totalPoints.min() ?? 0
         
         var player1NetPoints: String = ""
         var player2NetPoints: String = ""
         var player3NetPoints: String = ""
         
         
-        if points[0] - lowPoints != 0 {
-            player1NetPoints = String(points[0] - lowPoints)
+        if totalPoints[0] - lowPoints != 0 {
+            player1NetPoints = String(totalPoints[0] - lowPoints)
         } else {
             player1NetPoints = "zip"
         }
         
-        if points[1] - lowPoints != 0 {
-            player2NetPoints = String(points[1] - lowPoints)
+        if totalPoints[1] - lowPoints != 0 {
+            player2NetPoints = String(totalPoints[1] - lowPoints)
         } else {
             player2NetPoints = "zip"
         }
         
-        if points[2] - lowPoints != 0 {
-            player3NetPoints = String(points[2] - lowPoints)
+        if totalPoints[2] - lowPoints != 0 {
+            player3NetPoints = String(totalPoints[2] - lowPoints)
         } else {
             player3NetPoints = "zip"
         }
         
         
         
-        let player1 =  "\(self.SortedCompetitors(currentGF: currentGF)[0].player?.firstName ?? "") \(points[0]) (\(player1NetPoints)) pts"
-        let player2 =  "\(self.SortedCompetitors(currentGF: currentGF)[1].player?.firstName ?? "") \(points[1]) (\(player2NetPoints)) pts"
-        let player3 =  "\(self.SortedCompetitors(currentGF: currentGF)[2].player?.firstName ?? "") \(points[2]) (\(player3NetPoints)) pts"
+        let player1TotalPoints =  "\(self.SortedCompetitors(currentGF: currentGF)[0].player?.firstName ?? "") \(totalPoints[0]) (\(player1NetPoints)) pts"
+        let player2TotalPoints =  "\(self.SortedCompetitors(currentGF: currentGF)[1].player?.firstName ?? "") \(totalPoints[1]) (\(player2NetPoints)) pts"
+        let player3TotalPoints =  "\(self.SortedCompetitors(currentGF: currentGF)[2].player?.firstName ?? "") \(totalPoints[2]) (\(player3NetPoints)) pts"
         
-        return (player1, player2, player3, holesRemainingString)
-    }// sixpoint func - need to modidy to also give points by hole and also running total by hole
+        return [player1TotalPoints, player2TotalPoints, player3TotalPoints, holesRemainingString, String(holePoints[holeIndex][0]),String(holePoints[holeIndex][1]), String(holePoints[holeIndex][2])]
+    }// sixpoint func
+    
+    
+    
+    
+    
+    
 }
 
 

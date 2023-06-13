@@ -146,7 +146,7 @@ struct EditClubScreen: View {
 
 struct EditClubScreen_Previews: PreviewProvider {
     static var previews: some View {
-        let club = ClubViewModel(club: Club(context: CoreDataManager.shared.viewContext))
+        let club = ClubViewModel(club: Club.example)
         EditClubScreen(needsRefresh: .constant(false),club: club)
     }
 }

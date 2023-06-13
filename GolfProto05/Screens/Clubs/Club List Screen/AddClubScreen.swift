@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddClubScreen: View {
-  
+    @EnvironmentObject private var coreDataManager: CoreDataManager
     @StateObject private var addClubVM = AddEditClubViewModel()
     @State private var image = UIImage()
     @State private var showSheet = false
@@ -99,6 +99,7 @@ struct AddClubScreen: View {
                 Spacer()
                 Button("Save") {
                     addClubVM.clubImage = self.image
+                    //coreDataManager.saveClubPreview(named: addClubVM.name)
                     addClubVM.save()
                     presentationMode.wrappedValue.dismiss()
                 }
@@ -115,5 +116,6 @@ struct AddClubScreen_Previews: PreviewProvider {
         NavigationStack{
             AddClubScreen()
         }
+        .environmentObject(CoreDataManager.previewClub)
     }
 }

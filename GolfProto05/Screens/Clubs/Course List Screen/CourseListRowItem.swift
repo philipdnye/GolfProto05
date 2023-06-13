@@ -10,6 +10,7 @@ import SwiftUI
 struct CourseListRowItem: View {
     @StateObject private var courseListVM = CourseListViewModel()
     @StateObject private var teeBoxListVM = TeeBoxListViewModel()
+    @EnvironmentObject private var coreDataManager: CoreDataManager
     let course: CourseViewModel
     
     var body: some View {

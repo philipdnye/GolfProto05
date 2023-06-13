@@ -10,7 +10,7 @@ import SwiftUI
 struct MainScreen: View {
 @StateObject var currentGameFormat = CurrentGameFormat()
   @StateObject var scoreEntryVM = ScoreEntryViewModel()
-    
+    @StateObject private var coreDataManager = CoreDataManager()
     init(){
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(.orange)]
        
@@ -79,6 +79,7 @@ struct MainScreen: View {
         .accentColor(.orange)
         .environmentObject(currentGameFormat)
         .environmentObject(scoreEntryVM)
+        .environmentObject(coreDataManager)
 
     }
 }

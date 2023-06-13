@@ -34,6 +34,13 @@ struct CompetitorRowScoreBox: View {
                     scoreEntryVM.saveCompetitorsScore(currentGF: currentGF)
                     needsRefresh.toggle()
                 })
+            
+//            if currentGF.format == .sixPoint {
+//                Text(SixPointString(currentGF: currentGF, holeIndex: scoreEntryVM.holeIndex))
+//            }
+            
+            
+            
             // need a switch here for match or strokeplay
             switch currentGF.playFormat {
           //  switch scoreEntryVM.currentGame.game.play_format {

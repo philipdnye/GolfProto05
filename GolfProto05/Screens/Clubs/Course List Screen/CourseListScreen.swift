@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CourseListScreen: View {
-    
+    @EnvironmentObject private var coreDataManager: CoreDataManager
     let club: ClubViewModel
     @State private var isPresented: Bool = false
     @State private var isPresentedEdit: Bool = false
@@ -144,7 +144,9 @@ struct CourseListScreen: View {
 
 struct CourseListScreen_Previews: PreviewProvider {
     static var previews: some View {
-        let club = ClubViewModel(club: Club(context: CoreDataManager.shared.viewContext))
+        let club = ClubViewModel(club: Club.example)
         CourseListScreen(club: club, needsRefresh: .constant(false))//.embedInNavigationView()
+            .environmentObject(CoreDataManager.previewClub)
     }
+       
 }

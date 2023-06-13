@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ClubListScreen: View {
+    @EnvironmentObject private var coreDataManager: CoreDataManager
     @StateObject private var clubListVM = ClubListViewModel()
     @State private var isPresented: Bool = false
     @State private var needsRefresh: Bool = false
@@ -85,5 +86,6 @@ struct ClubListScreen_Previews: PreviewProvider {
         NavigationStack{
             ClubListScreen()
         }
+        .environmentObject(CoreDataManager.previewClub)
     }
 }
